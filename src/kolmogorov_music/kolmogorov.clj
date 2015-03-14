@@ -1,7 +1,7 @@
 (ns kolmogorov-music.kolmogorov)
 
 (defn complexity-fn [sym]
-  (-> sym clojure.repl/source-fn count))
+  (-> sym clojure.repl/source-fn read-string flatten count))
 
 (defmacro complexity [sym]
   (complexity-fn sym))
