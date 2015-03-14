@@ -14,10 +14,3 @@
 
 (defmacro less-than [sym-a sym-b]
   `(lift < [~sym-a ~sym-b]))
-
-(difference distance distance)
-(sum distance distance)
-
-(difference distance difference)
-(less-than distance difference)
-(less-than difference distance)
