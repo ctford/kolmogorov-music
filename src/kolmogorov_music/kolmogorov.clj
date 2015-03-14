@@ -1,16 +1,10 @@
 (ns kolmogorov-music.kolmogorov)
 
+(defn complexity-fn [sym]
+  (-> sym clojure.repl/source-fn count))
+
 (defmacro complexity [sym]
-  `(-> '~sym clojure.repl/source-fn count))
+  (complexity-fn sym))
 
-(defmacro lift [op [a b]]
-  `(~op (complexity ~a) (complexity ~b)))
-
-(defmacro difference [sym-a sym-b]
-  `(lift - [~sym-a ~sym-b]))
-
-(defmacro sum [sym-a sym-b]
-  `(lift + [~sym-a ~sym-b]))
-
-(defmacro less-than [sym-a sym-b]
-  `(lift < [~sym-a ~sym-b]))
+(defmacro difference [a b]
+  `(- (complexity ~a) (complexity ~b)))
