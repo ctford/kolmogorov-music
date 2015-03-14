@@ -9,3 +9,7 @@
   (kolmogorov/complexity foo) => 5
   (kolmogorov/complexity bar) => 6
   (kolmogorov/difference bar foo) => 1)
+
+(fact "in-current-ns? is a macro."
+  (kolmogorov/in-current-ns? foo) => true
+  (kolmogorov/in-current-ns? inc) => false)

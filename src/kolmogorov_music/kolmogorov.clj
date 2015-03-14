@@ -8,3 +8,6 @@
 
 (defmacro difference [a b]
   `(- (complexity ~a) (complexity ~b)))
+
+(defmacro in-current-ns? [sym]
+  (contains? (ns-interns *ns*) sym))
