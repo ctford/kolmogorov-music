@@ -17,3 +17,6 @@
 
 (fact "Symbols outside the current namespace are considered atoms."
   (kolmogorov/complexity inc) => 0)
+
+(fact "Sexprs can also be analysed for complexity."
+  (kolmogorov/complexity (+ foo 88)) => 5)
