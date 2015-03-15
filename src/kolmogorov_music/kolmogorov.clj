@@ -7,13 +7,15 @@
 (defn sexpr [sym]
   (-> sym repl/source-fn read-string))
 
+(defn definition [sym]
+  (-> sym sexpr last))
+
 (defn complexity-fn [sym ns]
   (if (in-ns? sym ns)
-    (->> (sexpr sym)
+    (->> (definition sym)
          flatten
-         (filter #(not= % sym))
          (map #(complexity-fn % ns))
-         (reduce +))
+         (apply +))
     1))
 
 (defmacro complexity [sym]

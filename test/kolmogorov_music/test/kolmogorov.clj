@@ -6,10 +6,10 @@
 (def bar (comp foo foo))
 
 (fact "Kolmogorov complexity is how many symbols a definition comprises."
-  (kolmogorov/complexity foo) => 4)
+  (kolmogorov/complexity foo) => 2)
 
 (fact "The symbol count is recursive within the current namespace."
-  (kolmogorov/complexity bar) => 10)
+  (kolmogorov/complexity bar) => 5)
 
 (fact "Symbols outside the current namespace are considered atoms."
   (kolmogorov/complexity inc) => 1)
