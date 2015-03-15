@@ -1,11 +1,14 @@
 (ns kolmogorov-music.champernowne)
 
-(defn decompose [n]
-  (let [[remainder quotient] ((juxt mod quot) n 10)]
+(defn decompose [n base]
+  (let [[remainder quotient] ((juxt mod quot) n base)]
     (if (pos? quotient)
-      (conj (decompose quotient) remainder)
+      (conj (decompose quotient base) remainder)
       [remainder])))
 
-(def constant
-  (->> (range)
-       (mapcat decompose)))
+(defn constant
+  ([base]
+   (->> (range)
+        (mapcat #(decompose % base))))
+  ([]
+   (constant 10)))
