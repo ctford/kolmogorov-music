@@ -3,13 +3,13 @@
             [midje.sweet :refer :all]))
 
 (defn foo [x] (inc x))
-(def bar (comp foo foo foo))
+(def bar (comp foo foo))
 
-(fact "The Kolmogorov complexity of a symbol is how many symbols its definition comprises."
-  (kolmogorov/complexity foo) => 5
-  (kolmogorov/complexity bar) => 6
-  (kolmogorov/difference bar foo) => 1)
+(fact "Kolmogorov complexity is how many symbols a definition comprises."
+  (kolmogorov/complexity foo) => 4)
 
-(fact "in-current-ns? is a macro."
-  (kolmogorov/in-current-ns? foo) => true
-  (kolmogorov/in-current-ns? inc) => false)
+(fact "The symbol count is recursive within the current namespace."
+  (kolmogorov/complexity bar) => 10)
+
+(fact "Symbols outside the current namespace are considered atoms."
+  (kolmogorov/complexity inc) => 1)
