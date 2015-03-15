@@ -10,22 +10,21 @@
 (defn definition [sym]
   (-> sym sexpr last))
 
+(declare complexity-sexpr)
+
 (defn complexity-sym [sym ns]
   (if (in-ns? sym ns)
     (->> (definition sym)
          flatten
-         (map #(-> % (complexity-sym ns) inc))
-         (apply +))
+         (complexity-sexpr ns))
     0))
 
-(defn complexity-sexpr [sexpr ns]
-  (if (seq? sexpr)
-    (->> sexpr
-         (map #(-> % (complexity-fn ns) inc))
-         (apply +))
-    (complexity-fn sexpr ns)))
+(defn complexity-sexpr [ns sexpr]
+  (->> sexpr
+       (map #(complexity-sym % ns))
+       (reduce + (count sexpr))))
 
-(defmacro complexity [sexpr]
-  (complexity-sexpr sexpr *ns*))
-
-(complexity (+ 4 4))
+(defmacro complexity [expr]
+  (if (seq? expr)
+    (complexity-sexpr *ns* expr)
+    (complexity-sym expr *ns*)))
