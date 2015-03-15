@@ -1,5 +1,6 @@
 (ns kolmogorov-music.champernowne
-  (:import [java.lang Math]))
+  (:import [java.lang Math]
+           [java.util Collections]))
 
 (defn decompose [n base]
   (let [[remainder quotient] ((juxt mod quot) n base)]
@@ -29,3 +30,14 @@
         (expand base)))
   ([precision]
    (constant precision 10)))
+
+(defn prefix? [sub super]
+  (= sub (take (count sub) super)))
+
+(defn windows [super]
+  (map (fn [i] [i (drop i super)]) (range)))
+
+(defn index [sub base]
+  (->> (word base)
+       windows
+       (some (fn [[i super]] (when (prefix? sub super) i)))))

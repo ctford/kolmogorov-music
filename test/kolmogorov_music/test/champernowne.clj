@@ -17,3 +17,7 @@
   (champernowne/constant 5) => (/ 1234 10 10 10 10)
   (champernowne/constant 5 10) => (/ 1234 10 10 10 10)
   (champernowne/constant 5 2) => (/ 13 2 2 2 2))
+
+(fact "The Champernowne index is the first occurance of a sequence in the Champernowne word."
+  (champernowne/index [4 5] 10) => 4
+  (champernowne/index [1 1 1 1] 2) => 15)
