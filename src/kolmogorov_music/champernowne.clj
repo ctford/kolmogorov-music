@@ -6,9 +6,9 @@
       (conj (decompose quotient base) remainder)
       [remainder])))
 
-(defn constant
+(defn word
   ([base]
    (->> (range)
         (mapcat #(decompose % base))))
   ([]
-   (constant 10)))
+   (word 10)))
