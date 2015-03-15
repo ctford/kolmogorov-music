@@ -14,9 +14,9 @@
   (if (in-ns? sym ns)
     (->> (definition sym)
          flatten
-         (map #(complexity-fn % ns))
+         (map #(-> % (complexity-fn ns) inc))
          (apply +))
-    1))
+    0))
 
 (defmacro complexity [sym]
   (complexity-fn sym *ns*))

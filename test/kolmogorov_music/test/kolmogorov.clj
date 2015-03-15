@@ -9,7 +9,7 @@
   (kolmogorov/complexity foo) => 2)
 
 (fact "The symbol count is recursive within the current namespace."
-  (kolmogorov/complexity bar) => 5)
+  (kolmogorov/complexity bar) => 7)
 
 (fact "Symbols outside the current namespace are considered atoms."
-  (kolmogorov/complexity inc) => 1)
+  (kolmogorov/complexity inc) => 0)
