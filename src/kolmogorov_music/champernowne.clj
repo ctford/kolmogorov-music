@@ -9,11 +9,9 @@
       [remainder])))
 
 (defn word
-  ([base]
-   (->> (range)
-        (mapcat #(decompose % base))))
-  ([]
-   (word 10)))
+  [base]
+  (->> (range)
+       (mapcat #(decompose % base))))
 
 (defn rightshift [n distance base]
   (/ n (int (Math/pow base distance))))
@@ -24,12 +22,10 @@
        (apply +)))
 
 (defn constant
-  ([precision base]
-   (->> (word base)
-        (take precision)
-        (expand base)))
-  ([precision]
-   (constant precision 10)))
+  [precision base]
+  (->> (word base)
+       (take precision)
+       (expand base)))
 
 (defn prefix? [sub super]
   (= sub (take (count sub) super)))
