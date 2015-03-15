@@ -19,4 +19,4 @@
   (kolmogorov/complexity inc) => 0)
 
 (fact "Sexprs can also be analysed for complexity."
-  (kolmogorov/complexity (+ foo 88)) => 5)
+  (kolmogorov/complexity (+ foo (88 'foo "bar"))) => 7)

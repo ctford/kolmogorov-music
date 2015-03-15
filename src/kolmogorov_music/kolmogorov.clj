@@ -15,14 +15,14 @@
 (defn complexity-sym [sym ns]
   (if (in-ns? sym ns)
     (->> (definition sym)
-         flatten
          (complexity-sexpr ns))
     0))
 
-(defn complexity-sexpr [ns sexpr]
-  (->> sexpr
+(defn complexity-sexpr [ns nested-sexpr]
+  (let [sexpr (flatten nested-sexpr)]
+    (->> sexpr
        (map #(complexity-sym % ns))
-       (reduce + (count sexpr))))
+       (reduce + (count sexpr)))))
 
 (defmacro complexity [expr]
   (if (seq? expr)
