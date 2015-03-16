@@ -37,5 +37,3 @@
   (->> (word base)
        windows
        (some (fn [[i super]] (when (prefix? sub super) i)))))
-
-(index [1 1 2 3 5 8] 10)
