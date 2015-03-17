@@ -4,9 +4,9 @@
 
 (defn decompose [n base]
   (let [[remainder quotient] ((juxt mod quot) n base)]
-    (if (pos? quotient)
-      (conj (decompose quotient base) remainder)
-      [remainder])))
+    (if (zero? quotient)
+      [remainder]
+      (conj (decompose quotient base) remainder))))
 
 (defn word
   [base]
