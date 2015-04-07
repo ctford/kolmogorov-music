@@ -9,9 +9,12 @@
       (conj (decompose quotient base) remainder))))
 
 (defn word
-  [base]
-  (->> (range)
-       (mapcat #(decompose % base))))
+  ([base from]
+   (->> (range)
+        (map (partial + from))
+        (mapcat #(decompose % base))))
+  ([base]
+   (word base 0)))
 
 (defn rightshift [n distance base]
   (/ n (int (Math/pow base distance))))
