@@ -7,7 +7,7 @@
             [leipzig.temperament :as temperament]
             [kolmogorov-music.champernowne :as champernowne]))
 
-(def master-volume 0.05)
+(def master-volume 0.03)
 
 ; Instruments
 ;(defonce sweep-bus (audio-bus))
@@ -22,9 +22,9 @@
 
 (definst buzz [freq 110 vol 1.0]
   (-> (saw freq)
-      (+ (sin-osc (* 0.51 freq)))
+      (+ (sin-osc (* 0.505 freq)))
       (rlpf (* 3 440) 1/9)
-      (* (env-gen (perc 0.01 0.5) :action FREE))
+      (* (env-gen (perc 0.01 0.3) :action FREE))
       (* vol master-volume)))
 
 (definst sing [freq 110 dur 1.0 vol 1.0]
@@ -48,40 +48,36 @@
         (take n s)
         (lazy-seq (chunked-by n (drop n s)))))))
 
-(->> (range 1 18) (chunked-by 3))
-
 (defn split-by [n s]
   (when (seq s)
     (cons
       (take-while (partial not= n) s)
       (lazy-seq (->> s (drop-while #(not= % n)) rest (split-by n))))))
 
-(defn encode [[duration pitch]]
-  {:time 0
-   :duration (/ duration 4)
-   :pitch pitch})
+(defn encode [[duration pitch & others]]
+  (when others
+    (let [duration (/ (or duration 1) 16)
+          pitch (or pitch 0) ]
+    (cons {:time 0
+           :duration duration 
+           :pitch pitch}
+          (lazy-seq (->> others encode (where :time (scale/from duration))))))))
 
-(defn evens [[x _ & zs]]
-  (when x
-    (cons x (lazy-seq (evens zs)))))
+(defn evens [xs]
+  (->> xs (chunked-by 2) (map first)))
 
-(defn odds [[_ y & zs]]
-  (when y
-    (cons y (lazy-seq (odds zs)))))
+(defn odds [xs]
+  (->> xs (chunked-by 2) (map second)))
 
-(defn thence [[{duration :duration time :time :as a} b & cs]]
-  (cond
-    (nil? a) []
-    (nil? b) [a]
-    :otherwise (cons a (lazy-seq (thence (cons (assoc b :time (+ time duration)) cs))))))
-
-(defn arrange [digits]
-  (with
-    (->> digits evens (chunked-by 2) (map encode) thence (all :part :dux))
-    (->> digits odds (chunked-by 2) (map encode) thence (all :part :comes))))
+(defn arrange [strings]
+  (map
+    #(with
+       (->> % evens encode (all :part :dux))
+       (->> % odds encode (all :part :comes)))
+    strings))
 
 (defn end [notes]
-  (let [{:keys [duration time]} (or (last notes) {:time 0 :duration 0}) ]
+  (let [{:keys [duration time]} (or (last notes) {:time 0 :duration 0})]
     (+ duration time)))
 
 (defn sequentially [[a & bs]]
@@ -91,14 +87,14 @@
 
 (def track
   (->>
-    (champernowne/word 16 0)
+    (champernowne/word 16 (rand-int 99999))
     (split-by 15)
-    (map arrange)
+    arrange
     sequentially
     (where :pitch (comp temperament/equal scale/A scale/minor))
     (where :pitch scale/lower)
-    (where :time (bpm 120))
-    (where :duration (bpm 120))))
+    (where :time (bpm 160))
+    (where :duration (bpm 160))))
 
 (comment
             
