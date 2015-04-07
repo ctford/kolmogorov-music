@@ -7,7 +7,7 @@
             [leipzig.temperament :as temperament]
             [kolmogorov-music.champernowne :as champernowne]))
 
-(def master-volume 0.1)
+(def master-volume 0.05)
 
 ; Instruments
 ;(defonce sweep-bus (audio-bus))
@@ -58,8 +58,8 @@
 
 (defn encode [[duration pitch]]
   {:time 0
-   :duration (get [1/4 2/4 3/4 4/4 6/4 8/4 12/4 16/4] duration 1/4)
-   :pitch pitch })
+   :duration (/ duration 4)
+   :pitch pitch})
 
 (defn evens [[x _ & zs]]
   (when x
@@ -91,12 +91,12 @@
 
 (def track
   (->>
-    (champernowne/word 8 (rand-int 999999999))
-    (split-by 0)
+    (champernowne/word 16 0)
+    (split-by 15)
     (map arrange)
     sequentially
-    (take-while #(-> % :time (< 128)))
-    (where :pitch (comp temperament/equal scale/A scale/major))
+    (where :pitch (comp temperament/equal scale/A scale/minor))
+    (where :pitch scale/lower)
     (where :time (bpm 120))
     (where :duration (bpm 120))))
 
