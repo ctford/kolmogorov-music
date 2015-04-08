@@ -26,9 +26,12 @@
       (* vol master-volume)))
 
 ; Arrangement
-(defmethod live/play-note :dux [{hertz :pitch seconds :duration}] (buzz hertz seconds))
-(defmethod live/play-note :comes [{hertz :pitch seconds :duration}] (sing hertz seconds))
-(defmethod live/play-note :bass [{hertz :pitch seconds :duration}] (sing (* 1/2 hertz) seconds))
+(defmethod live/play-note :dux [{hertz :pitch seconds :duration}]
+  (when hertz (buzz hertz seconds)))
+(defmethod live/play-note :comes [{hertz :pitch seconds :duration}]
+  (when hertz (sing hertz seconds)))
+(defmethod live/play-note :bass [{hertz :pitch seconds :duration}]
+  (when hertz (sing (* 1/2 hertz) seconds)))
 
 (defn construct [time duration pitch part]
   {:time time 
@@ -56,16 +59,21 @@
 
 (def track
   (->>
-    (champernowne/word 10 4100410033073307230713083309)
-    (encode {:dux 0 :comes 0 :bass 0})
+    (champernowne/word 10
+                       7207120772071207720712077207120772031203720312037203120312551255125412541253125312521232
+                       )
+    ; (encode {:dux 0 :comes 0 :bass 0})
+    (encode {:dux 0})
     (wherever :pitch, :pitch (comp temperament/equal scale/A scale/minor scale/lower))
     (where :time (bpm 120))
     (where :duration (bpm 120))))
 
 (comment
             
-  ; Loop the track, allowing live editing.
+   ; Loop the track, allowing live editing.
   (live/jam (var track))
   (fx-reverb)
   (fx-chorus)
-  (fx-distortion))
+  (fx-distortion)
+  
+  )
