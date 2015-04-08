@@ -9,22 +9,10 @@
 
 (def master-volume 0.03)
 
-; Instruments
-;(defonce sweep-bus (audio-bus))
-;(defonce sweepers (group "Synths connected to the sweep."))
-;(defonce writers (group "Pushing onto the bus." :head sweepers))
-;(defonce readers (group "Pulling from the bus." :after writers))
-
-;(defsynth random-walk [out-bus 0 freq 0.3]
-;  (out:kr out-bus (-> (lf-noise1:kr freq) (+ 1) (/ 2))))
-
-;(defonce sweeping (random-walk writers sweep-bus))
-
-(definst buzz [freq 110 vol 1.0]
+(definst buzz [freq 110 vol 1.0 dur 1.0]
   (-> (saw freq)
-      (+ (sin-osc (* 0.505 freq)))
-      (rlpf (* 3 440) 1/9)
-      (* (env-gen (perc 0.01 0.3) :action FREE))
+      (rlpf (* 4 440) (line:kr 1/10 1/20 dur))
+      (* (env-gen (perc 0.01 0.5) :action FREE))
       (* vol master-volume)))
 
 (definst sing [freq 110 dur 1.0 vol 1.0]
@@ -33,13 +21,14 @@
       (+ (* 1/4 (sin-osc (* 2.01 freq))))
       (+ (* 1/3 (sin-osc (* 1/2 freq))))
       (rlpf (line:kr 3000 500 dur) 1/5)
-      (clip2 0.3)
+      (clip2 0.5)
       (* (env-gen (adsr 0.05 (* dur 1/3) 0.2) (line:kr 1 0 dur) :action FREE))
       (* vol master-volume)))
 
 ; Arrangement
-(defmethod live/play-note :dux [{hertz :pitch}] (buzz hertz))
+(defmethod live/play-note :dux [{hertz :pitch seconds :duration}] (buzz hertz seconds))
 (defmethod live/play-note :comes [{hertz :pitch seconds :duration}] (sing hertz seconds))
+(defmethod live/play-note :bass [{hertz :pitch seconds :duration}] (sing (* 1/2 hertz) seconds))
 
 (defn n [time duration pitch part]
   {:time time 
@@ -47,10 +36,16 @@
    :duration duration
    :part part})
 
-(defn encode [{:keys [dux comes] :as state} [a b c d & digits]]
+(defn least [m]
+  (first (apply min-key second m)))
+
+(defn max-out [m]
+  (zipmap (keys m) (repeat (apply max (vals m)))) )
+
+(defn encode [state [a b c d & digits]]
   (if (zero? (* a b))
-    (encode {:dux (max dux comes) :comes (max dux comes)} digits)
-    (let [part (if (<= dux comes) :dux :comes)
+    (encode (max-out state) digits)
+    (let [part (least state)
           duration (/ a b)
           pitch (+ c d)
           time (part state)]
@@ -60,8 +55,8 @@
 
 (def track
   (->>
-    (champernowne/word 10 410033073307230713083309)
-    (encode {:dux 0 :comes 0}) 
+    (champernowne/word 10 4100410033073307230713083309)
+    (encode {:dux 0 :comes 0 :bass 0})
     (wherever :pitch, :pitch (comp temperament/equal scale/A scale/minor scale/lower))
     (where :time (bpm 120))
     (where :duration (bpm 120))))
