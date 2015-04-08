@@ -56,12 +56,12 @@
 
 (defn encode [[duration pitch & others]]
   (when others
-    (let [duration (/ (or duration 1) 16)
+    (let [duration (/ (or duration 1) 4)
           pitch (or pitch 0) ]
     (cons {:time 0
            :duration duration 
            :pitch pitch}
-          (lazy-seq (->> others encode (where :time (scale/from duration))))))))
+          (lazy-seq (->> others encode (where :time (scale/from duration)))))))) 
 
 (defn evens [xs]
   (->> xs (chunked-by 2) (map first)))
@@ -85,12 +85,54 @@
     (concat a
             (lazy-seq (->> bs sequentially (where :time (scale/from (end a))))))))
 
+#_030302133
+
+(comment
+  0 synchronise
+  1 increase dux pitch (centred x)
+  2 increase comes pitch (centred x)
+  3 increase dux (fractional x) time
+  4 increase comes (fractional x) time 
+  5 play dux for x
+  6 play comes for x
+
+   
+  )
+
+(def zero {:time 0 :duration 1/2 :pitch 0 :part :dux})
+(defn length [{:keys [time duration]}] (+ time duration)) 
+
+(defn up [note] (update-in note [:pitch] #(min 14 (inc %))))
+(defn down [note] (update-in note [:pitch] #(max -14 (dec %))))
+(defn longer [note] (update-in note [:duration] #(min 4 (* 2 %))))
+(defn shorter [note] (update-in note [:duration] #(max 1/4 (* 1/2 %))))
+(defn along [note] (update-in note [:time] (partial + (:duration note))))
+
+#_
+
+(defn squash [[a b & others]]
+  (cons (-> a
+            (update-in [:duration] (partial + (:duration b)))
+            (update-in [:pitch] (partial + (:pitch b))))
+        others))
+
+(defn move [dux [signal & digits]]
+  (case signal
+    0 (move (assoc dux :duration 1/2 :pitch 0) digits)
+    1 (move (up dux) digits)
+    2 (move (up (up dux)) digits)
+    3 (move (longer dux) digits)
+    4 (move (down dux) digits)
+    5 (move (longer (longer dux)) digits)
+    6 (move (shorter dux) digits)
+    7 (move (down (down dux)) digits)
+    8 (move (shorter (shorter dux)) digits)
+    9 (cons dux (lazy-seq (move (along dux) digits)))))
+
 (def track
   (->>
-    (champernowne/word 16 (rand-int 99999))
-    (split-by 15)
-    arrange
-    sequentially
+    (champernowne/word 10 399919139694919191596669499499499499)
+    (move (assoc zero :part :comes))
     (where :pitch (comp temperament/equal scale/A scale/minor))
     (where :pitch scale/lower)
     (where :time (bpm 160))
