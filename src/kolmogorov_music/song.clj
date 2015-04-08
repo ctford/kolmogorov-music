@@ -41,100 +41,24 @@
 (defmethod live/play-note :dux [{hertz :pitch}] (buzz hertz))
 (defmethod live/play-note :comes [{hertz :pitch seconds :duration}] (sing hertz seconds))
 
-(defn chunked-by [n s]
-  (let [ch (take n s)]
-    (when (= n (count ch))
-      (cons
-        (take n s)
-        (lazy-seq (chunked-by n (drop n s)))))))
-
-(defn split-by [n s]
-  (when (seq s)
-    (cons
-      (take-while (partial not= n) s)
-      (lazy-seq (->> s (drop-while #(not= % n)) rest (split-by n))))))
-
-(defn encode [[duration pitch & others]]
-  (when others
-    (let [duration (/ (or duration 1) 4)
-          pitch (or pitch 0) ]
-    (cons {:time 0
-           :duration duration 
-           :pitch pitch}
-          (lazy-seq (->> others encode (where :time (scale/from duration)))))))) 
-
-(defn evens [xs]
-  (->> xs (chunked-by 2) (map first)))
-
-(defn odds [xs]
-  (->> xs (chunked-by 2) (map second)))
-
-(defn arrange [strings]
-  (map
-    #(with
-       (->> % evens encode (all :part :dux))
-       (->> % odds encode (all :part :comes)))
-    strings))
-
-(defn end [notes]
-  (let [{:keys [duration time]} (or (last notes) {:time 0 :duration 0})]
-    (+ duration time)))
-
-(defn sequentially [[a & bs]]
-  (when a
-    (concat a
-            (lazy-seq (->> bs sequentially (where :time (scale/from (end a))))))))
-
-#_030302133
-
-(comment
-  0 synchronise
-  1 increase dux pitch (centred x)
-  2 increase comes pitch (centred x)
-  3 increase dux (fractional x) time
-  4 increase comes (fractional x) time 
-  5 play dux for x
-  6 play comes for x
-
-   
-  )
-
-(def zero {:time 0 :duration 1/2 :pitch 0 :part :dux})
-(defn length [{:keys [time duration]}] (+ time duration)) 
-
-(defn up [note] (update-in note [:pitch] #(min 14 (inc %))))
-(defn down [note] (update-in note [:pitch] #(max -14 (dec %))))
-(defn longer [note] (update-in note [:duration] #(min 4 (* 2 %))))
-(defn shorter [note] (update-in note [:duration] #(max 1/4 (* 1/2 %))))
-(defn along [note] (update-in note [:time] (partial + (:duration note))))
-
-#_
-
-(defn squash [[a b & others]]
-  (cons (-> a
-            (update-in [:duration] (partial + (:duration b)))
-            (update-in [:pitch] (partial + (:pitch b))))
-        others))
-
-(defn move [dux [signal & digits]]
-  (case signal
-    0 (move (assoc dux :duration 1/2 :pitch 0) digits)
-    1 (move (up dux) digits)
-    2 (move (up (up dux)) digits)
-    3 (move (longer dux) digits)
-    4 (move (down dux) digits)
-    5 (move (longer (longer dux)) digits)
-    6 (move (shorter dux) digits)
-    7 (move (down (down dux)) digits)
-    8 (move (shorter (shorter dux)) digits)
-    9 (cons dux (lazy-seq (move (along dux) digits)))))
+(defn encode [[a b c d & digits]]
+  (if (zero? (* c d))
+    (encode digits)
+    (let [pitch (+ a b)
+          duration (/ c d)]
+      (cons {:time 0
+             :pitch pitch 
+             :duration duration}
+            (lazy-seq (->> digits
+                           encode
+                           (where :time (scale/from duration))))))))
 
 (def track
   (->>
-    (champernowne/word 10 399919139694919191596669499499499499)
-    (move (assoc zero :part :comes))
-    (where :pitch (comp temperament/equal scale/A scale/minor))
-    (where :pitch scale/lower)
+    (champernowne/word 10 4630330330231132330)
+    encode 
+    (all :part :comes)
+    (wherever :pitch, :pitch (comp temperament/equal scale/A scale/minor scale/lower))
     (where :time (bpm 160))
     (where :duration (bpm 160))))
 
