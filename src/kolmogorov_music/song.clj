@@ -20,8 +20,8 @@
       (+ (sin-osc (* 3.01 freq)))
       (+ (* 1/4 (sin-osc (* 2.01 freq))))
       (+ (* 1/3 (sin-osc (* 1/2 freq))))
-      (rlpf (line:kr 3000 500 dur) 1/5)
-      (clip2 0.5)
+      (rlpf (line:kr 3000 500 dur) 1/50)
+      (clip2 0.3)
       (* (env-gen (adsr 0.05 (* dur 1/3) 0.2) (line:kr 1 0 dur) :action FREE))
       (* vol master-volume)))
 
@@ -30,28 +30,29 @@
 (defmethod live/play-note :comes [{hertz :pitch seconds :duration}] (sing hertz seconds))
 (defmethod live/play-note :bass [{hertz :pitch seconds :duration}] (sing (* 1/2 hertz) seconds))
 
-(defn n [time duration pitch part]
+(defn construct [time duration pitch part]
   {:time time 
    :pitch pitch
    :duration duration
    :part part})
 
-(defn least [m]
+(defn most-behind [m]
   (first (apply min-key second m)))
 
-(defn max-out [m]
+(defn synchronise [m]
   (zipmap (keys m) (repeat (apply max (vals m)))) )
 
-(defn encode [state [a b c d & digits]]
-  (if (zero? (* a b))
-    (encode (max-out state) digits)
-    (let [part (least state)
-          duration (/ a b)
-          pitch (+ c d)
-          time (part state)]
-      (cons (n time duration pitch part)
-            (lazy-seq (->> digits
-                           (encode (update-in state [part] (partial + duration)))))))))
+(defn encode
+  ([state [a b c d & digits]]
+   (if (zero? (* a b))
+     (encode (synchronise state) digits)
+     (let [part (most-behind state)
+           duration (/ a b)
+           pitch (+ c d)
+           time (part state)]
+       (cons (construct time duration pitch part)
+             (lazy-seq (->> digits
+                            (encode (update-in state [part] (partial + duration))))))))))
 
 (def track
   (->>
