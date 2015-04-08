@@ -41,26 +41,30 @@
 (defmethod live/play-note :dux [{hertz :pitch}] (buzz hertz))
 (defmethod live/play-note :comes [{hertz :pitch seconds :duration}] (sing hertz seconds))
 
-(defn encode [[a b c d & digits]]
-  (if (zero? (* c d))
-    (encode digits)
-    (let [pitch (+ a b)
-          duration (/ c d)]
-      (cons {:time 0
-             :pitch pitch 
-             :duration duration}
+(defn n [time duration pitch part]
+  {:time time 
+   :pitch pitch
+   :duration duration
+   :part part})
+
+(defn encode [{:keys [dux comes] :as state} [a b c d & digits]]
+  (if (zero? (* a b))
+    (encode {:dux (max dux comes) :comes (max dux comes)} digits)
+    (let [part (if (<= dux comes) :dux :comes)
+          duration (/ a b)
+          pitch (+ c d)
+          time (part state)]
+      (cons (n time duration pitch part)
             (lazy-seq (->> digits
-                           encode
-                           (where :time (scale/from duration))))))))
+                           (encode (update-in state [part] (partial + duration)))))))))
 
 (def track
   (->>
-    (champernowne/word 10 4630330330231132330)
-    encode 
-    (all :part :comes)
+    (champernowne/word 10 410033073307230713083309)
+    (encode {:dux 0 :comes 0}) 
     (wherever :pitch, :pitch (comp temperament/equal scale/A scale/minor scale/lower))
-    (where :time (bpm 160))
-    (where :duration (bpm 160))))
+    (where :time (bpm 120))
+    (where :duration (bpm 120))))
 
 (comment
             
