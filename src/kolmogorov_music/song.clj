@@ -17,7 +17,7 @@
       (+ (* 1/3 (sin-osc (* 1/2 freq))))
       (rlpf (line:kr 5000 0 1.0) 1/50)
       (clip2 0.5)
-      (* (env-gen (adsr 0.05 (* dur 1/3) 0.2) (line:kr 1 0 dur) :action FREE))
+      (* (env-gen (adsr 0.05 (* dur 1/3) 0.3 0) (line:kr 1 0 dur) :action FREE))
       (* vol)))
 
 ; Arrangement
@@ -102,6 +102,7 @@
    ; Loop the track, allowing live editing.
   (live/stop)
   (live/play (track row))
+
   (fx-reverb)
   (fx-chorus)
   (fx-distortion)
