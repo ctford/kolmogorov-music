@@ -39,19 +39,19 @@
 (defn digit-shift [x n]
   (apply * x (repeat n (bigint 10))))
 
-(defn decode-note [time a b c d]
+(defn construct [a b c d]
   (if (zero? (* a b))
-    {:time time :duration (/ c (max d 1))}
-    {:time time :duration (/ a b) :pitch (+ (digit-shift c 1) d)}))
+    {:duration (/ c (max d 1))}
+    {:duration (/ a b) :pitch (+ (digit-shift c 1) d)}))
 
 (defn decode*
   [state [a b c d & digits :as remaining?]]
   (when remaining?
-    (let [index (least state)
-          time (get state index)
-          note (decode-note time a b c d)]
+    (let [voice (least state)
+          time (get state voice)
+          note (assoc (construct a b c d) :time time)]
       (->> digits
-           (decode* (-> state (increment index (:duration note))))
+           (decode* (-> state (increment voice (:duration note))))
            lazy-seq
            (cons note)))))
 
