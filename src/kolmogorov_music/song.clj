@@ -7,6 +7,9 @@
             [leipzig.temperament :as temperament]
             [kolmogorov-music.champernowne :as champernowne]))
 
+(defn digits [n]
+  (champernowne/decompose n 10))
+
 (definst sing [freq 110 dur 1.0 vol 1.0]
   (-> (sin-osc freq)
       (+ (sin-osc (* 3.01 freq)))
@@ -37,15 +40,16 @@
 
 (defn decode
   ([state [a b c d & digits]]
-   (if (zero? (* a b))
-     (decode (synchronise state) digits)
-     (let [part (most-behind state)
-           duration (/ a b)
-           pitch (+ c d)
-           time (get state part)]
-       (cons (construct time duration pitch)
-             (lazy-seq (->> digits
-                            (decode (update-in state [part] (partial + duration))))))))))
+   (when (or a b c d)
+     (if (zero? (* a b))
+       (decode (synchronise state) digits)
+       (let [part (most-behind state)
+             duration (/ a b)
+             pitch (+ c d)
+             time (get state part)]
+         (cons (construct time duration pitch)
+               (lazy-seq (->> digits
+                              (decode (update-in state [part] (partial + duration)))))))))))
 
 (defn tens [n]
   (apply * (repeat n (bigint 10))))
