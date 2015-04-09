@@ -27,8 +27,10 @@
    :pitch pitch
    :duration duration})
 
-(defn most-behind [v]
-  (first (apply min-key second (zipmap (range) v))))
+(defn most-behind [[x & xs :as v]]
+  (if (= x (apply min v))
+    0
+    (inc (most-behind xs))))
 
 (defn synchronise [v]
   (vec (repeat (count v) (apply max v))))
