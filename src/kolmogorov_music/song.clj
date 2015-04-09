@@ -26,18 +26,13 @@
       (* vol master-volume)))
 
 ; Arrangement
-(defmethod live/play-note :dux [{hertz :pitch seconds :duration}]
-  (when hertz (buzz hertz seconds)))
-(defmethod live/play-note :comes [{hertz :pitch seconds :duration}]
+(defmethod live/play-note :default [{hertz :pitch seconds :duration}]
   (when hertz (sing hertz seconds)))
-(defmethod live/play-note :bass [{hertz :pitch seconds :duration}]
-  (when hertz (sing (* 1/2 hertz) seconds)))
 
-(defn construct [time duration pitch part]
+(defn construct [time duration pitch]
   {:time time 
    :pitch pitch
-   :duration duration
-   :part part})
+   :duration duration })
 
 (defn most-behind [m]
   (first (apply min-key second m)))
@@ -53,7 +48,7 @@
            duration (/ a b)
            pitch (+ c d)
            time (part state)]
-       (cons (construct time duration pitch part)
+       (cons (construct time duration pitch)
              (lazy-seq (->> digits
                             (decode (update-in state [part] (partial + duration))))))))))
 
