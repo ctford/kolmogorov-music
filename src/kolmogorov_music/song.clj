@@ -23,12 +23,7 @@
 ; Arrangement
 (defmethod live/play-note :default
   [{hertz :pitch seconds :duration}]
-  (when hertz (sing hertz seconds 0.05)))
-
-(defn construct [time duration pitch]
-  {:time time 
-   :pitch pitch
-   :duration duration})
+  (when hertz (sing hertz seconds 0.02)))
 
 (defn least [[x & xs :as v]]
   (if (= x (apply min v))
@@ -41,52 +36,54 @@
 (defn increment [v i n]
   (update-in v [i] (partial + n)))
 
+(defn decode-note [time a b c d]
+  (if (zero? (* a b))
+    {:time time :duration (/ c d)}
+    {:time time :duration (/ a b) :pitch (+ (digit-shift c 1) d)}))
+
 (defn decode*
-  ([state [a b c d & digits :as remaining?]]
-   (when remaining?
-     (let [index (least state)
-           rest? (zero? (* a b))
-           pitch (when-not rest? (+ c d))
-           duration (if (not rest?) (/ a b) (/ c d))
-           time (get state index)]
-       (cons (construct time duration pitch)
-             (lazy-seq (->> digits
-                            (decode* (increment state index duration)))))))))
+  [state [a b c d & digits :as remaining?]]
+  (when remaining?
+    (let [index (least state)
+          time (get state index)
+          note (decode-note time a b c d)]
+      (->> digits
+           (decode* (-> state (increment index (:duration note))))
+           lazy-seq
+           (cons note)))))
 
 (defn digit-shift [x n]
   (apply * x (repeat n (bigint 10))))
 
-(defn code-pitch [pitch]
-  (let [half (quot pitch 2)]
-    (+ (digit-shift half 1) (- pitch half))))
-
-(defn code-duration [duration]
-  (let [denom (if (ratio? duration) (denominator duration) 1)
-        numer (* denom duration)]
-    (+ (digit-shift numer 1) denom)))
+(defn flatten-ratio [duration]
+  (let [d (if (ratio? duration) (denominator duration) 1)
+        n (* d duration)]
+    (+ (digit-shift n 1) d)))
 
 (defn code [[{:keys [duration pitch] :as remaining?} & notes]]
   (if remaining?
-    (let [encoding (if (nil? pitch)
-                     (+ (code-duration duration))
-                     (+ (digit-shift (code-duration duration) 2) (code-pitch pitch))) ]
+    (let [encoding (if pitch
+                     (+ (digit-shift (flatten-ratio duration) 2) pitch)
+                     (+ (flatten-ratio duration)))]
       (+ (digit-shift encoding (* 4 (count notes))) (code notes)))
     0))
 
 (def row
   (->> (phrase [3/3 3/3 2/3 1/3 3/3]
-               [7 7 7 8 9])
+               [0 0 0 1 2])
        (then
          (phrase [2/3 1/3 2/3 1/3 6/3]
-                 [9 8 9 10 11]))
+                 [2 1 2 3 4]))
        (then
          (phrase (repeat 1/3)
-                 [14 14 14 11 11 11 9 9 9 7 7 7]))
+                 [7 7 7 4 4 4 2 2 2 0 0 0]))
        (then
          (phrase [2/3 1/3 2/3 1/3 6/3]
-                 [11 10 9 8 7]))
-       (with (->> (phrase [8] [16]) (times 2)))
+                 [4 3 2 1 0]))
+       (with (->> (phrase [8] [9]) (times 2)))
        (with (->> (phrase [1 1 2] [0 4 0]) (times 4)))
+       (with (->> (phrase (cycle [2/3 1/3]) [8 8 nil 8 nil 8 nil 7]) (times 4)))
+       (wherever :pitch, :pitch scale/major)
        code))
 
 (defn decode [channels notes]
@@ -95,17 +92,18 @@
 (defn track []
   (->>
     (champernowne/word 10 row)
-    (decode 3)
-    (wherever :pitch, :pitch (comp temperament/equal scale/A scale/minor scale/lower))
+    (decode 4)
+    (wherever :pitch, :pitch (comp temperament/equal scale/A scale/lower))
     (where :time (bpm 120))
     (where :duration (bpm 120))))
 
 (comment
             
    ; Loop the track, allowing live editing.
+  (live/stop)
   (live/play (track))
   (fx-reverb)
   (fx-chorus)
   (fx-distortion)
-  
+
   )
