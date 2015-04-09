@@ -7,14 +7,6 @@
             [leipzig.temperament :as temperament]
             [kolmogorov-music.champernowne :as champernowne]))
 
-(def master-volume 0.05)
-
-(definst buzz [freq 110 vol 1.0 dur 1.0]
-  (-> (saw freq)
-      (rlpf (* 4 440) (line:kr 1/10 1/20 dur))
-      (* (env-gen (perc 0.01 0.5) :action FREE))
-      (* vol master-volume)))
-
 (definst sing [freq 110 dur 1.0 vol 1.0]
   (-> (sin-osc freq)
       (+ (sin-osc (* 3.01 freq)))
@@ -23,22 +15,23 @@
       (rlpf (line:kr 3000 500 dur) 1/50)
       (clip2 0.3)
       (* (env-gen (adsr 0.05 (* dur 1/3) 0.2) (line:kr 1 0 dur) :action FREE))
-      (* vol master-volume)))
+      (* vol)))
 
 ; Arrangement
-(defmethod live/play-note :default [{hertz :pitch seconds :duration}]
-  (when hertz (sing hertz seconds)))
+(defmethod live/play-note :default
+  [{hertz :pitch seconds :duration}]
+  (when hertz (sing hertz seconds 0.05)))
 
 (defn construct [time duration pitch]
   {:time time 
    :pitch pitch
-   :duration duration })
+   :duration duration})
 
-(defn most-behind [m]
-  (first (apply min-key second m)))
+(defn most-behind [v]
+  (first (apply min-key second (zipmap (range) v))))
 
-(defn synchronise [m]
-  (zipmap (keys m) (repeat (apply max (vals m)))) )
+(defn synchronise [v]
+  (vec (repeat (count v) (apply max v))))
 
 (defn decode
   ([state [a b c d & digits]]
@@ -47,7 +40,7 @@
      (let [part (most-behind state)
            duration (/ a b)
            pitch (+ c d)
-           time (part state)]
+           time (get state part)]
        (cons (construct time duration pitch)
              (lazy-seq (->> digits
                             (decode (update-in state [part] (partial + duration))))))))))
@@ -83,7 +76,7 @@
 (defn track []
   (->>
     (champernowne/word 10 row)
-    (decode {:dux 0 :comes 0 :bass 0})
+    (decode [0 0 0])
     (wherever :pitch, :pitch (comp temperament/equal scale/A scale/minor scale/lower))
     (where :time (bpm 120))
     (where :duration (bpm 120))))
