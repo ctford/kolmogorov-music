@@ -83,17 +83,17 @@
        (with (->> (phrase [8] [9]) (times 2)))
        (with (->> (phrase [1 1 2] [0 4 0]) (times 4)))
        (with (->> (phrase (cycle [2/3 1/3]) [8 8 nil 8 nil 8 nil 7]) (times 4)))
-       (wherever :pitch, :pitch scale/major)
+       (wherever :pitch, :pitch (comp scale/A scale/major scale/lower))
        code))
 
 (defn decode [channels notes]
   (decode* (vec (repeat channels 0)) notes))
 
-(defn track []
+(defn track [start]
   (->>
-    (champernowne/word 10 row)
+    (champernowne/word 10 start)
     (decode 4)
-    (wherever :pitch, :pitch (comp temperament/equal scale/A scale/lower))
+    (wherever :pitch, :pitch temperament/equal)
     (where :time (bpm 120))
     (where :duration (bpm 120))))
 
@@ -101,7 +101,7 @@
             
    ; Loop the track, allowing live editing.
   (live/stop)
-  (live/play (track))
+  (live/play (track row))
   (fx-reverb)
   (fx-chorus)
   (fx-distortion)
