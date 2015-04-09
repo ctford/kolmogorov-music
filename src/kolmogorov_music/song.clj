@@ -72,14 +72,23 @@
 (def row
   (->> (phrase [3/3 3/3 2/3 1/3 3/3]
                [7 7 7 8 9])
-       (with (phrase [1 1 2] [0 4 0]))
+       (then
+         (phrase [2/3 1/3 2/3 1/3 6/3]
+                 [9 8 9 10 11]))
+       (then
+         (phrase (repeat 1/3)
+                 [14 14 14 11 11 11 9 9 9 7 7 7]))
+       (then
+         (phrase [2/3 1/3 2/3 1/3 6/3]
+                 [11 10 9 8 7]))
+       (with (->> (phrase [8] [16]) (times 2)))
+       (with (->> (phrase [1 1 2] [0 4 0]) (times 4)))
        code))
 
 (defn track []
   (->>
     (champernowne/word 10 row)
-    (decode {:dux 0 :comes 0})
-    ;(decode {:dux 0})
+    (decode {:dux 0 :comes 0 :bass 0})
     (wherever :pitch, :pitch (comp temperament/equal scale/A scale/minor scale/lower))
     (where :time (bpm 120))
     (where :duration (bpm 120))))
