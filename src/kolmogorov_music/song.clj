@@ -30,38 +30,47 @@
    :pitch pitch
    :duration duration})
 
-(defn most-behind [[x & xs :as v]]
+(defn least [[x & xs :as v]]
   (if (= x (apply min v))
     0
-    (inc (most-behind xs))))
+    (inc (least xs))))
 
 (defn synchronise [v]
   (vec (repeat (count v) (apply max v))))
 
+(defn increment [v i n]
+  (update-in v [i] (partial + n)))
+
 (defn decode*
-  ([state [a b c d & digits]]
-   (when (or a b c d)
-     (if (zero? (* a b))
-       (decode* (synchronise state) digits)
-       (let [part (most-behind state)
-             duration (/ a b)
-             pitch (+ c d)
-             time (get state part)]
-         (cons (construct time duration pitch)
-               (lazy-seq (->> digits
-                              (decode* (update-in state [part] (partial + duration)))))))))))
+  ([state [a b c d & digits :as remaining?]]
+   (when remaining?
+     (let [index (least state)
+           rest? (zero? (* a b))
+           pitch (when-not rest? (+ c d))
+           duration (if (not rest?) (/ a b) (/ c d))
+           time (get state index)]
+       (cons (construct time duration pitch)
+             (lazy-seq (->> digits
+                            (decode* (increment state index duration)))))))))
 
-(defn tens [n]
-  (apply * (repeat n (bigint 10))))
+(defn digit-shift [x n]
+  (apply * x (repeat n (bigint 10))))
 
-(defn code [[{:keys [duration pitch] :as note} & notes]]
-  (if (nil? note)
-    (bigint 0)
-    (let [one (+ (* (tens 3) (if (ratio? duration) (numerator duration) duration))
-                 (* (tens 2) (if (ratio? duration) (denominator duration) 1))
-                 (* (tens 1) (quot pitch 2))
-                 (* (tens 0) (- pitch (quot pitch 2))))]
-      (+ (* (bigint one) (tens (* (bigint 4) (count notes)))) (code notes)))))
+(defn code-pitch [pitch]
+  (let [half (quot pitch 2)]
+    (+ (digit-shift half 1) (- pitch half))))
+
+(defn code-duration [duration]
+  (let [denom (if (ratio? duration) (denominator duration) 1)
+        numer (* denom duration)]
+    (+ (digit-shift numer 1) denom)))
+
+(defn code [[{:keys [duration pitch] :as remaining?} & notes]]
+  (if remaining?
+    (let [encoding (+ (digit-shift (code-duration duration) 2)
+                      (code-pitch pitch)) ]
+      (+ (digit-shift encoding (* 4 (count notes))) (code notes)))
+    0))
 
 (def row
   (->> (phrase [3/3 3/3 2/3 1/3 3/3]
