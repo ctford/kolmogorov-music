@@ -67,8 +67,9 @@
 
 (defn code [[{:keys [duration pitch] :as remaining?} & notes]]
   (if remaining?
-    (let [encoding (+ (digit-shift (code-duration duration) 2)
-                      (code-pitch pitch)) ]
+    (let [encoding (if (nil? pitch)
+                     (+ (code-duration duration))
+                     (+ (digit-shift (code-duration duration) 2) (code-pitch pitch))) ]
       (+ (digit-shift encoding (* 4 (count notes))) (code notes)))
     0))
 

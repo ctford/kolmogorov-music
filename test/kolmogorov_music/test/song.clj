@@ -11,6 +11,9 @@
        (with (leipzig/phrase [2 2] [4 5]))
        song/code) => 212211001101212311111112)
 
+(fact "Rests are encoded with zeros where duration normally is."
+  (->> (leipzig/phrase [1 1 1 1] [0 nil 2 nil]) song/code) => 1100001111110011)
+
 (fact "(comp code decode) is an identity for a single part."
   (let [melody (leipzig/phrase [3/3 3/3 2/3 1/3 3/3]
                                [  0   0   0   1   2])]
