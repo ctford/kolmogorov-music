@@ -38,7 +38,7 @@
 
 (defn decode-note [time a b c d]
   (if (zero? (* a b))
-    {:time time :duration (/ c d)}
+    {:time time :duration (/ c (max d 1))}
     {:time time :duration (/ a b) :pitch (+ (digit-shift c 1) d)}))
 
 (defn decode*
