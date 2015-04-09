@@ -7,7 +7,7 @@
             [leipzig.temperament :as temperament]
             [kolmogorov-music.champernowne :as champernowne]))
 
-(defn digits [n]
+(defn digits-of [n]
   (champernowne/decompose n 10))
 
 (definst sing [freq 110 dur 1.0 vol 1.0]
