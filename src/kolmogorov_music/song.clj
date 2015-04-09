@@ -7,7 +7,7 @@
             [leipzig.temperament :as temperament]
             [kolmogorov-music.champernowne :as champernowne]))
 
-(def master-volume 0.03)
+(def master-volume 0.05)
 
 (definst buzz [freq 110 vol 1.0 dur 1.0]
   (-> (saw freq)
@@ -75,10 +75,10 @@
  ;      (with (phrase [1 1 2] [0 4 0]))
        code))
 
-(def track
+(defn track []
   (->>
     (champernowne/word 10
-                      ; 7207120772071207720712077207120772031203720312037203120312551255125412541253125312521232
+                       ; 7207120772071207720712077207120772031203720312037203120312551255125412541253125312521232
                        row
                        )
     ; (decode {:dux 0 :comes 0 :bass 0})
@@ -90,7 +90,7 @@
 (comment
             
    ; Loop the track, allowing live editing.
-  (live/jam (var track))
+  (live/play (track))
   (fx-reverb)
   (fx-chorus)
   (fx-distortion)
