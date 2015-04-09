@@ -36,6 +36,9 @@
 (defn increment [v i n]
   (update-in v [i] (partial + n)))
 
+(defn digit-shift [x n]
+  (apply * x (repeat n (bigint 10))))
+
 (defn decode-note [time a b c d]
   (if (zero? (* a b))
     {:time time :duration (/ c (max d 1))}
@@ -51,9 +54,6 @@
            (decode* (-> state (increment index (:duration note))))
            lazy-seq
            (cons note)))))
-
-(defn digit-shift [x n]
-  (apply * x (repeat n (bigint 10))))
 
 (defn flatten-ratio [duration]
   (let [d (if (ratio? duration) (denominator duration) 1)
@@ -81,7 +81,7 @@
          (phrase [2/3 1/3 2/3 1/3 6/3]
                  [4 3 2 1 0]))
        (with (->> (phrase [8] [9]) (times 2)))
-       (with (->> (phrase [1 1 2] [0 4 0]) (times 4)))
+       (with (->> (phrase [1 1 2] [-7 -3 -7]) (times 4)))
        (with (->> (phrase (cycle [2/3 1/3]) [8 8 nil 8 nil 8 nil 7]) (times 4)))
        (wherever :pitch, :pitch (comp scale/A scale/major scale/lower))
        code))
