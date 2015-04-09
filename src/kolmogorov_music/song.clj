@@ -58,31 +58,28 @@
                             (decode (update-in state [part] (partial + duration))))))))))
 
 (defn tens [n]
-  (apply * (repeat n 10)))
+  (apply * (repeat n (bigint 10))))
 
 (defn code [[{:keys [duration pitch] :as note} & notes]]
   (if (nil? note)
-    0
+    (bigint 0)
     (let [one (+ (* (tens 3) (if (ratio? duration) (numerator duration) duration))
                  (* (tens 2) (if (ratio? duration) (denominator duration) 1))
                  (* (tens 1) (quot pitch 2))
                  (* (tens 0) (- pitch (quot pitch 2))))]
-      (+ (* (bigint one) (tens (* 4 (count notes)))) (code notes)))))
+      (+ (* (bigint one) (tens (* (bigint 4) (count notes)))) (code notes)))))
 
 (def row
   (->> (phrase [3/3 3/3 2/3 1/3 3/3]
                [7 7 7 8 9])
- ;      (with (phrase [1 1 2] [0 4 0]))
+       (with (phrase [1 1 2] [0 4 0]))
        code))
 
 (defn track []
   (->>
-    (champernowne/word 10
-                       ; 7207120772071207720712077207120772031203720312037203120312551255125412541253125312521232
-                       row
-                       )
-    ; (decode {:dux 0 :comes 0 :bass 0})
-    (decode {:dux 0})
+    (champernowne/word 10 row)
+    (decode {:dux 0 :comes 0})
+    ;(decode {:dux 0})
     (wherever :pitch, :pitch (comp temperament/equal scale/A scale/minor scale/lower))
     (where :time (bpm 120))
     (where :duration (bpm 120))))
