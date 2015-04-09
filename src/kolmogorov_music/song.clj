@@ -13,10 +13,10 @@
 (definst sing [freq 110 dur 1.0 vol 1.0]
   (-> (sin-osc freq)
       (+ (sin-osc (* 3.01 freq)))
-      (+ (* 1/4 (sin-osc (* 2.01 freq))))
+      (+ (* 1/4 (sin-osc (* 2.05 freq))))
       (+ (* 1/3 (sin-osc (* 1/2 freq))))
-      (rlpf (line:kr 3000 500 dur) 1/50)
-      (clip2 0.3)
+      (rlpf (line:kr 5000 0 1.0) 1/50)
+      (clip2 0.5)
       (* (env-gen (adsr 0.05 (* dur 1/3) 0.2) (line:kr 1 0 dur) :action FREE))
       (* vol)))
 
@@ -38,18 +38,18 @@
 (defn synchronise [v]
   (vec (repeat (count v) (apply max v))))
 
-(defn decode
+(defn decode*
   ([state [a b c d & digits]]
    (when (or a b c d)
      (if (zero? (* a b))
-       (decode (synchronise state) digits)
+       (decode* (synchronise state) digits)
        (let [part (most-behind state)
              duration (/ a b)
              pitch (+ c d)
              time (get state part)]
          (cons (construct time duration pitch)
                (lazy-seq (->> digits
-                              (decode (update-in state [part] (partial + duration)))))))))))
+                              (decode* (update-in state [part] (partial + duration)))))))))))
 
 (defn tens [n]
   (apply * (repeat n (bigint 10))))
@@ -79,10 +79,13 @@
        (with (->> (phrase [1 1 2] [0 4 0]) (times 4)))
        code))
 
+(defn decode [channels notes]
+  (decode* (vec (repeat channels 0)) notes))
+
 (defn track []
   (->>
     (champernowne/word 10 row)
-    (decode [0 0 0])
+    (decode 3)
     (wherever :pitch, :pitch (comp temperament/equal scale/A scale/minor scale/lower))
     (where :time (bpm 120))
     (where :duration (bpm 120))))
