@@ -13,11 +13,12 @@
 (definst sing [freq 110 dur 1.0 vol 1.0]
   (-> (sin-osc freq)
       (+ (sin-osc (* 3.01 freq)))
-      (+ (* 1/4 (sin-osc (* 2.05 freq))))
-      (+ (* 1/3 (sin-osc (* 1/2 freq))))
-      (rlpf (line:kr 5000 0 1.0) 1/50)
-      (clip2 0.5)
-      (* (env-gen (adsr 0.05 (* dur 1/3) 0.3 0) (line:kr 1 0 dur) :action FREE))
+      (+ (* 1/3 (sin-osc (* 2.01 freq))))
+      (+ (* 1/8 (sin-osc (* 5.01 freq))))
+      (+ (* 1/2 (sin-osc (* 1/2 freq))))
+      (rlpf (line:kr 3000 0 1) 1/5)
+      (clip2 0.7)
+      (* (env-gen (adsr 0.001 0.03 0.9 0.2) (line:kr 1 0 dur) :action FREE))
       (* vol)))
 
 ; Arrangement
@@ -37,7 +38,7 @@
   (update-in v [i] (partial + n)))
 
 (defn digit-shift [x n]
-  (apply * x (repeat n (bigint 10))))
+  (apply * x (repeat n (biginteger 10))))
 
 (defn construct [a b c d]
   (if (zero? (* a b))
@@ -86,13 +87,32 @@
        (wherever :pitch, :pitch (comp scale/A scale/major scale/lower))
        code))
 
+(def blurred-lines
+  (let [riff (phrase (repeat 8 1/2) (concat [[nil nil]] (repeat 6 [2 4]) [[nil nil]]))
+        accompaniment (->> (times 4 riff)
+                           (then (times 3 (wherever :pitch, :pitch (scale/from -3) riff)))
+                           (then (phrase [4] [[nil nil]])))
+        bass
+        (->>
+          (phrase [1/2 6/2 1/2 1/2 6/2 1/2 1/2 6/2 1/2 1/2 6/2 1/2]
+                  (cycle [-14 nil -14]))
+          (then
+            (phrase [1/2 6/2 1/2 1/2 6/2 1/2 1/2 6/2 1/2 1/2 1/2 1/2 1/2 1/2 1/2 1/2 1/2]
+                    [-17 nil -17 -17 nil -17 -17 nil -17 -10 -3 -11 -4 -12 -5 -13 -14])))
+        harmony (phrase [32] [14])
+        ]
+    (->> 
+      (with bass accompaniment)
+      (wherever :pitch, :pitch (comp scale/A scale/major))
+      code)))
+
 (defn decode [channels notes]
   (decode* (vec (repeat channels 0)) notes))
 
 (defn track [start]
   (->>
     (champernowne/word 10 start)
-    (decode 4)
+    (decode 3)
     (wherever :pitch, :pitch temperament/equal)
     (where :time (bpm 120))
     (where :duration (bpm 120))))
@@ -107,4 +127,5 @@
   (fx-chorus)
   (fx-distortion)
 
+  (live/play (track blurred-lines))
   )
