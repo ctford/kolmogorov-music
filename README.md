@@ -41,16 +41,16 @@ Performance
 
 References
 ----------
-* Aaron, Sam and Rose, Jeff: [Overtone](http://overtone.github.io/)
-* Autechre: [Anti](https://en.wikipedia.org/wiki/Anti_EP)
-* Ford, Chris: [Functional Composition](http://www.infoq.com/presentations/music-functional-language)
-* Ford, Chris: [Kolmogorov Music](https://github.com/ctford/kolmogorov-music)
-* Ford, Chris: [Leipzig](https://github.com/ctford/leipzig)
-* Gaye, Marvin: [Got to Give It Up](https://en.wikipedia.org/wiki/Got_to_Give_It_Up)
-* Hofstadter, Douglas: [Gödel, Escher, Bach](https://en.wikipedia.org/wiki/G%C3%B6del,_Escher,_Bach)
-* Kolmogorov, Andrey: 'On Tables of Random Numbers'
+* [Aaron, Sam](http://sam.aaron.name/) and [Rose, Jeff](https://twitter.com/rosejn): [Overtone](http://overtone.github.io/)
+* [Autechre](http://autechre.ws/): [Anti](https://en.wikipedia.org/wiki/Anti_EP)
+* [Ford, Chris](https://twitter.com/ctford): [Functional Composition](http://www.infoq.com/presentations/music-functional-language)
+* [Ford, Chris](https://twitter.com/ctford): [Kolmogorov Music](https://github.com/ctford/kolmogorov-music)
+* [Ford, Chris](https://twitter.com/ctford): [Leipzig](https://github.com/ctford/leipzig)
+* [Gaye, Marvin](https://en.wikipedia.org/wiki/Marvin_Gaye): [Got to Give It Up](https://en.wikipedia.org/wiki/Got_to_Give_It_Up)
+* [Hofstadter, Douglas](https://en.wikipedia.org/wiki/Douglas_Hofstadter]: [Gödel, Escher, Bach](https://en.wikipedia.org/wiki/G%C3%B6del,_Escher,_Bach)
+* [Kolmogorov, Andrey](https://en.wikipedia.org/wiki/Andrey_Kolmogorov): [On Tables of Random Numbers](http://www.sciencedirect.com/science/article/pii/S0304397598000759)
 * [The Law Revue Girls](https://twitter.com/LawRevueGirls): [Defined Lines](https://www.youtube.com/watch?v=tC1XtnLRLPM)
 * [Meredith, David](http://www.titanmusic.com/): [Music analysis and Kolmogorov complexity](http://www.titanmusic.com/papers/public/cim20121_submission_105.pdf)
-* Sagan, Carl: [Contact](https://en.wikipedia.org/wiki/Contact_(novel))
-* Schirp, Markus: [Mutant](https://github.com/mbj/mutant)
-* William, Pharrel and Thicke, Robin: [Blurred Lines](https://en.wikipedia.org/wiki/Blurred_Lines)
+* [Sagan, Carl](https://en.wikipedia.org/wiki/Carl_Sagan): [Contact](https://en.wikipedia.org/wiki/Contact_(novel))
+* [Schirp, Markus](https://twitter.com/_m_b_j_): [Mutant](https://github.com/mbj/mutant)
+* [William, Pharrel](https://twitter.com/Pharrell) and [Thicke, Robin](https://twitter.com/robinthicke): [Blurred Lines](https://en.wikipedia.org/wiki/Blurred_Lines)
