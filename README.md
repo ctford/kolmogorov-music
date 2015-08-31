@@ -48,8 +48,8 @@ References
 * Ford, Chris: [Leipzig](https://github.com/ctford/leipzig)
 * Gaye, Marvin: [Got to Give It Up](https://en.wikipedia.org/wiki/Got_to_Give_It_Up)
 * Hofstadter, Douglas: [Gödel, Escher, Bach](https://en.wikipedia.org/wiki/G%C3%B6del,_Escher,_Bach)
-* [The Law Revue Girls](https://twitter.com/LawRevueGirls): [Defined Lines](https://www.youtube.com/watch?v=tC1XtnLRLPM)
 * Kolmogorov, Andrey: 'On Tables of Random Numbers'
+* [The Law Revue Girls](https://twitter.com/LawRevueGirls): [Defined Lines](https://www.youtube.com/watch?v=tC1XtnLRLPM)
 * [Meredith, David](http://www.titanmusic.com/): [Music analysis and Kolmogorov complexity](http://www.titanmusic.com/papers/public/cim20121_submission_105.pdf)
 * Sagan, Carl: [Contact](https://en.wikipedia.org/wiki/Contact_(novel))
 * Schirp, Markus: [Mutant](https://github.com/mbj/mutant)
