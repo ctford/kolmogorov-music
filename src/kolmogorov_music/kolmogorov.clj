@@ -24,7 +24,10 @@
        (map #(complexity-sym % ns))
        (reduce + (count sexpr)))))
 
-(defmacro complexity [expr]
+(defn complexity* [expr]
   (if (seq? expr)
     (complexity-sexpr *ns* expr)
     (complexity-sym expr *ns*)))
+
+(defmacro complexity [expr]
+  (complexity* expr))
