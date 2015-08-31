@@ -48,7 +48,7 @@ References
 * [Ford, Chris](https://twitter.com/ctford): [Leipzig](https://github.com/ctford/leipzig)
 * [Gaye, Marvin](https://en.wikipedia.org/wiki/Marvin_Gaye): [Got to Give It Up](https://en.wikipedia.org/wiki/Got_to_Give_It_Up)
 * [Hofstadter, Douglas](https://en.wikipedia.org/wiki/Douglas_Hofstadter]: [Gödel, Escher, Bach](https://en.wikipedia.org/wiki/G%C3%B6del,_Escher,_Bach)
-* [Kolmogorov, Andrey](https://en.wikipedia.org/wiki/Andrey_Kolmogorov): [On Tables of Random Numbers](http://www.sciencedirect.com/science/article/pii/S0304397598000759)
+* [Kolmogorov, Andrey](https://en.wikipedia.org/wiki/Andrey_Kolmogorov): [On Tables of Random Numbers](http://ac.els-cdn.com/S0304397598000759/1-s2.0-S0304397598000759-main.pdf?_tid=6dc3b614-5004-11e5-b948-00000aab0f6b&acdnat=1441041745_1e998b3dbaa07510ac59a2628384fc9b)
 * [The Law Revue Girls](https://twitter.com/LawRevueGirls): [Defined Lines](https://www.youtube.com/watch?v=tC1XtnLRLPM)
 * [Meredith, David](http://www.titanmusic.com/): [Music analysis and Kolmogorov complexity](http://www.titanmusic.com/papers/public/cim20121_submission_105.pdf)
 * [Sagan, Carl](https://en.wikipedia.org/wiki/Carl_Sagan): [Contact](https://en.wikipedia.org/wiki/Contact_(novel))
