@@ -52,4 +52,5 @@ References
 * Kolmogorov, Andrey: 'On Tables of Random Numbers'
 * [Meredith, David](http://www.titanmusic.com/): [Music analysis and Kolmogorov complexity](http://www.titanmusic.com/papers/public/cim20121_submission_105.pdf)
 * Sagan, Carl: [Contact](https://en.wikipedia.org/wiki/Contact_(novel))
+* Schirp, Markus: [Mutant](https://github.com/mbj/mutant)
 * William, Pharrel and Thicke, Robin: [Blurred Lines](https://en.wikipedia.org/wiki/Blurred_Lines)
