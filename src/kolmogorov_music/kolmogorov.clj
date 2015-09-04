@@ -24,11 +24,11 @@
        (map #(complexity-sym % terminal?))
        (reduce + (count sexpr)))))
 
-(defn complexity* [expr]
-  (let [terminal? #(not (in-ns? % *ns*))]
+(defn complexity* [expr ns]
+  (let [terminal? #(not (in-ns? % ns))]
     (if (seq? expr)
       (complexity-sexpr terminal? expr)
       (complexity-sym expr terminal?))))
 
 (defmacro complexity [expr]
-  (complexity* expr))
+  (complexity* expr *ns*))
