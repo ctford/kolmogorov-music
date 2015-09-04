@@ -12,22 +12,23 @@
 
 (declare complexity-sexpr)
 
-(defn complexity-sym [sym ns]
-  (if (in-ns? sym ns)
+(defn complexity-sym [sym terminal?]
+  (if-not (terminal? sym)
     (->> (definition sym)
-         (complexity-sexpr ns))
+         (complexity-sexpr terminal?))
     0))
 
-(defn complexity-sexpr [ns nested-sexpr]
+(defn complexity-sexpr [terminal? nested-sexpr]
   (let [sexpr (flatten nested-sexpr)]
     (->> sexpr
-       (map #(complexity-sym % ns))
+       (map #(complexity-sym % terminal?))
        (reduce + (count sexpr)))))
 
 (defn complexity* [expr]
-  (if (seq? expr)
-    (complexity-sexpr *ns* expr)
-    (complexity-sym expr *ns*)))
+  (let [terminal? #(not (in-ns? % *ns*))]
+    (if (seq? expr)
+      (complexity-sexpr terminal? expr)
+      (complexity-sym expr terminal?))))
 
 (defmacro complexity [expr]
   (complexity* expr))
