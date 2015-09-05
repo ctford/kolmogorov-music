@@ -21,34 +21,6 @@
 (fact "Sexprs can also be analysed for complexity."
   (kolmogorov/complexity (+ foo (88 "bar" true))) => 7)
 
-(defn minimal-complexity
-  "A hypothetical function that determines the minimal Kolmogorov complexity of a natural number."
-  [n]
-  (inc n))
-
-(defn first-that [applies? xs]
-  (->> xs
-       (drop-while (complement applies?))
-       first))
-
-(defn more-complex-than? [n limit]
-  (< limit (minimal-complexity n)))
-
-(defn enterprise*
-  "Find the first natural number with a complexity greater than f."
-  [expr ns]
-  (->> (range)
-       (first-that #(more-complex-than? % (kolmogorov/complexity* expr ns)))))
-
-(defmacro enterprise
-  [expr]
-  (enterprise* expr *ns*))
-
-(fact "The enterprise makes everything more complicated."
-  (enterprise inc) => 0
-  (enterprise baz) => 7
-  (enterprise enterprise) => 25)
-
 (def ascii
   (->> (range 32 127)
        (map char)))
@@ -79,3 +51,31 @@
   (->> (lexicon) (subsequence 0 5)) => ["" " " "!" "\"" "#"]
   (->> (lexicon) (subsequence 95 100)) => ["~" "  " " !" " \"" " #"]
   (nth (lexicon) 364645) => "GEB")
+
+(defn minimal-complexity
+  "A hypothetical function that determines the minimal Kolmogorov complexity of a natural number."
+  [n]
+  (inc n))
+
+(defn first-that [applies? xs]
+  (->> xs
+       (drop-while (complement applies?))
+       first))
+
+(defn more-complex-than? [n limit]
+  (< limit (minimal-complexity n)))
+
+(defn enterprise*
+  "Find the first natural number with a complexity greater than f."
+  [expr ns]
+  (->> (range)
+       (first-that #(more-complex-than? % (kolmogorov/complexity* expr ns)))))
+
+(defmacro enterprise
+  [expr]
+  (enterprise* expr *ns*))
+
+(fact "The enterprise makes everything more complicated."
+  (enterprise inc) => 0
+  (enterprise baz) => 7
+  (enterprise enterprise) => 25)
