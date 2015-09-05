@@ -34,3 +34,24 @@
 (defmacro complexity [expr]
   (complexity* expr *ns*))
 
+(def ascii
+  (->> (range 32 127)
+       (map char)))
+
+(defn extend-with [elements strings]
+  (for [s strings e elements]
+    (conj s e)))
+
+(defn kleene* [elements]
+  (->> (lazy-seq (kleene* elements))
+       (extend-with elements)
+       (cons [])))
+
+(defn lexicon []
+  (->> ascii
+       kleene*
+       (map (partial apply str))))
+
+(defn monocon []
+  (->> #{nil}
+       kleene*))
