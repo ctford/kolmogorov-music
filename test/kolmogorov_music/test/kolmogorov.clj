@@ -57,7 +57,11 @@
   [expr]
   (enterprise* expr *ns*))
 
+(defn yo-dawg []
+  (enterprise enterprise))
+
 (fact "The enterprise makes everything more complicated."
   (enterprise inc) => (repeat 0 nil)
   (enterprise baz) => (repeat 7 nil)
-  (enterprise enterprise) => (repeat 26 nil))
+  (enterprise enterprise) => (repeat 26 nil)
+  (kolmogorov/complexity yo-dawg) => #(< % (kolmogorov/complexity (yo-dawg))))
