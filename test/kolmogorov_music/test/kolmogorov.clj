@@ -49,7 +49,9 @@
   (enterprise baz) => 7
   (enterprise enterprise) => 25)
 
-(def charset (map char (range 65 (+ 65 26))))
+(def ascii
+  (->> (range 32 127)
+       (map char)))
 
 (defn extend-with [elements strings]
   (for [s strings e elements]
@@ -61,11 +63,15 @@
        lazy-seq
        (cons [])))
 
+(defn subsequence [start end s]
+  (->> s (drop start) (take (- end start))))
+
 (defn lexicon []
-  (->> charset
+  (->> ascii
        kleene*
        (map (partial apply str))))
 
 (fact "We can construct all strings as a lazy sequence."
-  (->> (lexicon) (take 5)) => ["" "A" "B" "C" "D"]
-  (->> (lexicon) (drop 26) (take 5)) => ["Z" "AA" "AB" "AC" "AD"])
+  (->> (lexicon) (subsequence 0 5)) => ["" " " "!" "\"" "#"]
+  (->> (lexicon) (subsequence 96 101)) => ["  " " !" " \"" " #" " $"]
+  (nth (lexicon) 364645) => "GEB")
