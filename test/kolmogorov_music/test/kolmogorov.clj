@@ -73,5 +73,5 @@
 
 (fact "We can construct all strings as a lazy sequence."
   (->> (lexicon) (subsequence 0 5)) => ["" " " "!" "\"" "#"]
-  (->> (lexicon) (subsequence 96 101)) => ["  " " !" " \"" " #" " $"]
+  (->> (lexicon) (subsequence 95 100)) => ["~" "  " " !" " \"" " #"]
   (nth (lexicon) 364645) => "GEB")
