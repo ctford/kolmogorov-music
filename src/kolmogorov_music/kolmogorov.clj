@@ -11,28 +11,33 @@
 (defn definition [sym]
   (-> sym sexpr last))
 
-(declare complexity-sexpr)
+(declare complexity*)
 
 (defn complexity-sym [sym terminal?]
   (if-not (terminal? sym)
-    (->> (definition sym)
-         (complexity-sexpr terminal?))
+    (complexity* (definition sym) terminal?)
     0))
 
-(defn complexity-sexpr [terminal? nested-sexpr]
-  (let [sexpr (flatten nested-sexpr)]
-    (->> sexpr
-       (map #(complexity-sym % terminal?))
-       (reduce + (count sexpr)))))
+(defn complexity-sexpr [terminal? sexpr]
+  (->> sexpr
+       (map #(complexity* % terminal?))
+       (reduce + (count sexpr))))
 
-(defn complexity* [expr ns]
-  (let [terminal? #(not (in-ns? % ns))]
-    (if (seq? expr)
-      (complexity-sexpr terminal? expr)
-      (complexity-sym expr terminal?))))
+(defn complexity* [expr terminal?]
+  (cond
+    (seq? expr) (complexity-sexpr terminal? expr)
+    (coll? expr) (complexity-sexpr terminal? expr)
+    (#{true false} expr) 1
+    (string? expr) (* 7 (count expr))
+    (char? expr) 7
+    (integer? expr) (int (Math/ceil (/ (Math/log expr) (Math/log 2))))
+    :otherwise (complexity-sym expr terminal?)))
+
+(defn relative-to [ns]
+  #(not (in-ns? % ns)))
 
 (defmacro complexity [expr]
-  (complexity* expr *ns*))
+  (complexity* expr (relative-to *ns*)))
 
 (def ascii
   (->> (range 32 127)
@@ -55,3 +60,8 @@
 (defn monocon []
   (->> #{nil}
        kleene*))
+
+(defmacro insight [expr]
+  (/ (complexity* (eval expr)(relative-to *ns*))
+     (complexity* expr (relative-to *ns*))))
+

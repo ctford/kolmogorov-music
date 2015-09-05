@@ -10,7 +10,7 @@
   (kolmogorov/complexity foo) => 2)
 
 (fact "The symbol count includes nested sexprs."
-  (kolmogorov/complexity bar) => 4)
+  (kolmogorov/complexity bar) => 5)
 
 (fact "The symbol count is recursive within the current namespace."
   (kolmogorov/complexity baz) => 7)
@@ -19,7 +19,18 @@
   (kolmogorov/complexity inc) => 0)
 
 (fact "Sexprs can also be analysed for complexity."
-  (kolmogorov/complexity (+ foo (88 "bar" true))) => 7)
+  (kolmogorov/complexity (+ foo (88 "bar" true))) => 37)
+
+(fact "So can collections."
+  (kolmogorov/complexity [1 2 [4 5]]) => 11
+  (kolmogorov/complexity #{:x :y}) => 2
+  (kolmogorov/complexity {:x [3 4] :y [6 2]}) => 18)
+
+(fact "Data types have complexity based on their bits."
+  (kolmogorov/complexity true) => 1
+  (kolmogorov/complexity \A) => 7
+  (kolmogorov/complexity "foo") => 21
+  (kolmogorov/complexity 8) => 3)
 
 (defn subsequence [start end s]
   (->> s (drop start) (take (- end start))))
@@ -51,7 +62,7 @@
   "Find the first natural number with a complexity greater than f."
   [expr ns]
   (->> (kolmogorov/monocon)
-       (first-that #(more-complex-than? % (kolmogorov/complexity* expr ns)))))
+       (first-that #(more-complex-than? % (kolmogorov/complexity* expr (kolmogorov/relative-to ns))))))
 
 (defmacro enterprise
   [expr]
@@ -63,5 +74,11 @@
 (fact "The enterprise makes everything more complicated."
   (enterprise inc) => (repeat 0 nil)
   (enterprise baz) => (repeat 7 nil)
-  (enterprise enterprise) => (repeat 26 nil)
+  (kolmogorov/complexity enterprise) =>  38
+  (enterprise enterprise) => (repeat 38 nil)
   (kolmogorov/complexity yo-dawg) => #(< % (kolmogorov/complexity (yo-dawg))))
+
+(fact "The level of insight is the ratio of Kolmogorov complexity to raw complexity"
+  (kolmogorov/complexity [\A \A \A \A \A]) => 40
+  (kolmogorov/complexity (repeat 5 \A)) => 13
+  (kolmogorov/insight (repeat 5 \A)) => 40/13)
