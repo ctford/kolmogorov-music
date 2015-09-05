@@ -48,3 +48,22 @@
   (enterprise inc) => 0
   (enterprise baz) => 7
   (enterprise enterprise) => 25)
+
+(def charset (map char (range 65 (+ 65 26))))
+
+(defn lex [strings]
+  (for [s strings c charset]
+    (conj s c)))
+
+(defn lexicon []
+  (->> (lexicon)
+       lex
+       lazy-seq
+       (cons [])))
+
+(defn lexicon-s []
+  (map (partial apply str) (lexicon)))
+
+(fact "We can construct all strings as a lazy sequence."
+  (->> (lexicon-s) (take 5)) => ["" "A" "B" "C" "D"]
+  (->> (lexicon-s) (drop 26) (take 5)) => ["Z" "AA" "AB" "AC" "AD"])
