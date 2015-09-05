@@ -60,13 +60,13 @@
 
 (defn enterprise*
   "Find the first natural number with a complexity greater than f."
-  [expr ns]
+  [expr terminal?]
   (->> (kolmogorov/monocon)
-       (first-that #(more-complex-than? % (kolmogorov/complexity* expr (kolmogorov/relative-to ns))))))
+       (first-that #(more-complex-than? % (kolmogorov/complexity* expr terminal?)))))
 
 (defmacro enterprise
   [expr]
-  (enterprise* expr *ns*))
+  (enterprise* expr (kolmogorov/relative-to *ns*)))
 
 (defn yo-dawg []
   (enterprise enterprise))
