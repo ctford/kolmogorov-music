@@ -31,14 +31,14 @@
        (drop-while (complement applies?))
        first))
 
-(first-that #(< 10 %) (range))
+(defn more-complex-than? [n limit]
+  (< limit (minimal-complexity n)))
 
 (defn enterprise*
   "Find the first natural number with a complexity greater than f."
   [expr ns]
-  (let [lower-limit (kolmogorov/complexity* expr ns)]
-    (->> (range)
-         (first-that (fn [n] (< lower-limit (minimal-complexity n)))))))
+  (->> (range)
+       (first-that #(more-complex-than? % (kolmogorov/complexity* expr ns)))))
 
 (defmacro enterprise
   [expr]
