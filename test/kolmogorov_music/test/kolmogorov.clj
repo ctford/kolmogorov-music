@@ -20,3 +20,31 @@
 
 (fact "Sexprs can also be analysed for complexity."
   (kolmogorov/complexity (+ foo (88 "bar" true))) => 7)
+
+(defn minimal-complexity
+  "A hypothetical function that determines the minimal Kolmogorov complexity of a natural number."
+  [n]
+  (inc n))
+
+(defn first-that [applies? xs]
+  (->> xs
+       (drop-while (complement applies?))
+       first))
+
+(first-that #(< 10 %) (range))
+
+(defn enterprise*
+  "Find the first natural number with a complexity greater than f."
+  [expr ns]
+  (let [lower-limit (kolmogorov/complexity* expr ns)]
+    (->> (range)
+         (first-that (fn [n] (< lower-limit (minimal-complexity n)))))))
+
+(defmacro enterprise
+  [expr]
+  (enterprise* expr *ns*))
+
+(fact "The enterprise makes everything more complicated."
+  (enterprise inc) => 0
+  (enterprise baz) => 7
+  (enterprise enterprise) => 25)

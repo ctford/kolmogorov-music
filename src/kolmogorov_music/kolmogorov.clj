@@ -2,7 +2,8 @@
   (:require [clojure.repl :as repl]))
 
 (defn in-ns? [sym ns]
-  (contains? (ns-interns ns) sym))
+  (let [mappings (ns-interns ns) ]
+    (contains? mappings sym)))
 
 (defn sexpr [sym]
   (-> sym repl/source-fn read-string))
@@ -32,3 +33,4 @@
 
 (defmacro complexity [expr]
   (complexity* expr *ns*))
+
