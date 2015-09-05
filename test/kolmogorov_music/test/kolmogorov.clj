@@ -51,19 +51,21 @@
 
 (def charset (map char (range 65 (+ 65 26))))
 
-(defn lex [strings]
-  (for [s strings c charset]
-    (conj s c)))
+(defn extend-with [elements strings]
+  (for [s strings e elements]
+    (conj s e)))
 
-(defn lexicon []
-  (->> (lexicon)
-       lex
+(defn kleene* [elements]
+  (->> (kleene* elements)
+       (extend-with elements)
        lazy-seq
        (cons [])))
 
-(defn lexicon-s []
-  (map (partial apply str) (lexicon)))
+(defn lexicon []
+  (->> charset
+       kleene*
+       (map (partial apply str))))
 
 (fact "We can construct all strings as a lazy sequence."
-  (->> (lexicon-s) (take 5)) => ["" "A" "B" "C" "D"]
-  (->> (lexicon-s) (drop 26) (take 5)) => ["Z" "AA" "AB" "AC" "AD"])
+  (->> (lexicon) (take 5)) => ["" "A" "B" "C" "D"]
+  (->> (lexicon) (drop 26) (take 5)) => ["Z" "AA" "AB" "AC" "AD"])
