@@ -13,10 +13,9 @@
 (defmacro random? [expr]
   `(<= 1 (randomness ~expr)))
 
-(defmacro definition [sym]
-  `(-> ~sym repl/source-fn read-string))
-
-(definition 'definition)
+(defmacro definitional [f sym]
+  (let [sexpr (-> sym repl/source-fn read-string)]
+    `(~f ~sexpr)))
 
 (def ascii
   (->> (range 32 127)
@@ -39,3 +38,18 @@
 (defn monocon []
   (->> #{nil}
        kleene*))
+
+(defn complexity
+  "A hypothetical function that determines the Kolmogorov complexity of a value."
+  [expr]
+  (-> expr str count))
+
+(defn select [applies? xs]
+  (->> xs (drop-while (complement applies?)) first))
+
+(defn more-complex-than? [n limit]
+  (< limit (complexity n)))
+
+(defn enterprise []
+  (->> (monocon)
+       (select #(more-complex-than? % 101))))
