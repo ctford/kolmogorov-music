@@ -35,5 +35,6 @@
   (nth (lexicon) 364645) => "GEB")
 
 (fact "The enterprise makes everything more complicated."
-  (definitional intension enterprise) => 96
-  (extension (enterprise)) => 97)
+  (definitional intension enterprise) => 63
+  (extension (enterprise)) => 65)
+

@@ -41,8 +41,8 @@
 
 (defn complexity
   "A hypothetical function that determines the Kolmogorov complexity of a value."
-  [expr]
-  (-> expr str count))
+  [value]
+  (-> value str count))
 
 (defn select [applies? xs]
   (->> xs (drop-while (complement applies?)) first))
@@ -52,5 +52,6 @@
 
 (defn enterprise []
   (select
-    (more-complex-than? (definitional intension enterprise))
+    (more-complex-than? 63)
     (monocon)))
+
