@@ -1,11 +1,17 @@
 (ns kolmogorov-music.kolmogorov
   (:require [clojure.repl :as repl]))
 
+;;; A billion 'a's ;;;
+
+(comment
+  (repeat 1000000000000 \A)
+  )
+
 (defmacro intension [expr]
   (-> expr str count))
 
 (defmacro extension [expr]
-  (-> expr eval str count))
+  `(-> ~expr vec str count))
 
 (defmacro randomness [expr]
   `(/ (intension ~expr) (extension ~expr)))

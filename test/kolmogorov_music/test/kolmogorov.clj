@@ -12,14 +12,14 @@
   (intension (repeat 65 \A)) => 14)
 
 (fact "Kolmogorov extension is how long the string representation of what it evaluates to is."
-  (extension (repeat 65 \A)) => 29)
+  (extension (repeat 65 \A)) => 196)
 
 (fact "Kolmogorov randomness is the compression ratio between the intension and the extension."
-  (randomness (repeat 65 \A)) => 14/29)
+  (randomness (repeat 65 \A)) => 1/14)
 
 (fact "A value is random if its intension isn't shorter than its extension."
   (random? (repeat 65 \A)) => false
-  (random? (->> 66 char (repeat 14) (take 3) first)) => true)
+  (random? (->> 66 char (repeat 14) (take 3))) => true)
 
 (defn subsequence [start end s]
   (->> s (drop start) (take (- end start))))
@@ -36,5 +36,6 @@
 
 (fact "The enterprise makes everything more complicated."
   (definitional intension enterprise) => 63
+
   (extension (enterprise)) => 65)
 
