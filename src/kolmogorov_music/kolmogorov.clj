@@ -1,6 +1,21 @@
 (ns kolmogorov-music.kolmogorov
   (:require [clojure.repl :as repl]))
 
+(defmacro intension [expr]
+  (count
+    (if (symbol? expr)
+      (repl/source-fn expr)
+      (str expr))))
+
+(defmacro expression [expr]
+  (-> expr eval str count))
+
+(defmacro randomness [expr]
+  `(/ (intension ~expr) (expression ~expr)))
+
+(defmacro random? [expr]
+  `(<= 1 (randomness ~expr)))
+
 (defn in-ns? [sym ns]
   (let [mappings (ns-interns ns) ]
     (contains? mappings sym)))

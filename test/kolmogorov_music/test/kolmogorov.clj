@@ -6,6 +6,28 @@
 (defn bar [x] (+ (inc x) x))
 (def baz (comp foo foo))
 
+(def as (repeat 65 \A))
+
+(fact "Kolmogorov intension is how long its string representation is."
+  (kolmogorov/intension (repeat 65 \A)) => 14)
+
+(fact "Symbols are scored relative to their value, not their length."
+  (kolmogorov/intension as) => 23)
+
+(fact "Kolmogorov expression is how long the string representation of what it evaluates to is."
+  (kolmogorov/expression as) => 29
+  (kolmogorov/expression (repeat 65 \A)) => 29)
+
+(fact "Kolmogorov randomness is the compression ratio between the intension and the expression."
+  (kolmogorov/randomness as) => 23/29
+  (kolmogorov/randomness (repeat 65 \A)) => 14/29)
+
+(def bs (->> 66 char (repeat 14) (take 3) first))
+
+(fact "A value is random if its intension isn't shorter than its expression."
+  (kolmogorov/random? as) => false
+  (kolmogorov/random? bs) => true)
+
 (fact "Kolmogorov complexity is how many symbols a definition comprises."
   (kolmogorov/complexity foo) => 2)
 
