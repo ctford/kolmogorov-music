@@ -83,7 +83,7 @@
                  [4 3 2 1 0]))
        (with (->> (phrase [8] [9]) (times 2)))
        (with (->> (phrase [1 1 2] [-7 -3 -7]) (times 4)))
-       (with (->> (phrase (cycle [2/3 1/3]) [8 8 nil 8 nil 8 nil 7]) (times 4)))
+       ;(with (->> (phrase (cycle [2/3 1/3]) [8 8 nil 8 nil 8 nil 7]) (times 4)))
        (wherever :pitch, :pitch (comp scale/A scale/major scale/lower))
        code))
 
@@ -101,7 +101,7 @@
                     [-17 nil -17 -17 nil -17 -17 nil -17 -10 -3 -11 -4 -12 -5 -13 -14])))
         harmony (phrase [32] [14])
         ]
-    (->> 
+    (->>
       (with bass accompaniment)
       (wherever :pitch, :pitch (comp scale/A scale/major))
       code)))
@@ -118,7 +118,7 @@
     (where :duration (bpm 120))))
 
 (comment
-            
+
    ; Loop the track, allowing live editing.
   (live/stop)
   (live/play (track row))
