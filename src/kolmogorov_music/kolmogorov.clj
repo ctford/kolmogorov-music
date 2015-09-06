@@ -4,11 +4,11 @@
 (defmacro intension [expr]
   (-> expr str count))
 
-(defmacro expression [expr]
+(defmacro extension [expr]
   (-> expr eval str count))
 
 (defmacro randomness [expr]
-  `(/ (intension ~expr) (expression ~expr)))
+  `(/ (intension ~expr) (extension ~expr)))
 
 (defmacro random? [expr]
   `(<= 1 (randomness ~expr)))
@@ -47,9 +47,10 @@
 (defn select [applies? xs]
   (->> xs (drop-while (complement applies?)) first))
 
-(defn more-complex-than? [n limit]
-  (< limit (complexity n)))
+(defn more-complex-than? [limit]
+  (fn [value] (< limit (complexity value))))
 
 (defn enterprise []
-  (->> (monocon)
-       (select #(more-complex-than? % 101))))
+  (select
+    (more-complex-than? (definitional intension enterprise))
+    (monocon)))

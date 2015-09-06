@@ -11,13 +11,13 @@
 (fact "Kolmogorov intension is how long its string representation is."
   (intension (repeat 65 \A)) => 14)
 
-(fact "Kolmogorov expression is how long the string representation of what it evaluates to is."
-  (expression (repeat 65 \A)) => 29)
+(fact "Kolmogorov extension is how long the string representation of what it evaluates to is."
+  (extension (repeat 65 \A)) => 29)
 
-(fact "Kolmogorov randomness is the compression ratio between the intension and the expression."
+(fact "Kolmogorov randomness is the compression ratio between the intension and the extension."
   (randomness (repeat 65 \A)) => 14/29)
 
-(fact "A value is random if its intension isn't shorter than its expression."
+(fact "A value is random if its intension isn't shorter than its extension."
   (random? (repeat 65 \A)) => false
   (random? (->> 66 char (repeat 14) (take 3) first)) => true)
 
@@ -35,5 +35,5 @@
   (nth (lexicon) 364645) => "GEB")
 
 (fact "The enterprise makes everything more complicated."
-  (definitional intension enterprise) => 98
-  (expression (enterprise)) => 105)
+  (definitional intension enterprise) => 96
+  (extension (enterprise)) => 97)
