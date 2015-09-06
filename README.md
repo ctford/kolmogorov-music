@@ -42,7 +42,7 @@ Performance
 References
 ----------
 * [Aaron, Sam](http://sam.aaron.name/) and [Rose, Jeff](https://twitter.com/rosejn): [Overtone](http://overtone.github.io/)
-* [Autechre](http://autechre.ws/): [Anti](https://en.wikipedia.org/wiki/Anti_EP)
+* [Autechre](http://autechre.ws/): [Anti EP](https://en.wikipedia.org/wiki/Anti_EP)
 * [Borges, Jorge Luis](https://en.wikipedia.org/wiki/Jorge_Luis_Borges): [The Library of Babel](https://en.wikipedia.org/wiki/The_Library_of_Babel)
 * [Ford, Chris](https://twitter.com/ctford): [Functional Composition](http://www.infoq.com/presentations/music-functional-language)
 * [Ford, Chris](https://twitter.com/ctford): [Kolmogorov Music](https://github.com/ctford/kolmogorov-music)
