@@ -9,24 +9,24 @@
   )
 
 (defmacro description-length [expr]
-  (-> expr str count))
+  (-> expr print-str count))
 
 (fact "Kolmogorov description length is how long its string representation is."
-  (description-length (repeat 65 \A)) => 14)
+  (description-length (repeat 65 \A)) => 13)
 
 
 (defn value-length [value]
-  (->> value (apply str) count))
+  (-> value print-str count))
 
 (fact "Kolmogorov value length is how long the string representation of what it evaluates to is."
-  (value-length (repeat 65 \A)) => 65)
+  (value-length (repeat 65 \A)) => 131)
 
 
 (defmacro randomness [expr]
   `(/ (description-length ~expr) (value-length ~expr)))
 
 (fact "Kolmogorov randomness is the compression ratio between the description and the value."
-  (randomness (repeat 65 \A)) => 14/65)
+  (randomness (repeat 65 \A)) => 13/131)
 
 
 (defmacro random? [expr]
