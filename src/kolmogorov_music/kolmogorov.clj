@@ -57,11 +57,6 @@
 (defn subsequence [start end s]
   (->> s (drop start) (take (- end start))))
 
-(fact "The Kleene star describes all possible sequences of a set of elements."
-  (->> #{} kleene* (subsequence 0 1)) => [[]]
-  (->> #{true} kleene* (subsequence 0 5)) => [[] [true] [true true] [true true true] [true true true true]]
-  (->> #{true false} kleene* (subsequence 0 5)) => [[] [true] [false] [true true] [true false]])
-
 (fact "We can construct all strings as a lazy sequence."
   (->> (lexicon) (subsequence 0 5)) => ["" " " "!" "\"" "#"]
   (->> (lexicon) (subsequence 95 100)) => ["~" "  " " !" " \"" " #"]
