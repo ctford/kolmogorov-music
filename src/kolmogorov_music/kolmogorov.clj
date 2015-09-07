@@ -68,14 +68,10 @@
   [string]
   (->> string (map int) (reduce + 0)))
 
-(defn select [applies? xs]
-  (->> xs (drop-while (complement applies?)) first))
-
-(defn more-complex-than? [limit]
-  (fn [value] (< limit (complexity value))))
-
-(defn enterprise []
-  (select
-    (more-complex-than? (-> 'enterprise repl/source-fn extension))
-    (lexicon)))
+(defn enterprise
+  "Calculate the shortest string that is more complicated than itself."
+  []
+  (->> (lexicon)
+       (drop-while (fn [s] (< (complexity s) (-> 'enterprise repl/source-fn extension))))
+       first))
 
