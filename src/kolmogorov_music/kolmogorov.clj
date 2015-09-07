@@ -8,30 +8,31 @@
   (repeat 1000000000000 \A)
   )
 
-(defmacro description [expr]
+(defmacro description-length [expr]
   (-> expr str count))
 
-(fact "Kolmogorov description is how long its string representation is."
-  (description (repeat 65 \A)) => 14)
+(fact "Kolmogorov description length is how long its string representation is."
+  (description-length (repeat 65 \A)) => 14)
 
 
-(defn extension [value]
+(defn value-length [value]
   (->> value (apply str) count))
 
-(fact "Kolmogorov extension is how long the string representation of what it evaluates to is."
-  (extension (repeat 65 \A)) => 65)
+(fact "Kolmogorov value length is how long the string representation of what it evaluates to is."
+  (value-length (repeat 65 \A)) => 65)
+
 
 (defmacro randomness [expr]
-  `(/ (description ~expr) (extension ~expr)))
+  `(/ (description-length ~expr) (value-length ~expr)))
 
-(fact "Kolmogorov randomness is the compression ratio between the description and the extension."
+(fact "Kolmogorov randomness is the compression ratio between the description and the value."
   (randomness (repeat 65 \A)) => 14/65)
 
 
 (defmacro random? [expr]
   `(<= 1 (randomness ~expr)))
 
-(fact "A value is random if its description isn't shorter than its extension."
+(fact "A value is random if its description isn't shorter than its value."
   (random? (repeat 65 \A)) => false
   (random? (->> 66 char (repeat 14) (take 3))) => true)
 
@@ -40,38 +41,33 @@
   (->> (range 32 127)
        (map char)))
 
-(defn extend-with [elements strings]
-  (for [s strings e elements]
-    (conj s e)))
-
 (defn kleene* [elements]
-  (->> (lazy-seq (kleene* elements))
-       (extend-with elements)
-       (cons [])))
+  (letfn [(expand [strings] (for [s strings e elements] (conj s e)))]
+    (->>
+      (lazy-seq (kleene* elements))
+      expand
+      (cons []))))
 
 (defn lexicon []
   (->> ascii
        kleene*
        (map (partial apply str))))
 
-(defn subsequence [start end s]
-  (->> s (drop start) (take (- end start))))
-
 (fact "We can construct all strings as a lazy sequence."
-  (->> (lexicon) (subsequence 0 5)) => ["" " " "!" "\"" "#"]
-  (->> (lexicon) (subsequence 95 100)) => ["~" "  " " !" " \"" " #"]
+  (->> (lexicon) (take 5)) => ["" " " "!" "\"" "#"]
   (nth (lexicon) 364645) => "GEB")
 
 
 (defn complexity
-  "A hypothetical function that determines the Kolmogorov complexity of a value."
+  "A hypothetical function that determines the Kolmogorov complexity of any value."
   [string]
   (->> string (map int) (reduce + 0)))
 
 (defn enterprise
   "Calculate the shortest string that is more complicated than itself."
   []
-  (->> (lexicon)
-       (drop-while (fn [s] (< (complexity s) (-> 'enterprise repl/source-fn extension))))
-       first))
+  (let [its-own-source (repl/source-fn 'enterprise)]
+    (->> (lexicon)
+         (drop-while (fn [s] (<= (complexity s) (value-length its-own-source))))
+         first)))
 
