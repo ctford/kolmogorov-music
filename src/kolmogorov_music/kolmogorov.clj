@@ -1,5 +1,6 @@
 (ns kolmogorov-music.kolmogorov
-  (:require [clojure.repl :as repl]))
+  (:require [clojure.repl :as repl]
+            [midje.sweet :refer :all]))
 
 ;;; A billion 'a's ;;;
 
@@ -7,21 +8,33 @@
   (repeat 1000000000000 \A)
   )
 
-(defmacro intension [expr]
+(defmacro description [expr]
   (-> expr str count))
 
-(defmacro extension [expr]
-  `(-> ~expr vec str count))
+(fact "Kolmogorov description is how long its string representation is."
+  (description (repeat 65 \A)) => 14)
+
+
+(defn extension [value]
+  (->> value (apply str) count))
+
+(fact "Kolmogorov extension is how long the string representation of what it evaluates to is."
+  (extension (repeat 65 \A)) => 65)
 
 (defmacro randomness [expr]
-  `(/ (intension ~expr) (extension ~expr)))
+  `(/ (description ~expr) (extension ~expr)))
+
+(fact "Kolmogorov randomness is the compression ratio between the description and the extension."
+  (randomness (repeat 65 \A)) => 14/65)
+
 
 (defmacro random? [expr]
   `(<= 1 (randomness ~expr)))
 
-(defmacro definitional [f sym]
-  (let [sexpr (-> sym repl/source-fn read-string)]
-    `(~f ~sexpr)))
+(fact "A value is random if its description isn't shorter than its extension."
+  (random? (repeat 65 \A)) => false
+  (random? (->> 66 char (repeat 14) (take 3))) => true)
+
 
 (def ascii
   (->> (range 32 127)
@@ -41,14 +54,24 @@
        kleene*
        (map (partial apply str))))
 
-(defn monocon []
-  (->> #{nil}
-       kleene*))
+(defn subsequence [start end s]
+  (->> s (drop start) (take (- end start))))
+
+(fact "The Kleene star describes all possible sequences of a set of elements."
+  (->> #{} kleene* (subsequence 0 1)) => [[]]
+  (->> #{true} kleene* (subsequence 0 5)) => [[] [true] [true true] [true true true] [true true true true]]
+  (->> #{true false} kleene* (subsequence 0 5)) => [[] [true] [false] [true true] [true false]])
+
+(fact "We can construct all strings as a lazy sequence."
+  (->> (lexicon) (subsequence 0 5)) => ["" " " "!" "\"" "#"]
+  (->> (lexicon) (subsequence 95 100)) => ["~" "  " " !" " \"" " #"]
+  (nth (lexicon) 364645) => "GEB")
+
 
 (defn complexity
   "A hypothetical function that determines the Kolmogorov complexity of a value."
-  [value]
-  (-> value str count))
+  [string]
+  (->> string (map int) (reduce + 0)))
 
 (defn select [applies? xs]
   (->> xs (drop-while (complement applies?)) first))
@@ -58,6 +81,6 @@
 
 (defn enterprise []
   (select
-    (more-complex-than? 63)
-    (monocon)))
+    (more-complex-than? (-> 'enterprise repl/source-fn extension))
+    (lexicon)))
 
