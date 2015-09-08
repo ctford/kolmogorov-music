@@ -30,7 +30,7 @@
 
 
 (defmacro random? [expr]
-  `(<= 1 (randomness ~expr)))
+  `(>= (randomness ~expr) 1))
 
 (fact "A value is random if its description isn't shorter than its value."
   (random? (repeat 65 \A)) => false
