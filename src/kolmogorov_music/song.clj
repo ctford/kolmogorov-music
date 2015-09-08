@@ -8,7 +8,7 @@
             [kolmogorov-music.champernowne :as champernowne]))
 
 (defn digits-of [n]
-  (champernowne/decompose n 10))
+  (champernowne/decompose n))
 
 (definst sing [freq 110 dur 1.0 vol 1.0]
   (-> (sin-osc freq)
@@ -111,7 +111,7 @@
 
 (defn track [start]
   (->>
-    (champernowne/word 10 start)
+    (champernowne/word start)
     (decode 3)
     (wherever :pitch, :pitch temperament/equal)
     (where :time (bpm 120))
