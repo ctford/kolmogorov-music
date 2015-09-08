@@ -7,9 +7,6 @@
             [leipzig.temperament :as temperament]
             [kolmogorov-music.champernowne :as champernowne]))
 
-(defn digits-of [n]
-  (champernowne/decompose n))
-
 (definst sing [freq 110 dur 1.0 vol 1.0]
   (-> (sin-osc freq)
       (+ (sin-osc (* 3.01 freq)))
