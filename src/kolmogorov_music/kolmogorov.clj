@@ -37,10 +37,6 @@
   (random? (->> 66 char (repeat 14) (take 3))) => true)
 
 
-(def ascii
-  (->> (range 32 127)
-       (map char)))
-
 (defn kleene* [elements]
   (letfn [(expand [strings] (for [s strings e elements] (conj s e)))]
     (->>
@@ -48,14 +44,28 @@
       expand
       (cons []))))
 
-(defn lexicon []
-  (->> ascii
+(defn babel []
+  (let [ascii (->> (range 32 127) (map char))]
+    (->> ascii
+       kleene*
+       (map (partial apply str)))))
+
+(fact "We can construct all strings as a lazy sequence."
+  (->> (babel) (take 5)) => ["" " " "!" "\"" "#"]
+  (nth (babel) 364645) => "GEB")
+
+(defn dna []
+  (->> "GATC"
        kleene*
        (map (partial apply str))))
 
-(fact "We can construct all strings as a lazy sequence."
-  (->> (lexicon) (take 5)) => ["" " " "!" "\"" "#"]
-  (nth (lexicon) 364645) => "GEB")
+(fact "We can construct all genes as a lazy sequence."
+  (->> (dna) (take 5)) => ["" "G" "A" "T" "C"]
+  (nth (dna) 364645) => "GGGCTCGAGG")
+
+(fact "Lexicons aren't very random."
+  (randomness (take 1000 (babel))) => #(< % 1/100)
+  (randomness (take 1000 (dna))) => #(< % 1/100))
 
 
 (defn complexity
@@ -67,7 +77,7 @@
   "Calculate the shortest string that is more complicated than itself."
   []
   (let [its-own-source (repl/source-fn 'enterprise)]
-    (->> (lexicon)
+    (->> (babel)
          (drop-while (fn [s] (<= (complexity s) (value-length its-own-source))))
          first)))
 
