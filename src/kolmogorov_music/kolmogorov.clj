@@ -49,7 +49,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; The Library of Babel ;;; 
+;;; The Library of Babel ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defn kleene* [elements]
@@ -84,7 +84,7 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;
-;;; Drawing Hands ;;; 
+;;; Drawing Hands ;;;
 ;;;;;;;;;;;;;;;;;;;;;
 
 (defn complexity
@@ -92,13 +92,18 @@
   [string]
   (->> string (map int) (reduce + 0)))
 
-(defn enterprise
-  "Calculate the shortest string that is more complicated than itself."
+(defmacro enterprise
+  "Calculate the shortest string that is more complicated than the specified sym."
+  [sym]
+  `(let [source# (-> ~sym quote repl/source-fn)]
+     (->> (babel)
+       (drop-while #(<= (complexity %) (result-length source#)))
+       first)))
+
+(defn yo-dawg
+  "I heard you like complexity, so I put some enterprise in your enterprise."
   []
-  (let [its-own-source (repl/source-fn 'enterprise)]
-    (->> (babel)
-         (drop-while (fn [s] (<= (complexity s) (value-length its-own-source))))
-         first)))
+  (enterprise enterprise))
 
 
 ;;;;;;;;;;;;;;;;
@@ -220,8 +225,7 @@
           (then
             (phrase [1/2 6/2 1/2 1/2 6/2 1/2 1/2 6/2 1/2 1/2 1/2 1/2 1/2 1/2 1/2 1/2 1/2]
                     [-17 nil -17 -17 nil -17 -17 nil -17 -10 -3 -11 -4 -12 -5 -13 -14])))
-        harmony (phrase [32] [14])
-        ]
+        harmony (phrase [32] [14])]
     (->>
       (with bass accompaniment)
       (wherever :pitch, :pitch (comp scale/A scale/major))
