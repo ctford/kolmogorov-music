@@ -8,40 +8,49 @@
             [leipzig.chord :as chord]
             [leipzig.temperament :as temperament]))
 
-;;; A billion 'a's ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Air on a \G String ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (comment
-  (repeat 1000000000000 \A)
+  (repeat 1000000000000 \G)
   )
 
 (defmacro description-length [expr]
   (-> expr print-str count))
 
-(fact "Kolmogorov description length is how long its string representation is."
-  (description-length (repeat 65 \A)) => 13)
+(fact "The description-length is how long the string representation of the expression is."
+  (description-length (repeat 65 \G)) => 13)
 
 
-(defn value-length [value]
-  (-> value print-str count))
+(defn result-length [result]
+  (-> result print-str count))
 
-(fact "Kolmogorov value length is how long the string representation of what it evaluates to is."
-  (value-length (repeat 65 \A)) => 131)
+(fact "The result-length is how long the string representation of the evaluated result is."
+  (result-length (repeat 65 \G)) => 131)
 
 
 (defmacro randomness [expr]
-  `(/ (description-length ~expr) (value-length ~expr)))
+  `(/ (description-length ~expr) (result-length ~expr)))
 
-(fact "Kolmogorov randomness is the compression ratio between the description and the value."
-  (randomness (repeat 65 \A)) => 13/131)
-
+(fact "Kolmogorov randomness is the compression ratio between the description and the result."
+  (randomness (repeat 65 \G)) => 13/131)
 
 (defmacro random? [expr]
   `(>= (randomness ~expr) 1))
 
-(fact "A value is random if its description isn't shorter than its value."
-  (random? (repeat 65 \A)) => false
+(fact "A value is random if its description isn't shorter than its result."
+  (random? (repeat 65 \G)) => false
   (random? (->> 66 char (repeat 14) (take 3))) => true)
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Row, row, row your boat ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; The Library of Babel ;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defn kleene* [elements]
   (letfn [(expand [strings] (for [s strings e elements] (conj s e)))]
@@ -67,12 +76,16 @@
 
 (fact "We can construct all genes as a lazy sequence."
   (->> (dna) (take 5)) => ["" "G" "A" "T" "C"]
-  (nth (dna) 364645) => "GGGCTCGAGG")
+  (nth (dna) 7154) => "GATTACA")
 
 (fact "Lexicons aren't very random."
   (randomness (take 1000 (babel))) => #(< % 1/100)
   (randomness (take 1000 (dna))) => #(< % 1/100))
 
+
+;;;;;;;;;;;;;;;;;;;;;
+;;; Drawing Hands ;;; 
+;;;;;;;;;;;;;;;;;;;;;
 
 (defn complexity
   "A hypothetical function that determines the Kolmogorov complexity of any value."
@@ -87,6 +100,10 @@
          (drop-while (fn [s] (<= (complexity s) (value-length its-own-source))))
          first)))
 
+
+;;;;;;;;;;;;;;;;
+;;; Contact ;;;;
+;;;;;;;;;;;;;;;;
 
 (defn decompose [n]
   (let [[remainder quotient] ((juxt mod quot) n 10)]
@@ -105,6 +122,14 @@
 (fact "The Champernowne word is defined by concatenating the natural numbers base 10."
   (->> (word) (take 16)) => [0 1 2 3 4 5 6 7 8 9 1 0 1 1 1 2])
 
+
+;;;;;;;;;;;;;;;;;
+;;; Autechre ;;;;
+;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;
+;;; Blurred Lines ;;;
+;;;;;;;;;;;;;;;;;;;;;
 
 (definst sing [freq 110 dur 1.0 vol 1.0]
   (-> (sin-osc freq)
@@ -225,3 +250,7 @@
 
   (live/play (track blurred-lines))
   )
+
+;;;;;;;;;;;;;;;;;;;
+;;; In the Mood ;;;
+;;;;;;;;;;;;;;;;;;;
