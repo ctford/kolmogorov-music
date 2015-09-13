@@ -20,18 +20,29 @@
     (comp scale/C scale/major)
     (range)))
 
+
 (def geb
-  (letfn [(sym [s] (symbol "kolmogorov-music.geb" s))]
-    (->> "GEB"
-      (map (fn [c] [(int c) (-> c char str sym find-var deref)]))
-      (phrase [4 4 8])
-      (where :time (bpm 90))
-      (where :duration (bpm 90)))))
+  (let [theme (->> "GEB"
+                   (map (fn [c] [(int c) (->> c str (symbol "kolmogorov-music.geb") find-var deref)]))
+                   (phrase [4 4 8]))
+        chords (map #(phrase (repeat 1/2) (juxt %) )     [-2 -1 0])
+        ]
+    (->> (phrase [4 4 8] [-2 -1 0]) 
+         (where :pitch (comp scale/lower scale/lower))
+         (where :pitch (comp scale/B scale/minor))
+         (where :part (is :accompaniment))
+         (with theme)
+         (where :time (bpm 90))
+         (where :duration (bpm 90)))))
 
 ; Arrangement
 (defmethod live/play-note :default
-  [{hertz :pitch seconds :duration}]
-  (when hertz (instrument/overchauffeur (midi->hz hertz) seconds 0.02)))
+  [{midi :pitch seconds :duration}]
+  (some-> midi midi->hz (instrument/overchauffeur seconds 0.02)))
+
+(defmethod live/play-note :accompaniment
+  [{midi :pitch seconds :duration}]
+  (some-> midi (instrument/piano seconds)))
 
 (comment
   (live/stop)
