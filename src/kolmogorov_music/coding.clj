@@ -11,9 +11,6 @@
     0
     (inc (least xs))))
 
-(defn synchronise [v]
-  (vec (repeat (count v) (apply max v))))
-
 (defn increment [v i n]
   (update-in v [i] (partial + n)))
 
