@@ -16,9 +16,7 @@
 ;;; Air on a \G String ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(comment
-  (repeat 1000000000000 \G)
-  )
+(comment (repeat 1000000000000 \G))
 
 (defmacro description-length [expr]
   (-> expr print-str count))
@@ -26,13 +24,11 @@
 (fact "The description-length is how long the string representation of the expression is."
   (description-length (repeat 65 \G)) => 13)
 
-
 (defn result-length [result]
   (-> result print-str count))
 
 (fact "The result-length is how long the string representation of the evaluated result is."
   (result-length (repeat 65 \G)) => 131)
-
 
 (defmacro randomness [expr]
   `(/ (description-length ~expr) (result-length ~expr)))
@@ -46,6 +42,7 @@
 (fact "A value is random if its description isn't shorter than its result."
   (random? (repeat 65 \G)) => false
   (random? (->> 66 char (repeat 14) (take 3))) => true)
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -98,28 +95,21 @@
       expand
       (cons []))))
 
-(defn babel []
+(defn library-of-babel []
   (let [ascii (->> (range 32 127) (map char))]
     (->> ascii
        kleene*
        (map (partial apply str)))))
 
 (fact "We can construct all strings as a lazy sequence."
-  (->> (babel) (take 5)) => ["" " " "!" "\"" "#"]
-  (nth (babel) 364645) => "GEB")
-
-(defn dna []
-  (->> "GATC"
-       kleene*
-       (map (partial apply str))))
-
-(fact "We can construct all genes as a lazy sequence."
-  (->> (dna) (take 5)) => ["" "G" "A" "T" "C"]
-  (nth (dna) 7154) => "GATTACA")
+  (->> (library-of-babel) (take 5)) => ["" " " "!" "\"" "#"]
+  (nth (library-of-babel) 364645) => "GEB")
 
 (fact "Lexicons aren't very random."
-  (randomness (take 1000 (babel))) => #(< % 1/100)
-  (randomness (take 1000 (dna))) => #(< % 1/100))
+  (randomness (take 10000 (library-of-babel))) => #(< % 1/100))
+
+
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;
@@ -135,7 +125,7 @@
   "Calculate the shortest string that is more complicated than the specified sym."
   [sym]
   `(let [source# (-> ~sym quote repl/source-fn)]
-     (->> (babel)
+     (->> (library-of-babel)
        (drop-while #(<= (complexity %) (result-length source#)))
        first)))
 
@@ -143,6 +133,11 @@
   "I heard you like complexity, so I put some enterprise in your enterprise."
   []
   (enterprise enterprise))
+
+
+
+
+
 
 
 ;;;;;;;;;;;;;;;;
@@ -167,6 +162,12 @@
   (->> (champernowne-word) (take 16)) => [0 1 2 3 4 5 6 7 8 9 1 0 1 1 1 2])
 
 
+
+
+
+
+
+
 ;;;;;;;;;;;;;;;;
 ;;; Anti EP ;;;;
 ;;;;;;;;;;;;;;;;
@@ -175,7 +176,6 @@
 ;;; Blurred Lines ;;;
 ;;;;;;;;;;;;;;;;;;;;;
 
-; Arrangement
 (defmethod live/play-note :default
   [{hertz :pitch seconds :duration}]
   (when hertz (instrument/overchauffeur (midi->hz hertz) seconds 0.02)))
@@ -192,13 +192,6 @@
 (def blurred-lines 12450012001200311273127612731276127312761273127612731276127312761245001200121245001200120031127312761273127612731276127312761273127612731276124500120012124500120012003112731276127312761273127612731276127312761273127612450012001212450012001200311273127612731276127312761273127612731276127312761245001200121240001200120031126812711268127112681271126812711268127112681271124000120012124000120012003112681271126812711268127112681271126812711268127112400012001212400012001200311268127112681271126812711268127112681271126812711240001200121252004100411264125012621249126112471245)
 
 (comment
-  (live/stop)
-  (fx-reverb)
-  (fx-distortion)
   (live/play (copyright-infringement-song blurred-lines))
-  (live/play (copyright-infringement-song))
-  )
+  (live/play (copyright-infringement-song)))
 
-;;;;;;;;;;;;;;;;;;;
-;;; In the Mood ;;;
-;;;;;;;;;;;;;;;;;;;
