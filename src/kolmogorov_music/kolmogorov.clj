@@ -76,6 +76,17 @@
   (live/play row-row)
 )
 
+(defmacro definitionally [macro sym]
+  (let [value (-> sym repl/source-fn read-string last)]
+    `(~macro ~value)))
+
+(fact "The definitionally macro lets us calculate on the definition of symbols."
+  (definitionally description-length row-row) => 281
+  (definitionally result-length row-row) => 2037
+  (definitionally randomness row-row) => 281/2037
+  (definitionally random? row-row) => false)
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; The Library of Babel ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
