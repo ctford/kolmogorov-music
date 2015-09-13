@@ -51,29 +51,29 @@
 ;;; Row, row, row your boat ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(def row-row "A simple melody built from durations and pitches."
-              ; Row, row, row  your boat,
+(def row-row
+  "A simple melody built from durations and pitches."
+  ; Row, row, row  your boat,
   (->> (phrase [3/3  3/3  2/3  1/3  3/3]
                [  0    0    0    1    2])
-    (then
-              ; Gent-ly  down the  stream,
-       (phrase [2/3  1/3  2/3  1/3  6/3]
-               [  2    1    2    3    4]))
-    (then
-              ; Merrily, merrily, merrily, merrily,
-       (phrase (repeat 12 1/3)
-               (mapcat (partial repeat 3) [7 4 2 0])))
-    (then
-             ; Life  is   but  a    dream!
-       (phrase [2/3  1/3  2/3  1/3  6/3]
-               [  4    3    2    1    0]))
-    (where :part (is :leader))))
+       (then
+         ; Gent-ly  down the  stream,
+         (phrase [2/3  1/3  2/3  1/3  6/3]
+                 [  2    1    2    3    4]))
+       (then
+         ; Merrily, merrily, merrily, merrily,
+         (phrase (repeat 12 1/3)
+                 (mapcat (partial repeat 3) [7 4 2 0])))
+       (then
+         ; Life  is   but  a    dream!
+         (phrase [2/3  1/3  2/3  1/3  6/3]
+                 [  4    3    2    1    0]))
+       (canon/canon (canon/simple 4))
+       (where :pitch (comp scale/A scale/major))))
 
 (comment
-  (->> row-row
-    (canon/canon (canon/simple 4))
-    (where :pitch (comp scale/A scale/major))
-    live/play)) 
+  (live/play row-row)
+)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; The Library of Babel ;;;
@@ -166,14 +166,13 @@
 ; Arrangement
 (defmethod live/play-note :default
   [{hertz :pitch seconds :duration}]
-  (when hertz (instrument/overchauffeur hertz seconds 0.02)))
+  (when hertz (instrument/overchauffeur (midi->hz hertz) seconds 0.02)))
 
 (defn copyright-infringement-song
   ([skip-to]
    (->>
      (champernowne-word skip-to)
      (coding/decode 3)
-     (wherever :pitch, :pitch temperament/equal)
      (where :time (bpm 120))
      (where :duration (bpm 120))))
    ([] (copyright-infringement-song 0)))
