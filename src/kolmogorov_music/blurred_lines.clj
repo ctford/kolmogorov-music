@@ -21,4 +21,4 @@
     (->>
       (with bass accompaniment)
       (wherever :pitch, :pitch (comp scale/A scale/major))
-      coding/code)))
+      coding/encode)))

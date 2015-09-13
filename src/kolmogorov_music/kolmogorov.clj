@@ -1,11 +1,12 @@
 (ns kolmogorov-music.kolmogorov
   (:require [clojure.repl :as repl]
             [midje.sweet :refer :all :exclude [after]]
-            [overtone.live :refer :all]
+            [overtone.live :refer :all :exclude [stop]]
             [leipzig.melody :refer :all]
             [leipzig.canon :as canon]
             [leipzig.scale :as scale]
             [leipzig.live :as live]
+            [leipzig.live :refer [stop]]
             [leipzig.chord :as chord]
             [leipzig.temperament :as temperament]
             [kolmogorov-music.instrument :as instrument]

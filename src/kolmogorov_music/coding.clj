@@ -41,12 +41,12 @@
         n (* d duration)]
     (+ (digit-shift n 1) d)))
 
-(defn code [[{:keys [duration pitch] :as remaining?} & notes]]
+(defn encode [[{:keys [duration pitch] :as remaining?} & notes]]
   (if remaining?
     (let [encoding (if pitch
                      (+ (digit-shift (flatten-ratio duration) 2) pitch)
                      (+ (flatten-ratio duration)))]
-      (+ (digit-shift encoding (* 4 (count notes))) (code notes)))
+      (+ (digit-shift encoding (* 4 (count notes))) (encode notes)))
     0))
 
 (defn decode [channels notes]
