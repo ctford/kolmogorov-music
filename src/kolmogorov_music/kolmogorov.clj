@@ -118,16 +118,16 @@
       [remainder]
       (conj (decompose quotient) remainder))))
 
-(defn word
+(defn champernowne-word
   ([from]
    (->> (range)
         (map (partial + from))
         (mapcat decompose)))
   ([]
-   (word 0)))
+   (champernowne-word 0)))
 
 (fact "The Champernowne word is defined by concatenating the natural numbers base 10."
-  (->> (word) (take 16)) => [0 1 2 3 4 5 6 7 8 9 1 0 1 1 1 2])
+  (->> (champernowne-word) (take 16)) => [0 1 2 3 4 5 6 7 8 9 1 0 1 1 1 2])
 
 
 ;;;;;;;;;;;;;;;;
@@ -143,27 +143,24 @@
   [{hertz :pitch seconds :duration}]
   (when hertz (instrument/overchauffeur hertz seconds 0.02)))
 
+(defn copyright-infringement-song
+  ([skip-to]
+   (->>
+     (champernowne-word skip-to)
+     (coding/decode 3)
+     (wherever :pitch, :pitch temperament/equal)
+     (where :time (bpm 120))
+     (where :duration (bpm 120))))
+   ([] (copyright-infringement-song 0)))
+
 (def blurred-lines 12450012001200311273127612731276127312761273127612731276127312761245001200121245001200120031127312761273127612731276127312761273127612731276124500120012124500120012003112731276127312761273127612731276127312761273127612450012001212450012001200311273127612731276127312761273127612731276127312761245001200121240001200120031126812711268127112681271126812711268127112681271124000120012124000120012003112681271126812711268127112681271126812711268127112400012001212400012001200311268127112681271126812711268127112681271126812711240001200121252004100411264125012621249126112471245)
 
-(defn track [start]
-  (->>
-    (word start)
-    (coding/decode 3)
-    (wherever :pitch, :pitch temperament/equal)
-    (where :time (bpm 120))
-    (where :duration (bpm 120))))
-
 (comment
-
-   ; Loop the track, allowing live editing.
   (live/stop)
-  (live/play (track row))
-
   (fx-reverb)
-  (fx-chorus)
   (fx-distortion)
-
-  (live/play (track blurred-lines))
+  (live/play (copyright-infringement-song blurred-lines))
+  (live/play (copyright-infringement-song))
   )
 
 ;;;;;;;;;;;;;;;;;;;
