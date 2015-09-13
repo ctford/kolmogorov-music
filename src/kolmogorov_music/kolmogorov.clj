@@ -12,9 +12,9 @@
             [kolmogorov-music.instrument :as instrument]
             [kolmogorov-music.coding :as coding]))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Air on a \G String ;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Air on the \G String ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (comment (repeat 1000000000000 \G))
 
@@ -34,14 +34,9 @@
   `(/ (description-length ~expr) (result-length ~expr)))
 
 (fact "Kolmogorov randomness is the compression ratio between the description and the result."
-  (randomness (repeat 65 \G)) => 13/131)
+  (randomness (repeat 65 \G)) => 13/131
+  (randomness (->> 71 char repeat first)) => 26)
 
-(defmacro random? [expr]
-  `(>= (randomness ~expr) 1))
-
-(fact "A value is random if its description isn't shorter than its result."
-  (random? (repeat 65 \G)) => false
-  (random? (->> 66 char (repeat 14) (take 3))) => true)
 
 
 
@@ -80,8 +75,7 @@
 (fact "The definitionally macro lets us calculate on the definition of symbols."
   (definitionally description-length row-row) => 281
   (definitionally result-length row-row) => 2037
-  (definitionally randomness row-row) => 281/2037
-  (definitionally random? row-row) => false)
+  (definitionally randomness row-row) => 281/2037)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -167,10 +161,6 @@
 
 
 
-
-;;;;;;;;;;;;;;;;
-;;; Anti EP ;;;;
-;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;;; Blurred Lines ;;;
