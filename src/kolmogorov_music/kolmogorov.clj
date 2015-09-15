@@ -16,7 +16,7 @@
 ;;; Air on the \G String ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(comment (repeat 1000000000000 \G))
+(comment (repeat (* 1000 1000 1000) \G))
 
 (defmacro description-length [expr]
   (-> expr print-str count))
@@ -41,7 +41,7 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Row, row, row your boat ;;;
+;;; Analysis by compression ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (def row-row
@@ -162,9 +162,9 @@
 
 
 
-;;;;;;;;;;;;;;;;;;;;;
-;;; Blurred Lines ;;;
-;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;
+;;; Anti ;;;
+;;;;;;;;;;;;
 
 (defmethod live/play-note :default
   [{hertz :pitch seconds :duration}]
