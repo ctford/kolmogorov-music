@@ -48,3 +48,24 @@
 
 (defn decode [channels notes]
   (decode* (vec (repeat channels 0)) notes))
+
+(defmacro defs [names values]
+  `(do
+     ~@(map
+         (fn [name value] `(def ~name ~value))
+         names (eval values))))
+
+(def char->ascii int)
+
+(defs [C D E F G A B]
+  (map
+    (comp scale/C scale/major)
+    (range)))
+
+(defn ascii->midi [n]
+  (->> n
+       char
+       str
+       (symbol "kolmogorov-music.coding")
+       find-var
+       deref)) 

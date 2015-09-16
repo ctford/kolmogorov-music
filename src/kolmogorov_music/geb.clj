@@ -7,30 +7,19 @@
             [leipzig.live :refer [stop]]
             [leipzig.chord :as chord]
             [leipzig.temperament :as temperament]
-            [kolmogorov-music.instrument :as instrument]))
-
-(defmacro defs [names values]
-  `(do
-     ~@(map
-         (fn [name value] `(def ~name ~value))
-         names (eval values))))
-
-(defs [C D E F G A B]
-  (map
-    (comp scale/C scale/major)
-    (range)))
-
+            [kolmogorov-music.instrument :as instrument]
+            [kolmogorov-music.coding :as coding]))
 
 (def geb
-  (let [theme (->> "GEB"
-                   (map (fn [c] [(int c) (->> c str (symbol "kolmogorov-music.geb") find-var deref)]))
-                   (phrase [4 4 8]))
-        chords (map #(phrase (repeat 1/2) (juxt %) )     [-2 -1 0])
-        ]
-    (->> (phrase [4 4 8] [-2 -1 0]) 
-         (where :pitch (comp scale/lower scale/lower))
+  (let [timing [4 4 8]
+        theme (->> "GEB"
+                   (map coding/char->ascii)
+                   (phrase timing)
+                   (canon/canon #(where :pitch coding/ascii->midi %)))
+        bass (->> (phrase timing [-2 -1 0])
+                  (where :pitch (comp scale/lower scale/lower)))]
+    (->> bass
          (where :pitch (comp scale/B scale/minor))
-         (where :part (is :accompaniment))
          (with theme)
          (where :time (bpm 90))
          (where :duration (bpm 90)))))
@@ -39,10 +28,6 @@
 (defmethod live/play-note :default
   [{midi :pitch seconds :duration}]
   (some-> midi midi->hz (instrument/overchauffeur seconds 0.02)))
-
-(defmethod live/play-note :accompaniment
-  [{midi :pitch seconds :duration}]
-  (some-> midi (instrument/piano seconds)))
 
 (comment
   (live/stop)
