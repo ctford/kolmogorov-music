@@ -16,7 +16,7 @@
 ;;; Air on the \G String ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(comment (repeat (* 1000 1000 1000) \G))
+(comment (repeat (* 1000 1000 1000 1000) \G))
 
 (defmacro description-length [expr]
   (-> expr print-str count))
