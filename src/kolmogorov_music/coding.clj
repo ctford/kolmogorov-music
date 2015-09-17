@@ -57,9 +57,9 @@
 
 (def char->ascii int)
 
-(defs [C D E F G A B]
+(defs [A B C D E F G]
   (map
-    (comp scale/C scale/major)
+    (comp scale/A scale/low scale/minor)
     (range)))
 
 (defn ascii->midi [n]
@@ -68,4 +68,4 @@
        str
        (symbol "kolmogorov-music.coding")
        find-var
-       deref)) 
+       deref))
