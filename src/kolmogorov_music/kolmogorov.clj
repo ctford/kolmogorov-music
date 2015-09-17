@@ -66,6 +66,7 @@
 
 (comment
   (live/play row-row)
+  (live/jam (var row-row))
 )
 
 (defmacro definitionally [macro sym]
@@ -111,22 +112,22 @@
 ;;;;;;;;;;;;;;;;;;;;;
 
 (defn complexity
-  "A hypothetical function that determines the Kolmogorov complexity of any value."
+  "An impossible function that determines the Kolmogorov complexity of any value."
   [string]
   (->> string (map int) (reduce + 0)))
 
-(defmacro enterprise
-  "Calculate the shortest string that is more complicated than the specified sym."
-  [sym]
-  `(let [source# (-> ~sym quote repl/source-fn)]
+(defn enterprise
+  "Calculate the shortest string that is more complicated than itself."
+  []
+  (let [source (repl/source-fn 'enterprise)]
      (->> (library-of-babel)
-       (drop-while #(<= (complexity %) (result-length source#)))
+       (drop-while #(<= (complexity %) (result-length source)))
        first)))
 
-(defn yo-dawg
-  "I heard you like complexity, so I put some enterprise in your enterprise."
-  []
-  (enterprise enterprise))
+
+
+
+
 
 
 

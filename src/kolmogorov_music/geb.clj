@@ -17,8 +17,13 @@
                    (phrase timing)
                    (canon/canon #(where :pitch coding/ascii->midi %)))
         bass (->> (phrase timing [-2 -1 0])
-                  (where :pitch (comp scale/lower scale/lower)))]
+                  (where :pitch (comp scale/lower scale/lower)))
+        decoration (phrase (repeat 64 1/4) (cycle [7 8 9 11 7 6]))
+        arpeggios (mapthen #(->> (phrase (repeat 1/2) [0 -3 0 2 1 0 -1 -3]) (where :pitch (scale/from %))) [-2 -1 0 0])
+        ]
     (->> bass
+   ;      (with decoration)
+   ;      (with arpeggios)
          (where :pitch (comp scale/B scale/minor))
          (with theme)
          (where :time (bpm 90))
@@ -34,5 +39,6 @@
   (fx-chorus)
   (fx-reverb)
   (fx-distortion)
+  (fx-bitcrusher)
   (live/jam (var geb))
   )
