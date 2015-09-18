@@ -9,14 +9,41 @@
             [leipzig.live :refer [stop]]
             [leipzig.chord :as chord]
             [leipzig.temperament :as temperament]
-            [kolmogorov-music.instrument :as instrument]
+            [kolmogorov-music.geb :as geb]
             [kolmogorov-music.coding :as coding]))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Air on the \G String ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(comment (repeat (* 1000 1000 1000 1000) \G))
+(comment (take 10000 (repeat (* 1000 1000 1000 1000) \G)))
 
 (defmacro description-length [expr]
   (-> expr print-str count))
@@ -64,7 +91,7 @@
        (canon/canon (canon/simple 4))
        (where :pitch (comp scale/A scale/major))))
 
-(comment 
+(comment
   (live/play row-row)
   (live/jam (var row-row))
 )
@@ -169,7 +196,7 @@
 
 (defmethod live/play-note :default
   [{hertz :pitch seconds :duration}]
-  (when hertz (instrument/overchauffeur (midi->hz hertz) seconds)))
+  (when hertz (geb/overchauffeur (midi->hz hertz) seconds)))
 
 (defn copyright-infringement-song
   ([skip-to]
