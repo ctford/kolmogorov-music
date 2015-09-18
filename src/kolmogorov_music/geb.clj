@@ -35,6 +35,7 @@
 (comment
   (fx-chorus)
   (live/jam (var geb))
+  (def geb nil)
   )
 
 ; Instrumentation
