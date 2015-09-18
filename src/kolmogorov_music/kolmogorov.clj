@@ -64,7 +64,7 @@
        (canon/canon (canon/simple 4))
        (where :pitch (comp scale/A scale/major))))
 
-(comment
+(comment 
   (live/play row-row)
   (live/jam (var row-row))
 )
@@ -169,7 +169,7 @@
 
 (defmethod live/play-note :default
   [{hertz :pitch seconds :duration}]
-  (when hertz (instrument/overchauffeur (midi->hz hertz) seconds 0.02)))
+  (when hertz (instrument/overchauffeur (midi->hz hertz) seconds)))
 
 (defn copyright-infringement-song
   ([skip-to]
