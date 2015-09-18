@@ -1,4 +1,4 @@
-(ns kolmogorov-music.kolmogorov
+(ns kolmogorov-music.talk
   (:require [clojure.repl :as repl]
             [midje.sweet :refer :all :exclude [after]]
             [overtone.live :refer :all :exclude [stop]]
