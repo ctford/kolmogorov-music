@@ -134,34 +134,6 @@
 
 
 
-;;;;;;;;;;;;;;;;;;;;;
-;;; Drawing Hands ;;;
-;;;;;;;;;;;;;;;;;;;;;
-
-(defn complexity
-  "An impossible function that determines the Kolmogorov complexity of any value."
-  [string]
-  (->> string (map int) (reduce + 0)))
-
-(defn enterprise
-  "Calculate the shortest string that is more complicated than itself."
-  []
-  (let [source (repl/source-fn 'enterprise)]
-     (->> (library-of-babel)
-       (drop-while #(<= (complexity %) (result-length source)))
-       first)))
-
-
-
-
-
-
-
-
-
-
-
-
 ;;;;;;;;;;;;;;;;
 ;;; Contact ;;;;
 ;;;;;;;;;;;;;;;;
