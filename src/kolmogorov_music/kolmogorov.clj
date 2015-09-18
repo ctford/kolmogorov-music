@@ -45,27 +45,27 @@
 
 (comment (take 10000 (repeat (* 1000 1000 1000 1000) \G)))
 
-(defmacro description-length [expr]
-  (-> expr print-str count))
+
+(defmacro description-length [expression]
+  (-> expression print-str count))
+
+(defn result-length [expression]
+  (-> expression print-str count))
+
 
 (fact "The description-length is how long the string representation of the expression is."
   (description-length (repeat 65 \G)) => 13)
 
-(defn result-length [result]
-  (-> result print-str count))
-
 (fact "The result-length is how long the string representation of the evaluated result is."
   (result-length (repeat 65 \G)) => 131)
 
-(defmacro randomness [expr]
-  `(/ (description-length ~expr) (result-length ~expr)))
+
+(defmacro randomness [expression]
+  `(/ (description-length ~expression) (result-length ~expression)))
 
 (fact "Kolmogorov randomness is the compression ratio between the description and the result."
   (randomness (repeat 65 \G)) => 13/131
   (randomness (->> 71 char repeat first)) => 26)
-
-
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Analysis by compression ;;;
@@ -96,6 +96,7 @@
   (live/jam (var row-row))
 )
 
+
 (defmacro definitionally [macro sym]
   (let [value (-> sym repl/source-fn read-string last)]
     `(~macro ~value)))
@@ -104,7 +105,6 @@
   (definitionally description-length row-row) => 281
   (definitionally result-length row-row) => 2037
   (definitionally randomness row-row) => 281/2037)
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; The Library of Babel ;;;
