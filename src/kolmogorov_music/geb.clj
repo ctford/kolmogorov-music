@@ -14,6 +14,7 @@
                    (map coding/char->ascii)
                    (phrase [4 4 8])
                    (canon/canon #(where :pitch coding/ascii->midi %)))
+        theme2 (->> theme (with (->> (phrase [4 4 8] "GEB") (where :part (is :sample)))))
         bass (phrase [4 4 8] [-2 -1 0])
         bass2 (phrase (repeat 4 4) (cycle [3 0]))
         decoration (phrase (repeat 64 1/4) (cycle [7 8 9 11 7 6]))
@@ -24,9 +25,9 @@
         twiddle (with (phrase (repeat 32 1/2) (cycle [4 2 2 0 -1])) (phrase (repeat 64 1/4) (cycle [4 2 5 4 5 4 7 7])))]
     (->> bass
          (where :pitch (comp scale/lower scale/lower))
-         ;(with twiiddle)
-         ;(with decoration)
-         ;(with grind)
+      ;   (with twiddle)
+      ;   (with decoration)
+      ;   (with grind)
          (where :pitch (comp scale/B scale/minor))
          (with theme)
          (where :time (bpm 90))
@@ -39,7 +40,7 @@
   )
 
 ; Instrumentation
-(definst overchauffeur [freq 110 dur 1.0 vol 1.0]
+(definst overchauffeur [freq 110 dur 1.0 vol 0.5]
   (-> (sin-osc freq)
       (+ (* 1/3 (sin-osc (* 2.01 freq))))
       (+ (* 1/2 (sin-osc (* 3.01 freq))))
@@ -54,3 +55,13 @@
 (defmethod live/play-note :default
   [{midi :pitch seconds :duration}]
   (some-> midi midi->hz (overchauffeur seconds)))
+
+(defn book [initial]
+  (({\G (sample "samples/godel.wav" :start 3000)
+     \E (sample "samples/escher.wav")
+     \B (sample "samples/bach.wav")}
+    initial)))
+
+(defmethod live/play-note :sample
+  [{initial :pitch}]
+  (book initial))
