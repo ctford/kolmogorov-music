@@ -3,8 +3,7 @@
             [leipzig.scale :as scale]
             [leipzig.live :as live]
             [leipzig.chord :as chord]
-            [leipzig.temperament :as temperament]
-            [kolmogorov-music.instrument :as instrument]))
+            [leipzig.temperament :as temperament]))
 
 (defn least [[x & xs :as v]]
   (if (= x (apply min v))
