@@ -36,6 +36,7 @@
 (comment
   (map fx-chorus [0 1])
   (map fx-distortion [0 1] [0.8 0.6] [0.3 0.5])
+  (volume 0.8)
   (live/jam (var geb))
   (def geb nil)
   )
