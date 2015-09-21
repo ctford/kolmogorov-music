@@ -129,9 +129,9 @@
 (fact "Lexicons aren't very random."
   (randomness (take 10000 (library-of-babel))) => #(< % 1/100))
 
-
-
-
+(comment
+  (take 100000
+     (letfn[(t[](cons[](for[x(lazy-seq(t))e(map char(range 32 65536))](conj x e))))](map #(apply str %)(take-while #(<(count %)141)(t))))))
 
 ;;;;;;;;;;;;;;;;
 ;;; Contact ;;;;
