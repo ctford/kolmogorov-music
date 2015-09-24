@@ -35,14 +35,14 @@
 
 (comment
   (map fx-chorus [0 1])
-  (map fx-distortion [0 1] [0.8 0.6] [0.3 0.5])
+  (map fx-distortion [0 1] [2 2] [0.3 0.25])
   (volume 0.8)
   (live/jam (var geb))
   (def geb nil)
   )
 
 ; Instrumentation
-(definst overchauffeur [freq 110 dur 1.0 vol 0.5]
+(definst overchauffeur [freq 110 dur 1.0 vol 0.3]
   (-> (sin-osc freq)
       (+ (* 1/3 (sin-osc (* 2.01 freq))))
       (+ (* 1/2 (sin-osc (* 3.01 freq))))
@@ -50,7 +50,7 @@
       (+ (* 2 (sin-osc (* 0.5 freq))))
       (clip2 0.7)
       (lpf 1500)
-      (* (env-gen (adsr 0.01 0.3 0.9 0.2) (line:kr 1 0 dur) :action FREE))
+      (* (env-gen (adsr 0.01 0.2 0.8 0.2) (line:kr 1 0 dur) :action FREE))
       (* vol)))
 
 (defmethod live/play-note :default
