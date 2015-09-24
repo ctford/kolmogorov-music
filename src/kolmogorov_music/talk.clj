@@ -165,8 +165,8 @@
 ;;;;;;;;;;;;
 
 (defmethod live/play-note :default
-  [{hertz :pitch seconds :duration}]
-  (when hertz (geb/overchauffeur (midi->hz hertz) seconds)))
+  [{midi :pitch seconds :duration}]
+  (some-> midi midi->hz (geb/overchauffeur seconds)))
 
 (defn copyright-infringement-song
   ([skip-to]
