@@ -8,7 +8,7 @@
 (def blurred-lines
   (let [riff (phrase (repeat 8 1/2) (concat [[nil nil]] (repeat 6 [2 4]) [[nil nil]]))
         accompaniment (->> (times 4 riff)
-                           (then (times 3 (wherever :pitch, :pitch (scale/from -3) riff)))
+                           (then (times 3 (where :pitch (scale/from -3) riff)))
                            (then (phrase [4] [[nil nil]])))
         bass
         (->>
@@ -20,5 +20,5 @@
         harmony (phrase [32] [14])]
     (->>
       (with bass accompaniment)
-      (wherever :pitch, :pitch (comp scale/A scale/major))
+      (where :pitch (comp scale/A scale/major))
       coding/encode)))

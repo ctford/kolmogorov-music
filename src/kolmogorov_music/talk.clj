@@ -88,6 +88,7 @@
          (phrase [2/3  1/3  2/3  1/3  6/3]
                  [  4    3    2    1    0]))
        (canon (simple 4))
+       (tempo (bpm 100))
        (where :pitch (comp scale/A scale/major))))
 
 (comment
@@ -101,9 +102,9 @@
     `(~macro ~value)))
 
 (fact "The definitionally macro lets us calculate on the definition of symbols."
-  (definitionally description-length row-row) => 269
-  (definitionally result-length row-row) => 2037
-  (definitionally randomness row-row) => 269/2037)
+  (definitionally description-length row-row) => 287
+  (definitionally result-length row-row) => 2081
+  (definitionally randomness row-row) => 287/2081)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; The Library of Babel ;;;
@@ -174,8 +175,7 @@
    (->>
      (champernowne-word skip-to)
      (coding/decode 3)
-     (where :time (bpm 120))
-     (where :duration (bpm 120))))
+     (tempo (bpm 120))))
    ([] (copyright-infringement-song 0)))
 
 (def blurred-lines 12450012001200311273127612731276127312761273127612731276127312761245001200121245001200120031127312761273127612731276127312761273127612731276124500120012124500120012003112731276127312761273127612731276127312761273127612450012001212450012001200311273127612731276127312761273127612731276127312761245001200121240001200120031126812711268127112681271126812711268127112681271124000120012124000120012003112681271126812711268127112681271126812711268127112400012001212400012001200311268127112681271126812711268127112681271126812711240001200121252004100411264125012621249126112471245)

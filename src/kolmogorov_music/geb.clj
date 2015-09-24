@@ -13,13 +13,17 @@
   (let [theme (->> "GEB"
                    (map coding/char->ascii)
                    (phrase [4 4 8])
-                   (canon #(where :pitch coding/ascii->midi %)))
-        theme2 (->> theme (with (->> (phrase [4 4 8] "GEB") (where :part (is :sample)))))
+                   (canon #(->> %
+                                (where :pitch coding/ascii->midi)
+                                ;(with (->> % (where :pitch char) (all :part :sample)))
+                                )))
         bass (phrase [4 4 8] [-2 -1 0])
         bass2 (phrase (repeat 4 4) (cycle [3 0]))
         decoration (phrase (repeat 64 1/4) (cycle [7 8 9 11 7 6]))
         grind (->> [-2 -1 0 0]
-                   (mapthen #(->> (phrase (repeat 7 1/2) (interleave [[0 2] [0 2] [0 3] [0 2]] (repeat -3)))
+                   (mapthen #(->> (phrase (repeat 7 1/2)
+                                          (interleave [[0 2] [0 2] [0 3] [0 2]]
+                                                      (repeat -3)))
                                   (where :pitch (scale/from %))))
                    (then (phrase (repeat 4 1/2) (interleave [[0 3] [0 2]] (repeat -3)))))
         twiddle (with (phrase (repeat 32 1/2) (cycle [4 2 2 0 -1])) (phrase (repeat 64 1/4) (cycle [4 2 5 4 5 4 7 7])))]
@@ -30,12 +34,11 @@
          ;(with grind)
          (where :pitch (comp scale/B scale/minor))
          (with theme)
-         (where :time (bpm 90))
-         (where :duration (bpm 90)))))
+         (tempo (bpm 90)))))
 
 (comment
   (map fx-chorus [0 1])
-  (map fx-distortion [0 1] [2 2] [0.3 0.25])
+  (map fx-distortion [0 1] [2 2] [0.18 0.14])
   (volume 0.8)
   (live/jam (var geb))
   (def geb nil)
@@ -58,7 +61,7 @@
   (some-> midi midi->hz (overchauffeur seconds)))
 
 (defn book [initial]
-  (({\G (sample "samples/godel.wav" :start 4000)
+  (({\G (sample "samples/godel.wav")
      \E (sample "samples/escher.wav")
      \B (sample "samples/bach.wav")}
     initial)))
