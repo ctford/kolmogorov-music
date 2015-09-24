@@ -3,7 +3,7 @@
             [midje.sweet :refer :all :exclude [after]]
             [overtone.live :refer :all :exclude [stop]]
             [leipzig.melody :refer :all]
-            [leipzig.canon :as canon]
+            [leipzig.canon :refer [canon simple]]
             [leipzig.scale :as scale]
             [leipzig.live :as live]
             [leipzig.live :refer [stop]]
@@ -87,7 +87,7 @@
                 ; Life is   but  a    dream!
          (phrase [2/3  1/3  2/3  1/3  6/3]
                  [  4    3    2    1    0]))
-       (canon/canon (canon/simple 4))
+       (canon (simple 4))
        (where :pitch (comp scale/A scale/major))))
 
 (comment
@@ -101,9 +101,9 @@
     `(~macro ~value)))
 
 (fact "The definitionally macro lets us calculate on the definition of symbols."
-  (definitionally description-length row-row) => 281
+  (definitionally description-length row-row) => 269
   (definitionally result-length row-row) => 2037
-  (definitionally randomness row-row) => 281/2037)
+  (definitionally randomness row-row) => 269/2037)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; The Library of Babel ;;;

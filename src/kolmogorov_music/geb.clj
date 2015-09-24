@@ -1,7 +1,7 @@
 (ns kolmogorov-music.geb
   (:require [overtone.live :refer :all :exclude [stop]]
             [leipzig.melody :refer :all]
-            [leipzig.canon :as canon]
+            [leipzig.canon :refer [canon]]
             [leipzig.scale :as scale]
             [leipzig.live :as live]
             [leipzig.live :refer [stop]]
@@ -13,7 +13,7 @@
   (let [theme (->> "GEB"
                    (map coding/char->ascii)
                    (phrase [4 4 8])
-                   (canon/canon #(where :pitch coding/ascii->midi %)))
+                   (canon #(where :pitch coding/ascii->midi %)))
         theme2 (->> theme (with (->> (phrase [4 4 8] "GEB") (where :part (is :sample)))))
         bass (phrase [4 4 8] [-2 -1 0])
         bass2 (phrase (repeat 4 4) (cycle [3 0]))
