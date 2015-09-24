@@ -4,11 +4,9 @@
             [overtone.live :refer :all :exclude [stop]]
             [leipzig.melody :refer :all]
             [leipzig.canon :refer [canon simple]]
-            [leipzig.scale :as scale]
+            [leipzig.scale :refer [A B major minor]]
             [leipzig.live :as live]
             [leipzig.live :refer [stop]]
-            [leipzig.chord :as chord]
-            [leipzig.temperament :as temperament]
             [kolmogorov-music.geb :as geb]
             [kolmogorov-music.coding :as coding]))
 
@@ -89,7 +87,7 @@
                  [  4    3    2    1    0]))
        (canon (simple 4))
        (tempo (bpm 100))
-       (where :pitch (comp scale/A scale/major))))
+       (where :pitch (comp A major))))
 
 (comment
   (live/play row-row)
