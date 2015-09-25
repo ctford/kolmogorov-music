@@ -10,10 +10,11 @@
             [kolmogorov-music.geb :as geb]
             [kolmogorov-music.coding :as coding]))
 
-
-
-
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Kolmogorov Music, by @ctford               ;;;
+;;;                                            ;;;
+;;; https://github.com/ctford/kolmogorov-music ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 
@@ -181,3 +182,5 @@
 (comment
   (live/play (copyright-infringement-song))
   (live/play (copyright-infringement-song blurred-lines)))
+
+
