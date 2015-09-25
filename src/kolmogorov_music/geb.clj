@@ -2,7 +2,7 @@
   (:require [overtone.live :refer :all :exclude [stop]]
             [leipzig.melody :refer :all]
             [leipzig.canon :refer [canon]]
-            [leipzig.scale :refer [lower B minor]]
+            [leipzig.scale :refer [lower B minor from]]
             [leipzig.live :as live]
             [leipzig.live :refer [stop]]
             [kolmogorov-music.coding :as coding]))
@@ -22,7 +22,7 @@
                   (mapthen #(->> (phrase (repeat 7 1/2)
                                          (interleave [[0 2] [0 2] [0 3] [0 2]]
                                                      (repeat -3)))
-                                 (where :pitch (scale/from %))))
+                                 (where :pitch (from %))))
                   (then (phrase (repeat 4 1/2) (interleave [[0 3] [0 2]] (repeat -3)))))
         twiddle (with (phrase (repeat 32 1/2) (cycle [4 2 2 0 -1])) (phrase (repeat 64 1/4) (cycle [4 2 5 4 5 4 7 7])))]
     (->> bass
