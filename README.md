@@ -54,6 +54,7 @@ References
 * [The Law Revue Girls](https://twitter.com/LawRevueGirls): [Defined Lines](https://www.youtube.com/watch?v=tC1XtnLRLPM)
 * [Meredith, David](http://www.titanmusic.com/): [Analysis by compression: automatic generation of compact geometric encodings of musical objects](http://www.titanmusic.com/papers/public/MeredithMEC2013ProceedingsPaper.pdf)
 * [Meredith, David](http://www.titanmusic.com/): [Music analysis and Kolmogorov complexity](http://www.titanmusic.com/papers/public/cim20121_submission_105.pdf)
+* [Reich, Steve](https://en.wikipedia.org/wiki/Steve_Reich): [Clapping Music](https://en.wikipedia.org/wiki/Clapping_Music)
 * [Sagan, Carl](https://en.wikipedia.org/wiki/Carl_Sagan): [Contact](https://en.wikipedia.org/wiki/Contact_(novel))
 * [Schirp, Markus](https://twitter.com/_m_b_j_): [Mutant](https://github.com/mbj/mutant)
 * [William, Pharrel](https://twitter.com/Pharrell) and [Thicke, Robin](https://twitter.com/robinthicke): [Blurred Lines](https://en.wikipedia.org/wiki/Blurred_Lines)

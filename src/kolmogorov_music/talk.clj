@@ -96,6 +96,7 @@
 )
 
 
+
 (defmacro definitionally [macro sym]
   (let [value (-> sym repl/source-fn read-string last)]
     `(~macro ~value)))
@@ -104,6 +105,30 @@
   (definitionally description-length row-row) => 275
   (definitionally result-length row-row) => 2081
   (definitionally randomness row-row) => 275/2081)
+
+
+
+(defn forever [riff]
+  (concat riff (lazy-seq (->> riff forever (after (duration riff))))))
+
+(defn clapping-music []
+  (let [african-bell-pattern (rhythm [1/8 1/8 1/4 1/8 1/4 1/4 1/8 1/4])]
+    (->> african-bell-pattern forever (all :part :clap1)
+         (with (->> african-bell-pattern (times 8) (then (rhythm [1/8])) forever (all :part :clap2))))))
+
+(defmethod live/play-note :clap1 [_]
+  ((sample "samples/click2.wav")))
+
+(defmethod live/play-note :clap2 [_]
+  ((sample "samples/select-click.wav")))
+
+(comment
+  (live/play (clapping-music))
+  )
+
+(fact "Clapping Music is minimal."
+  (definitionally description-length clapping-music) => 218
+  (result-length (->> (clapping-music) (take-while #(-> % :time (< 216))))) => 99151)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; The Library of Babel ;;;
