@@ -110,10 +110,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defn kleene* [elements]
-  (letfn [(expand [strings] (for [s strings e elements] (conj s e)))]
+  (letfn [(append-to [strings] (for [s strings e elements] (conj s e)))]
     (->>
       (lazy-seq (kleene* elements))
-      expand
+      append-to
       (cons []))))
 
 (defn library-of-babel []
