@@ -43,7 +43,7 @@
   )
 
 ; Instrumentation
-(definst overchauffeur [freq 110 dur 1.0 top 1500 vol 0.3]
+(definst overchauffeur [freq 110 dur 1.0 top 1500 vol 0.25]
   (-> (sin-osc freq)
       (+ (* 1/3 (sin-osc (* 2.01 freq))))
       (+ (* 1/2 (sin-osc (* 3.01 freq))))
