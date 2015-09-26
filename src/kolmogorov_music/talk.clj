@@ -114,7 +114,8 @@
 (defn clapping-music []
   (let [african-bell-pattern (rhythm [1/8 1/8 1/4 1/8 1/4 1/4 1/8 1/4])]
     (->> african-bell-pattern forever (all :part :clap1)
-         (canon #(->> % (take 64) (then (rhythm [1/8])) forever (all :part :clap2))))))
+         (canon
+           #(->> % (take 64) (then (rhythm [1/8])) forever (all :part :clap2))))))
 
 (comment
   (live/play (clapping-music))
@@ -145,7 +146,7 @@
   (->> (library-of-babel) (take 5)) => ["" " " "!" "\"" "#"]
   (nth (library-of-babel) 364645) => "GEB")
 
-(fact "Lexicons aren't very random."
+(fact "The Library of Babel isn't random."
   (randomness (take 10000 (library-of-babel))) => #(< % 1/100))
 
 
