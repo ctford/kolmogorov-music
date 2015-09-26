@@ -43,20 +43,20 @@
   )
 
 ; Instrumentation
-(definst overchauffeur [freq 110 dur 1.0 vol 0.3]
+(definst overchauffeur [freq 110 dur 1.0 top 1500 vol 0.3]
   (-> (sin-osc freq)
       (+ (* 1/3 (sin-osc (* 2.01 freq))))
       (+ (* 1/2 (sin-osc (* 3.01 freq))))
       (+ (* 1/8 (sin-osc (* 5.01 freq))))
       (+ (* 2 (sin-osc (* 0.5 freq))))
       (clip2 0.7)
-      (lpf 1500)
+      (lpf top)
       (* (env-gen (adsr 0.01 0.2 0.8 0.2) (line:kr 1 0 dur) :action FREE))
       (* vol)))
 
 (defmethod live/play-note :default
   [{midi :pitch seconds :duration}]
-  (some-> midi midi->hz (overchauffeur seconds)))
+  (some-> midi midi->hz (overchauffeur seconds 1500)))
 
 (defn book [initial]
   (({\G (sample "samples/godel.wav")
