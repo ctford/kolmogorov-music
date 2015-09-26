@@ -116,12 +116,6 @@
     (->> african-bell-pattern forever (all :part :clap1)
          (with (->> african-bell-pattern (times 8) (then (rhythm [1/8])) forever (all :part :clap2))))))
 
-(defmethod live/play-note :clap1 [_]
-  ((sample "samples/click2.wav")))
-
-(defmethod live/play-note :clap2 [_]
-  ((sample "samples/select-click.wav")))
-
 (comment
   (live/play (clapping-music))
   )
@@ -190,15 +184,11 @@
 ;;; Anti ;;;
 ;;;;;;;;;;;;
 
-(defmethod live/play-note :default
-  [{midi :pitch seconds :duration}]
-  (some-> midi midi->hz (geb/overchauffeur seconds)))
-
 (defn copyright-infringement-song
   ([skip-to]
    (->>
      (champernowne-word skip-to)
-     (coding/decode 3)
+     (coding/decode-into-parts 3)
      (tempo (bpm 120))))
    ([] (copyright-infringement-song 0)))
 
@@ -209,3 +199,33 @@
   (live/play (copyright-infringement-song blurred-lines)))
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;
+;;; Arrangement ;;;
+;;;;;;;;;;;;;;;;;;;
+
+(defmethod live/play-note :clap1 [_]
+  ((sample "samples/click2.wav")))
+
+(defmethod live/play-note :clap2 [_]
+  ((sample "samples/select-click.wav")))
+
+(defmethod live/play-note :default
+  [{midi :pitch seconds :duration}]
+  (some-> midi midi->hz (geb/overchauffeur seconds)))

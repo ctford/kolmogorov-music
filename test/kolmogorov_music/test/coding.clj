@@ -15,27 +15,27 @@
 (fact "Rests are encoded with zeros where duration normally is."
   (->> (leipzig/phrase [1 1 1 1] [0 nil 2 nil]) coding/encode) => 1100001111020011)
 
-(fact "(comp code decode) is an identity for a single part."
+(fact "(comp code decode-into-parts) is an identity for a single part."
   (let [melody (leipzig/phrase [3/3 3/3 2/3 1/3 3/3]
                                [  0   0   0   1   2])]
-    (->> melody coding/encode song/decompose (coding/decode 1)) => melody))
+    (->> melody coding/encode song/decompose (coding/decode-into-parts 1)) => melody))
 
 (fact "Rests survive the round trip."
   (let [melody (leipzig/phrase [1   1   1]
                                [0   nil 2])]
-    (->> melody coding/encode song/decompose (coding/decode 1)) => melody))
+    (->> melody coding/encode song/decompose (coding/decode-into-parts 1)) => melody))
 
-(fact "(comp code decode) is an identity for two parts."
+(fact "(comp code decode-into-parts) is an identity for two parts."
   (let [melody (leipzig/phrase [3/3 3/3 2/3 1/3 3/3]
                                [  0   0   0   1   2])
         bass (leipzig/phrase [1 1 2] [0 4 0])
         harmony (leipzig/with melody bass)]
-    (->> harmony coding/encode song/decompose (coding/decode 2)) => harmony))
+    (->> harmony coding/encode song/decompose (coding/decode-into-parts 2)) => harmony))
 
-(fact "(comp code decode) is an identity for three parts."
+(fact "(comp code decode-into-parts) is an identity for three parts."
   (let [melody (leipzig/phrase [3/3 3/3 2/3 1/3 3/3]
                                [  0   0   0   1   2])
         bass (leipzig/phrase [1 1 2] [0 4 0])
         accompaniment (leipzig/phrase [8] [9])
         harmony (leipzig/with melody accompaniment bass)]
-    (->> harmony coding/encode song/decompose (coding/decode 3)) => harmony))
+    (->> harmony coding/encode song/decompose (coding/decode-into-parts 3)) => harmony))

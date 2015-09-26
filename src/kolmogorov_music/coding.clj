@@ -45,8 +45,8 @@
       (+ (digit-shift encoding (* 4 (count notes))) (encode notes)))
     0))
 
-(defn decode [channels notes]
-  (decode* (vec (repeat channels 0)) notes))
+(defn decode-into-parts [parts notes]
+  (decode* (vec (repeat parts 0)) notes))
 
 (defmacro defs [names values]
   `(do
