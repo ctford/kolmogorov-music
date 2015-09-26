@@ -114,14 +114,14 @@
 (defn clapping-music []
   (let [african-bell-pattern (rhythm [1/8 1/8 1/4 1/8 1/4 1/4 1/8 1/4])]
     (->> african-bell-pattern forever (all :part :clap1)
-         (with (->> african-bell-pattern (times 8) (then (rhythm [1/8])) forever (all :part :clap2))))))
+         (canon #(->> % (take 64) (then (rhythm [1/8])) forever (all :part :clap2))))))
 
 (comment
   (live/play (clapping-music))
   )
 
 (fact "Clapping Music is minimal."
-  (definitionally description-length clapping-music) => 218
+  (definitionally description-length clapping-music) => 228
   (result-length (->> (clapping-music) (take-while #(-> % :time (< 216))))) => 99151)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
