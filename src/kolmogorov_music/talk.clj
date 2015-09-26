@@ -101,9 +101,9 @@
     `(~macro ~value)))
 
 (fact "The definitionally macro lets us calculate on the definition of symbols."
-  (definitionally description-length row-row) => 287
+  (definitionally description-length row-row) => 275
   (definitionally result-length row-row) => 2081
-  (definitionally randomness row-row) => 287/2081)
+  (definitionally randomness row-row) => 275/2081)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; The Library of Babel ;;;
