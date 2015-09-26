@@ -15,30 +15,6 @@ Algorithmic composition has curious implications for the creation, copyright
 and performance of pieces, both finite and infinite. Expect \(finite\)
 demonstrations.
 
-Complexity
-----------
-* [Kolmogorov complexity](https://en.wikipedia.org/wiki/Kolmogorov_complexity)
-* [Full employment law](https://en.wikipedia.org/wiki/Full_employment_theorem)
-
-Compression
------------
-* 'Row, row, row your boat'
-* Compression and understanding
-* [Hutter prize](http://prize.hutter1.net/)
-
-Copyright
----------
-* [Diagonal beats](https://www.youtube.com/watch?v=EZFmZ0gZNZI)
-* The blurred line between compositions
-* Playing with π
-* The Copyright Infringement Song
-
-Performance
------------
-* Kolmogorov distance
-* Speed of invention
-* Jamming
-
 References
 ----------
 * [Aaron, Sam](http://sam.aaron.name/) and [Rose, Jeff](https://twitter.com/rosejn): [Overtone](http://overtone.github.io/)
