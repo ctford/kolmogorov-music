@@ -20,6 +20,7 @@ References
 * [Aaron, Sam](http://sam.aaron.name/) and [Rose, Jeff](https://twitter.com/rosejn): [Overtone](http://overtone.github.io/)
 * [Autechre](http://autechre.ws/): [Anti EP](https://en.wikipedia.org/wiki/Anti_EP)
 * [Borges, Jorge Luis](https://en.wikipedia.org/wiki/Jorge_Luis_Borges): [The Library of Babel](https://en.wikipedia.org/wiki/The_Library_of_Babel)
+* [Cage, John](https://en.wikipedia.org/wiki/John_Cage): [4′33″](https://en.wikipedia.org/wiki/4%E2%80%B233%E2%80%B3)
 * [Escher, Maurits Cornelis](https://en.wikipedia.org/wiki/M._C._Escher): [Drawing Hands](https://en.wikipedia.org/wiki/Drawing_Hands)
 * [Ford, Chris](https://twitter.com/ctford): [Functional Composition](http://www.infoq.com/presentations/music-functional-language)
 * [Ford, Chris](https://twitter.com/ctford): [Kolmogorov Music](https://github.com/ctford/kolmogorov-music)
