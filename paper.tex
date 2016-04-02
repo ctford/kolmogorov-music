@@ -73,7 +73,7 @@ evaluates to a sequence of $10^{15}$ uppercase G characters:
 \end{verbatim}
 
 Though storing such a string would require roughly a petabyte of memory, representing it indirectly as a computation
-takes very little space at all. To put it in perspective, that's roughly the size all music ever recorded,
+takes very little space at all. That's roughly the size all music ever recorded,
 described in less than a half a tweet\footnote{Based on the iTunes library featuring approximately 50 million songs
 of approximately 4 megabytes each, and assuming it represents approximately a fifth of all recorded music. Tweets are
 restricted to 140 characters.}.
@@ -114,7 +114,8 @@ to be gained by representing this value by an expression.
 
 The explanatory power of our expression for producing 65 Gs is high. A repetitive string of identical characters is
 highly redundant, highly compressible and hence able to be described concisely. The explanatory power of this way of
-representing the string of Gs this way is over 10.
+representing the string of Gs this way is just over 10, because the description is about a tenth of the length of the
+value itself.
 
 \begin{verbatim}
 (fact
@@ -122,9 +123,9 @@ representing the string of Gs this way is over 10.
 \end{verbatim}
 
 There are many expressions that evaluate to the same value, so there are likely to be different expressions of varying
-explanatory power. The Kolmogorov complexity is defined as the length of the briefest possible description. This is not,
-in general, computable, so it's not possible to determine whether we have obtained the best possible explanation for a
-piece of data.
+explanatory power for the same value. The Kolmogorov complexity is defined as the length of the briefest possible description.
+This is not, in general, computable, so it's not possible to determine whether we have obtained the best possible explanation
+for an arbitrary piece of data.
 
 \section{Analysis by compression}
 
@@ -172,7 +173,7 @@ having to paste in the entire expression.
 
 \section{The Library of Babel}
 
-The Kleene star is the set of all possible substrings built from a set of elements.
+The Kleene star is the set of all possible strings built from a set of elements.
 
 \begin{verbatim}
 (defn kleene* [elements]
@@ -184,9 +185,9 @@ The Kleene star is the set of all possible substrings built from a set of elemen
       (cons []))))
 \end{verbatim}
 
-We can use the Kleene star with an alphabet of the ASCII alphabet to construct all possible ASCII strings as a lazy
-sequence. This results in something very similar to the Library of Babel as imagined by Jorge Luis Borges. In this
-vast building of library, are all possible books of four hundred and ten pages in length.
+We can use this construction with an ASCII alphabet to obtain all possible ASCII strings as a lazy
+sequence. This results in something very similar to the Library of Babel as imagined by Jorge Luis Borges. In his
+vast fictional library, thousands of hexagonal rooms house all possible books of four hundred and ten pages.
 
 The difference is that our sequence has all possible strings of all finite lengths.
 
@@ -195,14 +196,14 @@ The difference is that our sequence has all possible strings of all finite lengt
   (let [ascii (->> (range 32 127) (map char))]
     (->> ascii
        kleene*
-       (map (partial apply str)))))
+       (map #(apply str %)))))
 
 (fact
   (->> (library-of-babel) (take 3)) => ["" " " "!"]
   (nth (library-of-babel) 364645) => "GEB")
 \end{verbatim}
 
-If we take the Kleene star of a particular alphabet, order the results countably, and then concatenate them, we get
+If we take the Kleene star of a particular alphabet, order the results and then concatenate them, we get
 a disjunctive sequence or lexicon. A lexicon has the property that every finite string is a substring.
 
 The result of the Kleene star are interesting from a Kolmogorov complexity perspective, because they can be described
@@ -211,9 +212,11 @@ the parts. That is, the Kolmogorov complexity of one string in our Library of Ba
 than the Library taken as a whole.
 
 Borges appreciated this paradox. His anonymous narrator reports that on "some shelf in some hexagon (men reasoned)
-there must exist a book which is the formula and perfect compendium of all the rest"?????. Any of the many books that contain
-our \verb|library-of-babel| function match the narrator's description, though the books that also contain the rest of this paper
-must surely provide more helpful context.
+there must exist a book which is the formula and perfect compendium of all the rest"?????. In other words, that one book
+epitomises the complexity of the entire library.
+
+Any of the many books that contain our \verb|library-of-babel| function match the narrator's description,
+though the books that also contain the rest of this paper must surely provide more helpful context.
 
 \section{Contact}
 
@@ -223,15 +226,15 @@ a similar problem to Borges' librarians - we suspect that every sequence of data
 somewhere, but we don't know where to look.
 
 If pi does have every possible of digits within its decimal expansion, then it's a disjunctive
-sequence or lexicon. But we don't know for sure.
+sequence or lexicon. But we don't know for sure. No one has been able to prove that pi is either disjunctive or not disjunctive.
 
 Fortunately, there are other transcendental numbers that are more predictable. The Champernowne word is a constant whose
 decimal expansion is the concatenation of the digits of the natural numbers. The Champernowne word is definitively a lexicon,
-which can be concluded by observing that it eventually contains any natural number. Any sequence of digits corresponds to
+which can be concluded by observing that it eventually contains every natural number. Every sequence of digits corresponds to
 a natural number, so the word must contain all sequences of digits.
 
 Of course, the sequence of digits may occur earlier too - the string "34" first occurs when the natural numbers three and
-four are serialised, well before the natural number 34 is.
+four are encountered, well before the natural number 34 is.
 
 \begin{verbatim}
 (defn decompose-into-digits [n]
@@ -243,7 +246,7 @@ four are serialised, well before the natural number 34 is.
 (defn champernowne-word
   [skip-to]
   (->> (range)
-       (map (partial + skip-to))
+       (map #(+ skip-to %))
        (mapcat decompose-into-digits)))
 
 (fact
@@ -301,10 +304,11 @@ There is nothing in the description of the \verb|copyright-infringement-song| th
 It is simply a straightforward musical rendering of a well-known mathematical constant derived from the decimal counting
 system.
 
-What's more, every other song is also somewhere in there.
+What's more, every other song is also somewhere in there. Past, present and future.
 
 Here we finally come to the profit generation strategy - copyright litigation. As the \verb|copyright-infringement-song| is
-a universal piece of music, any work published subsequent to it infringes on its copyright.\footnote{I am not a lawyer. Do not rely on my legal advice.}
+a universal piece of music, any work published subsequent to it infringes on its copyright.\footnote{I am not a lawyer. Do not rely on my legal advice.} In order to convert our algomusicological understanding into profit, we simply have to sue the composers
+of every marginally successful musical work from now until they change the law.
 
 \section{Conclusion}
 
