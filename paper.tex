@@ -39,27 +39,30 @@ traditional notions of musical authorship.
 
 \section{Introduction}
 
-The Underpants Gnomes are renowned for their business plan:
-\begin{itemize}
+The South Park Underpants Gnomes are renowned for their business plan:
+\begin{enumerate}
     \item Collect underpants
     \item ?
     \item Profit
-\end{itemize}
+\end{enumerate}
 
-Art critics, literary critics, algomusicologists and Twitter have a challenge in common with the Underpants Gnomes - we may have
-collected a considerable quantity of underpants/art/users, but how are we to turn that into profit? Less glibly, is algomusicology
-doomed to be a mere observer and explainer of musical practice, or might it become an active participant? Computer science is
-able to influence industry, though that might take longer than we'd like \footnote{Alonzo Church developed the
-lambda calculus in the 1930s. Java gained lambda expressions in 2015.}. Can algomusicology influence music?\footnote{This paper
-appears to be the first reference to algomusicology. I believe the term, which is a portmanteau of algorave and musicology,
-has a self-evident definition.}
+A common interpretation of the Gnomes' business is as a satire on Silicon Valley startups. Art critics, literary critics,
+algomusicologists and start-uppers have a challenge in common with the Underpants Gnomes
+- we may have collected a considerable quantity of underpants/art/users, but how are we to turn that into profit?
+
+Less glibly, is algomusicology doomed to be a mere observer and explainer of musical practice, or might it become an
+active participant? Computer science is able to influence industry, though that might take longer than we'd like.
+\footnote{Alonzo Church developed the lambda calculus in the 1930s. Java gained lambda expressions in 2015.} Can
+algomusicology influence music?\footnote{This paper appears to be the first reference to algomusicology. I believe the term,
+which is a portmanteau of algorave and musicology, has a self-evident definition.}
 
 This paper will argue that it can. It will do so by citing examples of existing art works that are algorithmic in nature, and
 also by using algomusicological concepts to create a work that challenges our present conception of musical authorship and
 copyright.
 
-The examples in this paper are all written in Clojure, dialect of Lisp. I also rely on Leipzig, a music theory library written
-in Clojure and Midje, a unit testing library, for its fact notation.
+The examples in this paper are all written in Clojure, a dialect of Lisp. I also rely on Leipzig, a music theory library,
+and Midje, a unit testing library.\footnote{Midje allows us to write a unit test as (fact expression => result),
+which asserts that expression evaluates to result.}
 
 \section{Air on the {\textbackslash}G String}
 Very great quantities of data can exhibit very little complexity. Consider the following Clojure expression, which
@@ -70,14 +73,14 @@ evaluates to a sequence of $10^{15}$ uppercase G characters:
 \end{verbatim}
 
 Though storing such a string would require roughly a petabyte of memory, representing it indirectly as a computation
-takes very little space at all. To put it in perspective, that's roughly the size all music ever recorded to date,
+takes very little space at all. To put it in perspective, that's roughly the size all music ever recorded,
 described in less than a half a tweet\footnote{Based on the iTunes library featuring approximately 50 million songs
 of approximately 4 megabytes each, and assuming it represents approximately a fifth of all recorded music. Tweets are
 restricted to 140 characters.}.
 
 We can use Clojure's macro facility to build a crude framework for comparing the size of descriptions and their
-resulting values. The following two definitions are identical, save that description-length is a macro and therefore
-operates on the unevaluated s-expression passed to it as an argument.
+resulting values. The following two definitions are identical, save that \verb|description-length| is a macro and therefore
+operates on the unevaluated expression that is passed to it.
 
 \begin{verbatim}
 (defn result-length [expression]
@@ -95,8 +98,8 @@ The explanatory power of a description can be measured by comparing the length o
 of the resulting value. Explanatory power is the reciprocal of the compression ratio, where representing a value by an
 expression is viewed as a compression strategy.
 
-If there is no way to describe a value more concisely than the value itself, we say that it is random. An explanatory
-power of one or less is no explanation at all.
+If there is no way to describe a value more concisely than the value itself, we say that it is random. In other words an
+explanatory power of one or less is no explanation at all.
 
 \begin{verbatim}
 (defmacro explanatory-power [expression]
@@ -137,8 +140,8 @@ is a better description of the piece than the raw notes.
 \end{verbatim}
 
 Using a little more macro magic, we can calculate the ratio between the above description and the literal notes
-of the song. The definitional macro allows us to use the symbol row-row in our fact notation, rather than having to
-paste in the entire expression.
+of the song. The \verb|definitional| macro allows us to use the symbol \verb|row-row| in our fact notation, rather than
+having to paste in the entire expression.
 
 \begin{verbatim}
 (defmacro definitional [macro sym]
