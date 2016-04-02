@@ -36,52 +36,8 @@ keyword1, keyword2
 
 \section{Introduction}
 
+\section{Air on the \\G String}
 \begin{verbatim}
-(ns kolmogorov-music.talk
-  (:require [clojure.repl :as repl]
-            [midje.sweet :refer :all :exclude [after]]
-            [overtone.live :refer :all :exclude [stop]]
-            [leipzig.melody :refer :all]
-            [leipzig.canon :as canon]
-            [leipzig.scale :as scale]
-            [leipzig.live :as live]
-            [leipzig.live :refer [stop]]
-            [leipzig.chord :as chord]
-            [leipzig.temperament :as temperament]
-            [kolmogorov-music.geb :as geb]
-            [kolmogorov-music.coding :as coding]))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Air on the \G String ;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (comment (take 10000 (repeat (* 1000 1000 1000 1000) \G)))
 
 
@@ -106,10 +62,11 @@ keyword1, keyword2
   (randomness (repeat 65 \G)) => 13/131
   (randomness (->> 71 char repeat first)) => 26)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Analysis by compression ;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+\end{verbatim}
 
+\section{Analysis by compression}
+
+\begin{verbatim}
 (def row-row
   "A simple melody built from durations and pitches."
               ; Row, row, row  your boat,
@@ -144,9 +101,10 @@ keyword1, keyword2
   (definitionally result-length row-row) => 2037
   (definitionally randomness row-row) => 281/2037)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; The Library of Babel ;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+\end{verbatim}
+
+\section{The Library of Babel}
+\begin{verbatim}
 
 (defn kleene* [elements]
   (letfn [(expand [strings] (for [s strings e elements] (conj s e)))]
@@ -172,9 +130,10 @@ keyword1, keyword2
   (take 100000
      (letfn[(t[](cons[](for[x(lazy-seq(t))e(map char(range 32 65536))](conj x e))))](map #(apply str %)(take-while #(<(count %)141)(t))))))
 
-;;;;;;;;;;;;;;;;
-;;; Contact ;;;;
-;;;;;;;;;;;;;;;;
+\end{verbatim}
+
+\section{Contact}
+\begin{verbatim}
 
 (defn decompose [n]
   (let [[remainder quotient] ((juxt mod quot) n 10)]
@@ -192,17 +151,10 @@ keyword1, keyword2
 
 (fact "The Champernowne word is defined by concatenating the natural numbers base 10."
   (->> (champernowne-word) (take 16)) => [0 1 2 3 4 5 6 7 8 9 1 0 1 1 1 2])
+\end{verbatim}
 
-
-
-
-
-
-
-
-;;;;;;;;;;;;
-;;; Anti ;;;
-;;;;;;;;;;;;
+\section{Anti}
+\begin{verbatim}
 
 (defmethod live/play-note :default
   [{hertz :pitch seconds :duration}]
