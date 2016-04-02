@@ -27,9 +27,9 @@
 \maketitle
 
 \begin{abstract}
-    In this paper I propose a novel method for converting algomusicology into profit. While my particular example
-    is tongue-in-cheek, my serious point is that algorithmic composition can help us deconstruct and disrupt
-    traditional notions of musical authorship.
+In this paper I propose a novel method for converting algomusicology into profit. While my particular example
+is tongue-in-cheek, it shows that algorithmic composition and analysis can help us deconstruct and disrupt
+traditional notions of musical authorship.
 \end{abstract}
 
 %\category{CR-number}{subcategory}{third-level}
@@ -46,14 +46,20 @@ The Underpants Gnomes are renowned for their business plan:
     \item Profit
 \end{itemize}
 
-Art critics, literary critics, Algomusicologists have a challenge in common with the Underpants Gnomes, we may have
-collected a vast amount of underpants/art/users, but how are we to turn that into profit? Less glibly, is algomusicology
+Art critics, literary critics, algomusicologists and Twitter have a challenge in common with the Underpants Gnomes - we may have
+collected a considerable quantity of underpants/art/users, but how are we to turn that into profit? Less glibly, is algomusicology
 doomed to be a mere observer and explainer of musical practice, or might it become an active participant? Computer science is
 able to influence industry, though that might take longer than we'd like \footnote{Alonzo Church developed the
-lambda calculus in the 1930s. Java gained lambda expressions in 2015.}. Can algomusicology influence music?
+lambda calculus in the 1930s. Java gained lambda expressions in 2015.}. Can algomusicology influence music?\footnote{This paper
+appears to be the first reference to algomusicology. I believe the term, which is a portmanteau of algorave and musicology,
+has a self-evident definition.}
 
-The examples in this paper are all written in Clojure, dialect of Lisp. I also rely on Leipzig, a small music theory
-library written in Clojure and Midje, for music theoretical functions, and Midje, a unit testing library, for assertions.
+This paper will argue that it can. It will do so by citing examples of existing art works that are algorithmic in nature, and
+also by using algomusicological concepts to create a work that challenges our present conception of musical authorship and
+copyright.
+
+The examples in this paper are all written in Clojure, dialect of Lisp. I also rely on Leipzig, a music theory library written
+in Clojure and Midje, a unit testing library, for its fact notation.
 
 \section{Air on the {\textbackslash}G String}
 Very great quantities of data can exhibit very little complexity. Consider the following Clojure expression, which
@@ -64,9 +70,10 @@ evaluates to a sequence of $10^{15}$ uppercase G characters:
 \end{verbatim}
 
 Though storing such a string would require roughly a petabyte of memory, representing it indirectly as a computation
-takes very little space at all. To put it in perspective, that's roughly the size all music recorded to date,
-described in less than a half a tweet \footnote{Based on the iTunes library featuring approximately 50 million songs
-of approximately 4 megabytes each, and assuming it represents approximately a fifth of all recorded music.}.
+takes very little space at all. To put it in perspective, that's roughly the size all music ever recorded to date,
+described in less than a half a tweet\footnote{Based on the iTunes library featuring approximately 50 million songs
+of approximately 4 megabytes each, and assuming it represents approximately a fifth of all recorded music. Tweets are
+restricted to 140 characters.}.
 
 We can use Clojure's macro facility to build a crude framework for comparing the size of descriptions and their
 resulting values. The following two definitions are identical, save that description-length is a macro and therefore
@@ -79,25 +86,21 @@ operates on the unevaluated s-expression passed to it as an argument.
 (defmacro description-length [expression]
   (-> expression print-str count))
 
-(fact "The result-length is how long the string
-       representation of the evaluated result is."
-  (result-length (repeat 65 \G)) => 131)
-
-(fact "The description-length is how long the
-       string representation of the expression is."
+(fact
+  (result-length (repeat 65 \G)) => 131
   (description-length (repeat 65 \G)) => 13)
 \end{verbatim}
 
 The randomness of a description can be measured by comparing the length of the textual description and the length
-of the resulting value.
+of the resulting value. If there is no way to describe a value more concisely than the value itself, we say that it is
+random.
 
 \begin{verbatim}
 (defmacro randomness [expression]
   `(/ (description-length ~expression)
       (result-length ~expression)))
 
-(fact "Kolmogorov randomness is the compression
-       ratio between the description and the result."
+(fact
   (randomness (repeat 65 \G)) => 13/131)
 \end{verbatim}
 
@@ -134,15 +137,14 @@ Using a little more macro magic, we can calculate the ratio between the above de
 of the song.
 
 \begin{verbatim}
-(defmacro definitionally [macro sym]
+(defmacro definitional [macro sym]
   (let [value (-> sym repl/source-fn read-string last)]
     `(~macro ~value)))
 
-(fact "The definitionally macro lets us calculate on the
-       definition of symbols."
-  (definitionally description-length row-row) => 281
-  (definitionally result-length row-row) => 2037
-  (definitionally randomness row-row) => 281/2037)
+(fact
+  (definitional description-length row-row) => 281
+  (definitional result-length row-row) => 2037
+  (definitional randomness row-row) => 281/2037)
 \end{verbatim}
 
 \section{The Library of Babel}
@@ -172,12 +174,9 @@ The difference is that our sequence has all possible strings of all finite lengt
        kleene*
        (map (partial apply str)))))
 
-(fact "We can construct all strings as a lazy
-       sequence."
-  (->> (library-of-babel) (take 5))
-    => ["" " " "!" "\"" "#"]
-  (nth (library-of-babel) 364645)
-    => "GEB")
+(fact
+  (->> (library-of-babel) (take 3)) => ["" " " "!"]
+  (nth (library-of-babel) 364645) => "GEB")
 \end{verbatim}
 
 Lexicon's are interesting from a Kolmogorov complexity perspective, because they can be described concisely yet contain
@@ -185,33 +184,37 @@ multitudes. Paradoxically, lexicons display the property that the whole is simpl
 the Kolmogorov complexity of all strings in our Library of Babel beyond a certain size are more complicated to describe
 than the Library as a whole.
 
-Borges appreciated this paradox. His anonymous narrator concludes that "On some shelf in some hexagon (men reasoned)
+Borges appreciated this paradox. His anonymous narrator reports that on "some shelf in some hexagon (men reasoned)
 there must exist a book which is the formula and perfect compendium of all the rest"?????. Any of the many books that contain
 our library-of-babel function match the narrator's description, though the books that also contain the rest of this paper
 must surely provide more helpful context.
 
 \section{Contact}
 
-The Champernowne word is a transcendental constant whose decimal expansion is the concatenation of the digits of the
-natural numbers.
+In Carl Sagan's novel 'Contact', he imagines that a message to humanity is encoded in the digits of pi. If we design an
+appropriate encoding scheme, we could do a similar thing and treat the digits of pi as music. However, we would encounter
+a similar problem to Borges' librarians - we suspect that every sequence of data we could possibly want is in there
+somewhere, but we don't know where to look.
+
+Fortunately, there are other transcendental numbers that are more predictable. The Champernowne word is a constant whose
+decimal expansion is the concatenation of the digits of the natural numbers.
 
 \begin{verbatim}
-(defn decompose [n]
+(defn decompose-into-digits [n]
   (let [[remainder quotient] ((juxt mod quot) n 10)]
     (if (zero? quotient)
       [remainder]
-      (conj (decompose quotient) remainder))))
+      (conj (decompose-into-digits quotient) remainder))))
 
 (defn champernowne-word
   ([from]
    (->> (range)
         (map (partial + from))
-        (mapcat decompose)))
+        (mapcat decompose-into-digits)))
   ([]
    (champernowne-word 0)))
 
-(fact "The Champernowne word is defined by concatenating the
-       natural numbers base 10."
+(fact
   (->> (champernowne-word) (take 16))
     => [0 1 2 3 4 5 6 7 8 9 1 0 1 1 1 2])
 \end{verbatim}
@@ -234,6 +237,8 @@ they were found to have infringed on the copyright of the Marvin Gaye song 'Got 
 
 (def blurred-lines 12450012001200311273127612731276127312761273127612731276127312761245001200121245001200120031127312761273127612731276127312761273127612731276124500120012124500120012003112731276127312761273127612731276127312761273127612450012001212450012001200311273127612731276127312761273127612731276127312761245001200121240001200120031126812711268127112681271126812711268127112681271124000120012124000120012003112681271126812711268127112681271126812711268127112400012001212400012001200311268127112681271126812711268127112681271126812711240001200121252004100411264125012621249126112471245)
 \end{verbatim}
+
+\section{Conclusion}
 
 \bibliographystyle{plainnat}
 
