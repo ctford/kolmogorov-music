@@ -40,34 +40,58 @@
 \section{Introduction}
 
 \section{Air on the {\textbackslash}G String}
-\begin{verbatim}
-(comment (take 10000 (repeat (* 1000 1000 1000 1000) \G)))
+Very great quantities of data can exhibit very little complexity. Consider the following Clojure expression, which
+evaluates to a sequence of $10^{15}$ uppercase G characters:
 
+\begin{verbatim}
+(repeat (* 1000 1000 1000 1000 1000) \G)
+\end{verbatim}
+
+Though storing such a string would require roughly a petabyte of memory, representing it indirectly as a computation
+takes very little space at all. To put it in perspective, that's roughly the size all music recorded to date,
+described in less than a half a tweet \footnote{Based on the iTunes library featuring approximately 50 million songs
+of approximately 4 megabytes each, and assuming it represents approximately a fifth of all recorded music.}.
+
+We can use Clojure's macro facility to build a crude framework for comparing the size of descriptions and their
+resulting values. The following two definitions are identical, save that description-length is a macro and therefore
+operates on the unevaluated s-expression passed to it as an argument.
+
+\begin{verbatim}
+(defn result-length [expression]
+  (-> expression print-str count))
 
 (defmacro description-length [expression]
   (-> expression print-str count))
 
-(defn result-length [expression]
-  (-> expression print-str count))
-
-
-(fact "The description-length is how long the string representation of the expression is."
-  (description-length (repeat 65 \G)) => 13)
-
-(fact "The result-length is how long the string representation of the evaluated result is."
+(fact "The result-length is how long the string
+       representation of the evaluated result is."
   (result-length (repeat 65 \G)) => 131)
 
+(fact "The description-length is how long the
+       string representation of the expression is."
+  (description-length (repeat 65 \G)) => 13)
+\end{verbatim}
 
+The randomness of a description can be measured by comparing the length of the textual description and the length
+of the resulting value.
+
+\begin{verbatim}
 (defmacro randomness [expression]
-  `(/ (description-length ~expression) (result-length ~expression)))
+  `(/ (description-length ~expression)
+      (result-length ~expression)))
 
-(fact "Kolmogorov randomness is the compression ratio between the description and the result."
-  (randomness (repeat 65 \G)) => 13/131
-  (randomness (->> 71 char repeat first)) => 26)
-
+(fact "Kolmogorov randomness is the compression
+       ratio between the description and the result."
+  (randomness (repeat 65 \G)) => 13/131)
 \end{verbatim}
 
 \section{Analysis by compression}
+
+David Meredith has used Kolmogorov complexity to compare the quality of musical analyses. The theory goes that the
+more concise the algorithmic description of a piece, the better the musical model.
+
+Using this idea, we can show that composing "Row, row, row your boat" out of sequences of durations and pitches
+is a better description of the piece than the raw notes.
 
 \begin{verbatim}
 (def row-row
@@ -88,56 +112,74 @@
                  [  4    3    2    1    0]))
        (canon/canon (canon/simple 4))
        (where :pitch (comp scale/A scale/major))))
+\end{verbatim}
 
-(comment
-  (live/play row-row)
-  (live/jam (var row-row))
-)
+Using a little more macro magic, we can calculate the ratio between the above description and the literal notes
+of the song.
 
-
+\begin{verbatim}
 (defmacro definitionally [macro sym]
   (let [value (-> sym repl/source-fn read-string last)]
     `(~macro ~value)))
 
-(fact "The definitionally macro lets us calculate on the definition of symbols."
+(fact "The definitionally macro lets us calculate on the
+       definition of symbols."
   (definitionally description-length row-row) => 281
   (definitionally result-length row-row) => 2037
   (definitionally randomness row-row) => 281/2037)
-
 \end{verbatim}
 
 \section{The Library of Babel}
-\begin{verbatim}
 
+The Kleene star is the set of all possible substrings built from a set of elements.
+
+\begin{verbatim}
 (defn kleene* [elements]
-  (letfn [(expand [strings] (for [s strings e elements] (conj s e)))]
+  (letfn [(expand [strings]
+            (for [s strings e elements] (conj s e)))]
     (->>
       (lazy-seq (kleene* elements))
       expand
       (cons []))))
+\end{verbatim}
 
+We can use the Kleene star with an alphabet of the ASCII alphabet to construct all possible ASCII strings as a lazy
+sequence. This results in something very similar to the Library of Babel as imagined by Jorge Luis Borges. In this
+vast building of library, are all possible books of four hundred and ten pages in length.
+
+The difference is that our sequence has all possible strings of all finite lengths.
+
+\begin{verbatim}
 (defn library-of-babel []
   (let [ascii (->> (range 32 127) (map char))]
     (->> ascii
        kleene*
        (map (partial apply str)))))
 
-(fact "We can construct all strings as a lazy sequence."
-  (->> (library-of-babel) (take 5)) => ["" " " "!" "\"" "#"]
-  (nth (library-of-babel) 364645) => "GEB")
-
-(fact "Lexicons aren't very random."
-  (randomness (take 10000 (library-of-babel))) => #(< % 1/100))
-
-(comment
-  (take 100000
-     (letfn[(t[](cons[](for[x(lazy-seq(t))e(map char(range 32 65536))](conj x e))))](map #(apply str %)(take-while #(<(count %)141)(t))))))
-
+(fact "We can construct all strings as a lazy
+       sequence."
+  (->> (library-of-babel) (take 5))
+    => ["" " " "!" "\"" "#"]
+  (nth (library-of-babel) 364645)
+    => "GEB")
 \end{verbatim}
 
-\section{Contact}
-\begin{verbatim}
+Lexicon's are interesting from a Kolmogorov complexity perspective, because they can be described concisely yet contain
+multitudes. Paradoxically, lexicons display the property that the whole is simpler than (almost all of) the parts. That is,
+the Kolmogorov complexity of all strings in our Library of Babel beyond a certain size are more complicated to describe
+than the Library as a whole.
 
+Borges appreciated this paradox. His anonymous narrator concludes that "On some shelf in some hexagon (men reasoned)
+there must exist a book which is the formula and perfect compendium of all the rest"?????. Any of the many books that contain
+our library-of-babel function match the narrator's description, though the books that also contain the rest of this paper
+must surely provide more helpful context.
+
+\section{Contact}
+
+The Champernowne word is a transcendental constant whose decimal expansion is the concatenation of the digits of the
+natural numbers.
+
+\begin{verbatim}
 (defn decompose [n]
   (let [[remainder quotient] ((juxt mod quot) n 10)]
     (if (zero? quotient)
@@ -152,19 +194,19 @@
   ([]
    (champernowne-word 0)))
 
-(fact "The Champernowne word is defined by concatenating the natural numbers base 10."
-  (->> (champernowne-word) (take 16)) => [0 1 2 3 4 5 6 7 8 9 1 0 1 1 1 2])
+(fact "The Champernowne word is defined by concatenating the
+       natural numbers base 10."
+  (->> (champernowne-word) (take 16))
+    => [0 1 2 3 4 5 6 7 8 9 1 0 1 1 1 2])
 \end{verbatim}
 
 \section{Anti}
 
 \section{Blurred Lines}
+
+'Blurred Lines' is a pop song that was written by Pharrell Williams and Robin Thicke. In March 2015,
+they were found to have infringed on the copyright of the Marvin Gaye song 'Got to Give It Up'.
 \begin{verbatim}
-
-(defmethod live/play-note :default
-  [{hertz :pitch seconds :duration}]
-  (when hertz (geb/overchauffeur (midi->hz hertz) seconds)))
-
 (defn copyright-infringement-song
   ([skip-to]
    (->>
@@ -175,11 +217,6 @@
    ([] (copyright-infringement-song 0)))
 
 (def blurred-lines 12450012001200311273127612731276127312761273127612731276127312761245001200121245001200120031127312761273127612731276127312761273127612731276124500120012124500120012003112731276127312761273127612731276127312761273127612450012001212450012001200311273127612731276127312761273127612731276127312761245001200121240001200120031126812711268127112681271126812711268127112681271124000120012124000120012003112681271126812711268127112681271126812711268127112400012001212400012001200311268127112681271126812711268127112681271126812711240001200121252004100411264125012621249126112471245)
-
-(comment
-  (live/play (copyright-infringement-song blurred-lines))
-  (live/play (copyright-infringement-song)))
-
 \end{verbatim}
 
 \bibliographystyle{plainnat}
