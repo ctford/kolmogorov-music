@@ -173,7 +173,8 @@ having to paste in the entire expression.
 
 \section{The Library of Babel}
 
-The Kleene star is the set of all possible strings built from a set of elements.
+The Kleene star is the set of all possible strings built from a set of elements. Here is a function that takes a set of
+elements and produces an enumeration of the Kleene star of the set as a lazy sequence.
 
 \begin{verbatim}
 (defn kleene* [elements]
@@ -185,8 +186,8 @@ The Kleene star is the set of all possible strings built from a set of elements.
       (cons []))))
 \end{verbatim}
 
-We can use this construction with an ASCII alphabet to obtain all possible ASCII strings as a lazy
-sequence. This results in something very similar to the Library of Babel as imagined by Jorge Luis Borges. In his
+We can use this construction with an ASCII alphabet to obtain all possible ASCII strings.
+This results in something very similar to the Library of Babel as imagined by Jorge Luis Borges. In his
 vast fictional library, thousands of hexagonal rooms house all possible books of four hundred and ten pages.
 
 The difference is that our sequence has all possible strings of all finite lengths.
