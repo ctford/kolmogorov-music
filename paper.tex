@@ -1,3 +1,42 @@
+% Based on the template for sigplanconf LaTeX Class by Paul C. Anagnostopoulos (paul@windfall.com)
+\documentclass[preprint]{sigplanconf}
+
+\usepackage{amsmath}
+
+\newcommand{\cL}{{\cal L}}
+
+\begin{document}
+
+\special{papersize=8.5in,11in}
+\setlength{\pdfpageheight}{\paperheight}
+\setlength{\pdfpagewidth}{\paperwidth}
+
+\conferenceinfo{FARM 2016}{September 24, 2016, Nara, Japan}
+\copyrightyear{2016}
+%\copyrightdata{978-1-nnnn-nnnn-n/yy/mm}
+%\copyrightdoi{nnnnnnn.nnnnnnn}
+
+\title{Algomusicology, ?, Profit}
+%\subtitle{Subtitle Text, if any}
+
+\authorinfo{Chris Ford}
+           {ThoughtWorks}
+           {christophertford@gmail.com}
+
+\maketitle
+
+\begin{abstract}
+This is the text of the abstract.
+\end{abstract}
+
+%\category{CR-number}{subcategory}{third-level}
+
+\keywords
+keyword1, keyword2
+
+\section{Introduction}
+
+\begin{verbatim}
 (ns kolmogorov-music.talk
   (:require [clojure.repl :as repl]
             [midje.sweet :refer :all :exclude [after]]
@@ -184,3 +223,18 @@
   (live/play (copyright-infringement-song blurred-lines))
   (live/play (copyright-infringement-song)))
 
+\end{verbatim}
+
+\bibliographystyle{abbrvnat}
+
+% The bibliography should be embedded for final submission.
+
+\begin{thebibliography}{}
+\softraggedright
+
+\bibitem[Smith et~al.(2009)Smith, Jones]{smith02}
+P. Q. Smith, and X. Y. Jones. ...reference text...
+
+\end{thebibliography}
+
+\end{document}
