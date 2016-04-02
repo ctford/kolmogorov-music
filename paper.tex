@@ -202,9 +202,12 @@ The difference is that our sequence has all possible strings of all finite lengt
   (nth (library-of-babel) 364645) => "GEB")
 \end{verbatim}
 
-Lexicons are interesting from a Kolmogorov complexity perspective, because they can be described concisely yet contain
-multitudes. Paradoxically, lexicons display the property that the whole is simpler than (almost all of) the parts. That is,
-the Kolmogorov complexity of all strings in our Library of Babel beyond a certain size are more complicated to describe
+If we take the Kleene star of a particular alphabet, order the results countably, and then concatenate them, we get
+a disjunctive sequence or lexicon. A lexicon has the property that every finite string is a substring.
+
+The result of the Kleene star are interesting from a Kolmogorov complexity perspective, because they can be described
+concisely yet contain multitudes. Paradoxically, it displays the property that the whole is simpler than (almost all of)
+the parts. That is, the Kolmogorov complexity of one string in our Library of Babel is more complicated to describe
 than the Library taken as a whole.
 
 Borges appreciated this paradox. His anonymous narrator reports that on "some shelf in some hexagon (men reasoned)
@@ -219,8 +222,16 @@ appropriate encoding scheme, we could do a similar thing and treat the digits of
 a similar problem to Borges' librarians - we suspect that every sequence of data we could possibly want is in there
 somewhere, but we don't know where to look.
 
+If pi does have every possible of digits within its decimal expansion, then it's a disjunctive
+sequence or lexicon. But we don't know for sure.
+
 Fortunately, there are other transcendental numbers that are more predictable. The Champernowne word is a constant whose
-decimal expansion is the concatenation of the digits of the natural numbers.
+decimal expansion is the concatenation of the digits of the natural numbers. The Champernowne word is definitively a lexicon,
+which can be concluded by observing that it eventually contains any natural number. Any sequence of digits corresponds to
+a natural number, so the word must contain all sequences of digits.
+
+Of course, the sequence of digits may occur earlier too - the string "34" first occurs when the natural numbers three and
+four are serialised, well before the natural number 34 is.
 
 \begin{verbatim}
 (defn decompose-into-digits [n]
