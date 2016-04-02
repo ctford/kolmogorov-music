@@ -91,17 +91,20 @@ operates on the unevaluated s-expression passed to it as an argument.
   (description-length (repeat 65 \G)) => 13)
 \end{verbatim}
 
-The randomness of a description can be measured by comparing the length of the textual description and the length
-of the resulting value. If there is no way to describe a value more concisely than the value itself, we say that it is
-random.
+The explanatory power of a description can be measured by comparing the length of the textual description and the length
+of the resulting value. Explanatory power is the reciprocal of the compression ratio, where representing a value by an
+expression is viewed as a compression strategy.
+
+If there is no way to describe a value more concisely than the value itself, we say that it is random. An explanatory
+power of one or less is no explanation at all.
 
 \begin{verbatim}
-(defmacro randomness [expression]
-  `(/ (description-length ~expression)
-      (result-length ~expression)))
+(defmacro explanatory-power [expression]
+  `(/ (result-length ~expression)
+      (description-length ~expression)))
 
 (fact
-  (randomness (repeat 65 \G)) => 13/131)
+  (explanatory-power (repeat 65 \G)) => 131/13)
 \end{verbatim}
 
 \section{Analysis by compression}
@@ -134,7 +137,8 @@ is a better description of the piece than the raw notes.
 \end{verbatim}
 
 Using a little more macro magic, we can calculate the ratio between the above description and the literal notes
-of the song.
+of the song. The definitional macro allows us to use the symbol row-row in our fact notation, rather than having to
+paste in the entire expression.
 
 \begin{verbatim}
 (defmacro definitional [macro sym]
@@ -144,7 +148,7 @@ of the song.
 (fact
   (definitional description-length row-row) => 281
   (definitional result-length row-row) => 2037
-  (definitional randomness row-row) => 281/2037)
+  (definitional explanatory-power row-row) => 2037/281)
 \end{verbatim}
 
 \section{The Library of Babel}

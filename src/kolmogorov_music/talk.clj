@@ -59,12 +59,11 @@
   (result-length (repeat 65 \G)) => 131)
 
 
-(defmacro randomness [expression]
-  `(/ (description-length ~expression) (result-length ~expression)))
+(defmacro explanatory-power [expression]
+  `(/ (result-length ~expression) (description-length ~expression)))
 
-(fact "Kolmogorov randomness is the compression ratio between the description and the result."
-  (randomness (repeat 65 \G)) => 13/131
-  (randomness (->> 71 char repeat first)) => 26)
+(fact "Explanatory power is the reciprocal of the compression ratio."
+  (explanatory-power (repeat 65 \G)) => 131/13)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Analysis by compression ;;;
@@ -96,15 +95,14 @@
 )
 
 
-
-(defmacro definitionally [macro sym]
+(defmacro definitional [macro sym]
   (let [value (-> sym repl/source-fn read-string last)]
     `(~macro ~value)))
 
-(fact "The definitionally macro lets us calculate on the definition of symbols."
-  (definitionally description-length row-row) => 275
-  (definitionally result-length row-row) => 2081
-  (definitionally randomness row-row) => 275/2081)
+(fact "The definitional macro lets us calculate on the definition of symbols."
+  (definitional description-length row-row) => 275
+  (definitional result-length row-row) => 2081
+  (definitional explanatory-power row-row) => 2081/275)
 
 
 
@@ -122,7 +120,7 @@
   )
 
 (fact "Clapping Music is minimal."
-  (definitionally description-length clapping-music) => 228
+  (definitional description-length clapping-music) => 228
   (result-length (->> (clapping-music) (take-while #(-> % :time (< 216))))) => 99151)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -146,8 +144,8 @@
   (->> (library-of-babel) (take 5)) => ["" " " "!" "\"" "#"]
   (nth (library-of-babel) 364645) => "GEB")
 
-(fact "The Library of Babel isn't random."
-  (randomness (take 10000 (library-of-babel))) => #(< % 1/100))
+(fact "Lexicons are well-explained."
+  (explanatory-power (take 10000 (library-of-babel))) => 993)
 
 
 
