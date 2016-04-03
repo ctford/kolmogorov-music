@@ -41,7 +41,7 @@ traditional notions of musical authorship.
 
 \section{Introduction}
 
-The South Park Underpants Gnomes are renowned for their business plan:
+The South Park Underpants Gnomes\cite{Gnomes} are renowned for their business plan:
 \begin{enumerate}
     \item Collect underpants
     \item ?
@@ -62,12 +62,13 @@ This paper will argue that it can. It will do so by citing examples of existing 
 also by using algomusicological concepts to create a work that challenges our present conception of musical authorship and
 copyright.
 
-The examples in this paper are all written in Clojure, a dialect of Lisp. I also rely on Leipzig, a music theory library,
+The examples in this paper are all written in Clojure, a dialect of Lisp. I also rely on Leipzig\cite{Leipzig},
+a music theory library,
 \footnote{Leipzig provides ways of describing notes in terms of higher order concepts like chords and scales.}
-and Midje, a unit testing library.\footnote{Midje allows us to write a unit test as (fact expression => result),
+and Midje\cite{Midje}, a unit testing library.\footnote{Midje allows us to write a unit test as (fact expression => result),
 which asserts that expression evaluates to result.}
 
-\section{Air on the {\textbackslash}G String}
+\section{Air on the {\textbackslash}G String\cite{Air on the G String}}
 Very great quantities of data can exhibit very little complexity. Consider the following Clojure expression, which
 evaluates to a sequence of $10^{15}$ uppercase G characters:
 
@@ -80,6 +81,10 @@ takes very little space at all. That's roughly the size all music ever recorded,
 described in less than a half a tweet\footnote{Based on the iTunes library featuring approximately 50 million songs
 of approximately 4 megabytes each, and assuming it represents approximately a fifth of all recorded music. Tweets are
 restricted to 140 characters.}.
+
+The insight that the inherent complexity of data can be measured by the length of the computer program needed to express it
+originates with Andrey Kolmogorov\cite{On Tables of Random Numbers}. The Kolmogorov complexity of a piece of data is defined
+as the length of the shortest program that evaluates to it.
 
 We can use Clojure's macro facility to build a crude framework for comparing the size of descriptions and their
 resulting values. The following two definitions are identical, save that \verb|description-length| is a macro and therefore
@@ -132,7 +137,8 @@ for an arbitrary piece of data.
 
 \section{Analysis by compression}
 
-David Meredith has used Kolmogorov complexity to compare the quality of musical analyses. The theory goes that the
+David Meredith has used Kolmogorov complexity to compare the quality of musical analyses\cite{Analysis by Compression}.
+The theory goes that the
 more concise the algorithmic description of a piece, the better the musical model.
 
 Using this idea, we can show that composing "Row, row, row your boat" out of sequences of durations and pitches
@@ -191,7 +197,7 @@ elements and enumerates the Kleene star of that set as a lazy sequence.
 \end{verbatim}
 
 We can use this construction with an ASCII alphabet to obtain all possible ASCII strings.
-This results in something very similar to the Library of Babel as imagined by Jorge Luis Borges. In his
+This results in something very similar to the Library of Babel as imagined by Jorge Luis Borges\cite{The Library of Babel}. In his
 vast fictional library, thousands of hexagonal rooms house all possible books of four hundred and ten pages.
 
 The difference is that our sequence has all possible strings of all finite lengths.
@@ -225,10 +231,10 @@ though the books that also contain the rest of this paper must surely provide mo
 
 \section{Contact}
 
-In Carl Sagan's novel 'Contact', he imagines that a message to humanity is encoded in the digits of pi. If we design an
-appropriate encoding scheme, we could do a similar thing and treat the digits of pi as music. However, we would encounter
-a similar problem to Borges' librarians - we suspect that every sequence of data we could possibly want is in there
-somewhere, but we don't know where to look.
+In Carl Sagan's novel 'Contact'\cite{Contact}, he imagines that a message to humanity is encoded in the digits of pi.
+If we design an appropriate encoding scheme, we could do a similar thing and treat the digits of pi as music. However,
+we would encounter a similar problem to Borges' librarians - we suspect that every sequence of data we could possibly want
+is in there somewhere, but we don't know where to look.
 
 If pi's decimal expansion does have every possible combination of digits, then it's what is known as a disjunctive
 sequence or lexicon. But we don't know for sure. No one has been able to prove it either way.
@@ -276,16 +282,18 @@ without having to generate all the previous digits.
 
 The Criminal Justice and Public Order Act 1994 was an attempt by the UK Government to curb rave culture. The musicological
 dilemma encountered by the government of the day was how to define raves. They settled on prohibiting gatherings where
-"a succession of repetitive beats" were played.
+"a succession of repetitive beats" were played\cite{Joseph Gallivan on pop}.
 
-The duo Autechre responded with the Anti EP, whose third track 'Flutter', was designed to protest the legislation. Band member
+The duo Autechre responded with the Anti EP\cite{Anti EP}, whose third track 'Flutter', was designed to protest the legislation.
+Band member
 Sean Booth explained that they "made as many different bars as we could on the drum machine, then strung them all together."
+\cite{Joseph Gallivan on pop}
 In other words, as every bar features a unique beat, 'Flutter' does not match the government's algomusicological description
 of "repetitive beats".
 
 Autechre appreciated the practical difficulties of negotiating the subtleties of complexity theory at 3am in a field,
 so they advised DJs to "have a lawyer and a musicologist present at all times to confirm the non repetitive nature of the
-music in the event of police harassment."
+music in the event of police harassment."\cite{Joseph Gallivan on pop}
 
 Both legislators and artists are clearly taking algomusicological positions. The government attempted to construct the set
 of all rave musics using a complexity characterisation. Autechre responded with what amounts to a diagonal argument, demonstrating
@@ -293,8 +301,8 @@ the inadequacy of the original claim.
 
 \section{Blurred Lines}
 
-'Blurred Lines' is a 2013 pop song written by Pharrell Williams and Robin Thicke. In March 2015,
-they were found to have infringed on the copyright of the Marvin Gaye song 'Got to Give It Up'.
+'Blurred Lines' is a 2013 pop song written by Pharrell Williams and Robin Thicke\cite{Blurred Lines}. In March 2015,
+they were found to have infringed on the copyright of the Marvin Gaye song 'Got to Give It Up'\cite{Got to Give It Up}.
 
 Such judgements are perilous from a musicological point of view, as they are often based on a jury's intuition as to
 the similarity between songs and not, for example, on a conditional Kolmogorov complexity analysis of the distance between
@@ -363,6 +371,17 @@ Thank you to the StrangeLoop conference of 2015, which accepted the talk 'Kolmog
 
 \bibitem{Overtone} Aaron, Sam and Rose, Jeff: Overtone (\url{http://overtone.github.io})
 \bibitem{Anti EP} Autechre: Anti EP (\url{https://en.wikipedia.org/wiki/Anti_EP})
+\bibitem{Air on the G String} Bach, Johann Sebastian: Air on the G String
+\bibitem{The Library of Babel} Borges, Jorge Luis
+\bibitem{Gnomes} Brady, Pam, Parker, Trey and Stone, Matt. Episode 17, season 2 of South Park
+\bibitem{Got to Give It Up} Got to Give It Up: Gaye, Marvin
+\bibitem{Leipzig} Ford, Chris: Leipzig
+\bibitem{Joseph Gallivan on pop} Gallivan, Joseph: Joseph Gallivan on pop (\url{http://www.independent.co.uk/life-style/jospeh-gallivan-on-pop-1414727.html})
+\bibitem{On Tables of Random Numbers}  Kolmogorov, Andrey: On Tables of Random Numbers
+\bibitem{Midje} Marick, Brian: Midje
+\bibitem{Analysis by Compression} Meredith, David: Analysis by Compression
+\bibitem{Contact} Sagan, Carl: Contact
+\bibitem{Blurred Lines} Williams, Pharrel and Thicke, Robin: Blurred Lines
 
 \end{thebibliography}
 
