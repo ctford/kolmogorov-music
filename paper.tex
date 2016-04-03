@@ -62,11 +62,8 @@ This paper will argue that it can. It will do so by citing examples of existing 
 also by using algomusicological concepts to create a work that challenges our present conception of musical authorship and
 copyright.
 
-The examples in this paper are all written in Clojure, a dialect of Lisp. I also rely on Leipzig\cite{Leipzig},
-a music theory library,
-\footnote{Leipzig provides ways of describing notes in terms of higher order concepts like chords and scales.}
-and Midje\cite{Midje}, a unit testing library.\footnote{Midje allows us to write a unit test as (fact expression => result),
-which asserts that expression evaluates to result.}
+The examples in this paper are all written in Clojure\cite{Clojure}, a dialect of Lisp. I also rely on Leipzig\cite{Leipzig},
+a music theory library, and Midje\cite{Midje}, a unit testing library.
 
 \section{Air on the {\textbackslash}G String\cite{Air on the G String}}
 Very great quantities of data can exhibit very little complexity. Consider the following Clojure expression, which
@@ -99,6 +96,8 @@ operates on the unevaluated expression.
 \end{verbatim}
 
 Here is an example of using these definitions to calculate the description and result length of a short sequence of Gs.
+The \verb|fact| notation is due to Midje, which allows us to write \verb|(fact expression => result)|,
+which asserts that \verb|expression| evaluates to \verb|result|.
 
 \begin{verbatim}
 (fact
@@ -142,7 +141,8 @@ The theory goes that the
 more concise the algorithmic description of a piece, the better the musical model.
 
 Using this idea, we can show that composing "Row, row, row your boat" out of sequences of durations and pitches
-is a better description of the piece than the raw notes.
+is a better description of the piece than the raw notes. The music functions e.g. \verb|phrase| are due to Leipzig,
+and emit a time series data structure representing the resulting notes. \verb|;| indicates a comment in Clojure.
 
 \begin{verbatim}
 (def row-row
@@ -223,7 +223,7 @@ the parts. That is, the Kolmogorov complexity of one string in our Library of Ba
 than the Library taken as a whole.
 
 Borges appreciated this paradox. His anonymous narrator reports that on "some shelf in some hexagon (men reasoned)
-there must exist a book which is the formula and perfect compendium of all the rest"?????. In other words, that one book
+there must exist a book which is the formula and perfect compendium of all the rest". In other words, that one book
 epitomises the complexity of the entire library.
 
 Any of the many books that contain our \verb|library-of-babel| function match the narrator's description,
@@ -302,7 +302,8 @@ the inadequacy of the original claim.
 \section{Blurred Lines}
 
 'Blurred Lines' is a 2013 pop song written by Pharrell Williams and Robin Thicke\cite{Blurred Lines}. In March 2015,
-they were found to have infringed on the copyright of the Marvin Gaye song 'Got to Give It Up'\cite{Got to Give It Up}.
+they were found to have infringed on the copyright of the Marvin Gaye song 'Got to Give It Up'\cite{Got to Give It Up}
+\cite{USA Today}.
 
 Such judgements are perilous from a musicological point of view, as they are often based on a jury's intuition as to
 the similarity between songs and not, for example, on a conditional Kolmogorov complexity analysis of the distance between
@@ -362,6 +363,9 @@ of every marginally successful musical work from now until they fix the law.
 
 Thank you to the StrangeLoop conference of 2015, which accepted the talk 'Kolmogorov Music' from which this paper derives.
 
+Thank you also to Sam Aaron and Jeff Rose for giving the world Overtone\cite{Overtone}, the audio programming environment
+that made this paper possible.
+
 \bibliographystyle{plainnat}
 
 % The bibliography should be embedded for final submission.
@@ -370,16 +374,18 @@ Thank you to the StrangeLoop conference of 2015, which accepted the talk 'Kolmog
 \softraggedright
 
 \bibitem{Overtone} Aaron, Sam and Rose, Jeff: Overtone (\url{http://overtone.github.io})
-\bibitem{Anti EP} Autechre: Anti EP (\url{https://en.wikipedia.org/wiki/Anti_EP})
-\bibitem{Air on the G String} Bach, Johann Sebastian: Air on the G String
-\bibitem{The Library of Babel} Borges, Jorge Luis
+\bibitem{Anti EP} Autechre: Anti EP
+\bibitem{Air on the G String} Wilhelmj, August arranging Bach, Johann Sebastian: Air on the G String
+\bibitem{The Library of Babel} Borges, Jorge Luis: The Library of Babel
 \bibitem{Gnomes} Brady, Pam, Parker, Trey and Stone, Matt. Episode 17, season 2 of South Park
 \bibitem{Got to Give It Up} Got to Give It Up: Gaye, Marvin
 \bibitem{Leipzig} Ford, Chris: Leipzig
 \bibitem{Joseph Gallivan on pop} Gallivan, Joseph: Joseph Gallivan on pop (\url{http://www.independent.co.uk/life-style/jospeh-gallivan-on-pop-1414727.html})
+\bibitem{Clojure} Hickey, Rich: Clojure
 \bibitem{On Tables of Random Numbers}  Kolmogorov, Andrey: On Tables of Random Numbers
 \bibitem{Midje} Marick, Brian: Midje
 \bibitem{Analysis by Compression} Meredith, David: Analysis by Compression
+\bibitem{USA Today} Oldenburg, Ann: 'Blurred Lines' jury finds for Marvin Gaye (\url{http://www.usatoday.com/story/life/music/2015/03/10/blurred-lines-trial-verdict/24492431/})
 \bibitem{Contact} Sagan, Carl: Contact
 \bibitem{Blurred Lines} Williams, Pharrel and Thicke, Robin: Blurred Lines
 
