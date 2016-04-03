@@ -17,7 +17,9 @@
 %\copyrightdata{978-1-nnnn-nnnn-n/yy/mm}
 %\copyrightdoi{nnnnnnn.nnnnnnn}
 
-\title{Algomusicology, ???, Profit}
+\publicationrights{author-pays}
+
+\title{Algomusicology, ????, Profit}
 %\subtitle{Subtitle Text, if any}
 
 \authorinfo{Chris Ford}
@@ -46,14 +48,14 @@ The South Park Underpants Gnomes are renowned for their business plan:
     \item Profit
 \end{enumerate}
 
-A common interpretation of the Gnomes' business is as a satire on Silicon Valley startups. Art critics, literary critics,
-algomusicologists and start-uppers have a challenge in common with the Underpants Gnomes
-- we may have collected a considerable quantity of underpants/art/users, but how are we to turn that into profit?
+A common interpretation of the Gnomes' business is as a satire on Silicon Valley startups.
+Algomusicologists and starter-uppers have a challenge in common with the Underpants Gnomes
+- we may have collected and analysed a considerable quantity of underpants/music/users, but how are we to turn that into profit?
 
 Less glibly, is algomusicology doomed to be a mere observer and explainer of musical practice, or might it become an
-active participant? Computer science is able to influence industry, though that might take longer than we'd like.
-\footnote{Alonzo Church developed the lambda calculus in the 1930s. Java gained lambda expressions in 2015.} Can
-algomusicology influence music?\footnote{This paper appears to be the first reference to algomusicology. I believe the term,
+active participant in the conversation? Computer science is able to influence the software industry, though that might take longer
+than we'd like. \footnote{Alonzo Church developed the lambda calculus in the 1930s. Java gained lambda expressions in 2015.}
+Can algomusicology influence music?\footnote{This paper appears to be the first reference to algomusicology. I believe the term,
 which is a portmanteau of algorave and musicology, has a self-evident definition.}
 
 This paper will argue that it can. It will do so by citing examples of existing art works that are algorithmic in nature, and
@@ -61,6 +63,7 @@ also by using algomusicological concepts to create a work that challenges our pr
 copyright.
 
 The examples in this paper are all written in Clojure, a dialect of Lisp. I also rely on Leipzig, a music theory library,
+\footnote{Leipzig provides ways of describing notes in terms of higher order concepts like chords and scales.}
 and Midje, a unit testing library.\footnote{Midje allows us to write a unit test as (fact expression => result),
 which asserts that expression evaluates to result.}
 
@@ -80,7 +83,7 @@ restricted to 140 characters.}.
 
 We can use Clojure's macro facility to build a crude framework for comparing the size of descriptions and their
 resulting values. The following two definitions are identical, save that \verb|description-length| is a macro and therefore
-operates on the unevaluated expression that is passed to it.
+operates on the unevaluated expression.
 
 \begin{verbatim}
 (defn result-length [expression]
@@ -99,12 +102,12 @@ Here is an example of using these definitions to calculate the description and r
 \end{verbatim}
 
 The explanatory power of a description can be measured by comparing the length of the textual description and the length
-of the resulting value. Explanatory power is equivalent to the compression power, where representing a value by an
+of the resulting value. Explanatory power is equivalent to compression power, where representing a value via an
 expression is viewed as a compression strategy.
 
-If there is no way to describe a value more concisely than the value itself, we say that it is random. In other words an
+If there is no way to describe a value more concisely than the value itself, we say that it is random. In other words, an
 explanatory power of one or less is no explanation at all. In compression terms, there is no possible space saving
-to be gained by representing this value by an expression.
+by representing this value by an expression.
 
 \begin{verbatim}
 (defmacro explanatory-power [expression]
@@ -112,8 +115,8 @@ to be gained by representing this value by an expression.
       (description-length ~expression)))
 \end{verbatim}
 
-The explanatory power of our expression for producing 65 Gs is high. A repetitive string of identical characters is
-highly redundant, highly compressible and hence able to be described concisely. The explanatory power of this way of
+The explanatory power of our description of 65 Gs is high. A repetitive string of identical characters is
+highly redundant, highly compressible and hence amenable to concise description. The explanatory power of this way of
 representing the string of Gs this way is just over 10, because the description is about a tenth of the length of the
 value itself.
 
@@ -137,27 +140,28 @@ is a better description of the piece than the raw notes.
 
 \begin{verbatim}
 (def row-row
-  "A simple melody built from durations and pitches."
-              ; Row, row, row  your boat,
-  (->> (phrase [3/3  3/3  2/3  1/3  3/3]
-               [  0    0    0    1    2])
-       (then
-                ; Gent-ly   down the  stream,
+                ; Row, row, row  your boat,
+  (->>   (phrase [3/3  3/3  2/3  1/3  3/3]
+                 [  0    0    0    1    2])
+
+       (then    ; Gent-ly   down the  stream,
          (phrase [2/3  1/3  2/3  1/3  6/3]
                  [  2    1    2    3    4]))
+
        (then    ; Merrily, merrily, merrily, merrily,
          (phrase (repeat 12 1/3)
                  (mapcat #(repeat 3 %) [7 4 2 0])))
-       (then
-                ; Life is   but  a    dream!
+
+       (then    ; Life is   but  a    dream!
          (phrase [2/3  1/3  2/3  1/3  6/3]
                  [  4    3    2    1    0]))
-       (canon/canon (canon/simple 4))
-       (where :pitch (comp scale/A scale/major))))
+
+       (canon (simple 4))
+       (where :pitch (comp A major))))
 \end{verbatim}
 
-Using a little more macro magic, we can calculate the ratio between the above description and the literal notes
-of the song. The \verb|definitional| macro allows us to use the symbol \verb|row-row| in our fact notation, rather than
+We can calculate the ratio between the literal notes of the song and the above description.
+The \verb|definitional| macro allows us to use the symbol \verb|row-row| in our fact notation, rather than
 having to paste in the entire expression.
 
 \begin{verbatim}
@@ -204,7 +208,7 @@ The difference is that our sequence has all possible strings of all finite lengt
   (nth (library-of-babel) 364645) => "GEB")
 \end{verbatim}
 
-If we take the Kleene star of a particular alphabet, order the results and then concatenate them, we get
+If we enumerate and then concatenate the Kleene star of a particular alphabet, it produces
 a disjunctive sequence or lexicon. A lexicon has the property that every finite string is a substring.
 
 The result of the Kleene star are interesting from a Kolmogorov complexity perspective, because they can be described
@@ -226,16 +230,15 @@ appropriate encoding scheme, we could do a similar thing and treat the digits of
 a similar problem to Borges' librarians - we suspect that every sequence of data we could possibly want is in there
 somewhere, but we don't know where to look.
 
-If pi does have every possible of digits within its decimal expansion, then it's a disjunctive
-sequence or lexicon. But we don't know for sure. No one has been able to prove that pi is either disjunctive or not disjunctive.
+If pi's decimal expansion does have every possible combination of digits, then it's what is known as a disjunctive
+sequence or lexicon. But we don't know for sure. No one has been able to prove it either way.
 
-Fortunately, there are other transcendental numbers that are more predictable. The Champernowne word is a constant whose
-decimal expansion is the concatenation of the digits of the natural numbers. The Champernowne word is definitively a lexicon,
-which can be concluded by observing that it eventually contains every natural number. Every sequence of digits corresponds to
-a natural number, so the word must contain all sequences of digits.
+Fortunately, there are other transcendental numbers that are more predictable. The Champernowne constant has a
+decimal expansion that is the concatenation of the digits of the natural numbers. To refer to the sequence of digits
+in its decimal expansion we can simply refer to the Champernowne word.
 
-Of course, the sequence of digits may occur earlier too - the string "34" first occurs when the natural numbers three and
-four are encountered, well before the natural number 34 is.
+Here we construct the Champernowne word by decomposing each natural number into its constituent digits and concatenating
+the results together.
 
 \begin{verbatim}
 (defn decompose-into-digits [n]
@@ -255,9 +258,18 @@ four are encountered, well before the natural number 34 is.
     => [0 1 2 3 4 5 6 7 8 9 1 0 1 1 1 2])
 \end{verbatim}
 
-Here we generate the Champernowne word in the way that it is normally done. We start at zero, and decompose the digits of
+It is easily seen to be a lexicon for the decimal digits, because:
+\begin{enumerate}
+    \item By definition, the Champernowne word includes every natural number.
+    \item Every sequence of digits corresponds to a natural number.
+    \item Therefore, the Champernowne word contains all possible sequences of digits.
+\end{enumerate}
+Of course, a sequence of digits may occur earlier than its natural number - the sequence "34" first occurs when numbers three and
+four are encountered, well in advance of the natural number 34.
+
+In the above example we generate the word starting from zero, and decompose the digits of
 every subsequent natural number. However, we could just as easily start at any other natural number, which is demonstrated
-by the \verb|skip-to| argument. This is a useful property, because it lets us jump straight to any part of the constant
+by the \verb|skip-to| parameter. This is a useful property, because it lets us jump straight to any part of the constant
 without having to generate all the previous digits.
 
 \section{Anti}
@@ -271,7 +283,7 @@ music with "repetitive beats"?????. Autechre responded with a track in which eve
 they were found to have infringed on the copyright of the Marvin Gaye song 'Got to Give It Up'.
 
 As a response to this situation, I decided to compose a track that would infringe on the copyright of both songs. The following
-piece decodes the Champernowne word into music.
+piece decodes the Champernowne word into music of three parts.
 
 \begin{verbatim}
 (defn copyright-infringement-song
@@ -309,7 +321,7 @@ What's more, every other song is also somewhere in there. Past, present and futu
 
 Here we finally come to the profit generation strategy - copyright litigation. As the \verb|copyright-infringement-song| is
 a universal piece of music, any work published subsequent to it infringes on its copyright.\footnote{I am not a lawyer. Do not rely on my legal advice.} In order to convert our algomusicological understanding into profit, we simply have to sue the composers
-of every marginally successful musical work from now until they change the law.
+of every marginally successful musical work from now until they fix the law.
 
 \section{Conclusion}
 
@@ -318,6 +330,10 @@ of every marginally successful musical work from now until they change the law.
     \item Copyright litigation
     \item Profit!
 \end{enumerate}
+
+\acks
+
+Thank you to the StrangeLoop conference of 2015, which accepted the talk 'Kolmogorov Music' from which this paper derives.
 
 \bibliographystyle{plainnat}
 
