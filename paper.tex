@@ -251,7 +251,9 @@ the results together.
   (let [[remainder quotient] ((juxt mod quot) n 10)]
     (if (zero? quotient)
       [remainder]
-      (conj (decompose-into-digits quotient) remainder))))
+      (conj
+        (decompose-into-digits quotient)
+        remainder))))
 
 (defn champernowne-word
   [skip-to]
