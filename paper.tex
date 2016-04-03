@@ -178,7 +178,7 @@ having to paste in the entire expression.
 \section{The Library of Babel}
 
 The Kleene star is the set of all possible strings built from a set of elements. Here is a function that takes a set of
-elements and produces an enumeration of the Kleene star of the set as a lazy sequence.
+elements and enumerates the Kleene star of that set as a lazy sequence.
 
 \begin{verbatim}
 (defn kleene* [elements]
@@ -272,18 +272,36 @@ every subsequent natural number. However, we could just as easily start at any o
 by the \verb|skip-to| parameter. This is a useful property, because it lets us jump straight to any part of the constant
 without having to generate all the previous digits.
 
-\section{Anti}
+\section{Flutter}
 
-A notorious example. The British government of the time wished to discourage rave culture, so it passed legislation that banned
-music with "repetitive beats"?????. Autechre responded with a track in which every bar features a unique beat?????.
+The Criminal Justice and Public Order Act 1994 was an attempt by the UK Government to curb rave culture. The musicological
+dilemma encountered by the government of the day was how to define raves. They settled on prohibiting gatherings where
+"a succession of repetitive beats" were played.
+
+The duo Autechre responded with the Anti EP, whose third track 'Flutter', was designed to protest the legislation. Band member
+Sean Booth explained that they "made as many different bars as we could on the drum machine, then strung them all together."
+In other words, as every bar features a unique beat, 'Flutter' does not match the government's algomusicological description
+of "repetitive beats".
+
+Autechre appreciated the practical difficulties of negotiating the subtleties of complexity theory at 3am in a field,
+so they advised DJs to "have a lawyer and a musicologist present at all times to confirm the non repetitive nature of the
+music in the event of police harassment."
+
+Both legislators and artists are clearly taking algomusicological positions. The government attempted to construct the set
+of all rave musics using a complexity characterisation. Autechre responded with what amounts to a diagonal argument, demonstrating
+the inadequacy of the original claim.
 
 \section{Blurred Lines}
 
-'Blurred Lines' is a pop song that was written by Pharrell Williams and Robin Thicke. In March 2015,
+'Blurred Lines' is a 2013 pop song written by Pharrell Williams and Robin Thicke. In March 2015,
 they were found to have infringed on the copyright of the Marvin Gaye song 'Got to Give It Up'.
 
+Such judgements are perilous from a musicological point of view, as they are often based on a jury's intuition as to
+the similarity between songs and not, for example, on a conditional Kolmogorov complexity analysis of the distance between
+the two compositions.
+
 As a response to this situation, I decided to compose a track that would infringe on the copyright of both songs. The following
-piece decodes the Champernowne word into music of three parts.
+piece decodes the Champernowne word into music.
 
 \begin{verbatim}
 (defn copyright-infringement-song
@@ -317,7 +335,8 @@ There is nothing in the description of the \verb|copyright-infringement-song| th
 It is simply a straightforward musical rendering of a well-known mathematical constant derived from the decimal counting
 system.
 
-What's more, every other song is also somewhere in there. Past, present and future.
+What's more, every other song is also somewhere in there. Past, present and future compositions already exist somewhere in
+the depths of this infinite piece.
 
 Here we finally come to the profit generation strategy - copyright litigation. As the \verb|copyright-infringement-song| is
 a universal piece of music, any work published subsequent to it infringes on its copyright.\footnote{I am not a lawyer. Do not rely on my legal advice.} In order to convert our algomusicological understanding into profit, we simply have to sue the composers
