@@ -83,7 +83,8 @@ restricted to 140 characters.}
 
 The insight that the inherent complexity of data can be measured by the length of the computer program needed to express it
 originates with Andrey Kolmogorov\cite{On Tables of Random Numbers}. The Kolmogorov complexity of a piece of data is defined
-as the length of the shortest program that evaluates to it.
+as the length of the shortest program that evaluates to it. The greater the structural regularity, the more opportunities
+to express the data using a short expression.
 
 We can use Clojure's macro facility to build a crude framework for comparing the size of descriptions and their
 resulting values. The following two definitions are identical, save that \verb|description-length| is a macro and therefore
@@ -145,7 +146,7 @@ how might we compare two different analyses of the same piece?
 Meredith's answer is that by representing an analysis of a piece of music as a computer program, we can use Kolmogov complexity
 to objectively measure the quality of the explanation it provides. A short program must necessarily capture a lot of the structure
 of a piece, because summarising a piece's structure is the only way to achieve compression. A longer program is a worse explanation,
-because it has missed opportunities to exploit the structure of the piece.
+because it has missed opportunities to exploit structural regularities in the piece.
 
 Representing the notes of a piece as code is straightforward, as a series of notes can, to a first approximation,
 be generated from a sequence of durations and a sequence of pitches. The following example uses Leipzig's \verb|phrase| function,
@@ -166,6 +167,7 @@ Individual phrases can be combined together to form larger pieces. Here are two 
       (phrase [3/3  3/3  2/3  1/3  3/3]
               [  0    0    0    1    2])))
 
+
   (->>
     (phrase [3/3  3/3  2/3  1/3  3/3]
             [  0    0    0    1    2])
@@ -175,6 +177,9 @@ Individual phrases can be combined together to form larger pieces. Here are two 
 The latter way is considerably shorter. It also demonstrates a greater understanding of the piece. The notes are exactly
 repeated twice, so writing them out again longhand is a waste. The first way of writing the notes misses this opportunity to
 summarise and is therefore a worse explanation.
+
+One might imagine that a maintainer of this musical code would refactor the former expression into the latter. Viewed this way,
+refactoring away repetition can be seen as improving the explanatory power of the code.
 
 Using this idea, we can show that composing "Row, row, row your boat" out of sequences of durations and pitches
 is a better description of the piece than the raw notes. \verb|;| indicates a comment in Clojure.
@@ -228,8 +233,7 @@ Here is the definition of \verb|canon|:
 \end{verbatim}
 
 In a canon, every note has two lives. Firstly, it is played straight. Secondly, it is played again in a modified form according
-to the canon's \verb|f|. By understanding this, we can almost halve the length of the program we need to
-produce the piece.
+to the canon's \verb|f|. By understanding this, we can almost halve the length of the program we need to produce the piece.
 
 The more concise the algorithmic description of a piece, the better the musical model.
 
@@ -250,11 +254,19 @@ length, starting from the empty string.
       (cons []))))
 \end{verbatim}
 
-We can use this construction with an ASCII alphabet to obtain all possible ASCII strings.
-This results in something very similar to the Library of Babel as imagined by Jorge Luis Borges\cite{The Library of Babel}. In his
-vast fictional library, thousands of hexagonal rooms house all possible books of four hundred and ten pages.
+We can use this construction with an ASCII alphabet to obtain all possible ASCII strings. We might just as easily have
+used the letters 'G', 'A', 'T' and 'C' to generate every possible DNA sequence.
 
-The difference is that our sequence has all possible strings of all finite lengths.
+This results in something very similar to the Library of Babel as imagined by Jorge Luis Borges\cite{The Library of Babel}. In his
+vast fictional library, thousands of hexagonal rooms house all possible books of four hundred and ten pages. Melancholic
+librarians spend their entire lives toiling in its maddiningly symetrical depths.
+
+Some books exhibit apparent sense, most exhibit none. The narrator describes one that is "a mere labyrinth of letters,
+but the next-to-last page says \textit|Oh time thy pyramids|."
+
+Unlike Borges's library, our strings are not limited to four hundred and ten pages. Because of this limit, the Library of Babel
+must either be finite, or have identical copies of the same book. Our list is an infinite sequence of all possible strings of
+all finite lengths.
 
 \begin{verbatim}
 (defn library-of-babel []
@@ -270,16 +282,17 @@ The difference is that our sequence has all possible strings of all finite lengt
 
 If we enumerate the Kleene star of a particular alphabet, we get a sequence of all its possible strings.
 If we concatenate them all together into one long string, it produces what is known as a disjunctive sequence or lexicon.
-A lexicon contains every finite string as a substring.
+A lexicon contains every finite string as a substring. It's called a lexicon because it says everything that is possible
+to say with that alphabet.
 
 The results of the Kleene star are interesting from a Kolmogorov complexity perspective, because they can be described
-concisely yet contain multitudes. Paradoxically, it displays the property that the whole is simpler than (almost all of)
-the parts. That is, the Kolmogorov complexity of one string in our Library of Babel is more complicated to describe
-than the Library taken as a whole.
+concisely yet contain multitudes. Paradoxically, the whole is simpler than (almost all of) the parts.
+That is, the Kolmogorov complexity of one string in our Library of Babel is more complicated to describe than the Library
+taken as a whole.
 
 Borges appreciated this paradox. His anonymous narrator reports that on "some shelf in some hexagon (men reasoned)
 there must exist a book which is the formula and perfect compendium of all the rest". In other words, that one book
-epitomises the complexity of the entire library.
+epitomises the complexity of the entire library, though it is part of the library.
 
 Any of the many books that contain our \verb|library-of-babel| function match the narrator's description,
 though the books that also contain the rest of this paper must surely provide more helpful context.
@@ -291,8 +304,8 @@ If we design an appropriate encoding scheme, we could do a similar thing and tre
 we would encounter a similar problem to Borges' librarians - we suspect that every sequence of data we could possibly want
 is in there somewhere, but we don't know where to look.
 
-If pi's decimal expansion does have every possible combination of digits, then it's what is known as a disjunctive
-sequence or lexicon. But we don't know for sure. No one has been able to prove it either way.
+If pi's decimal expansion does have every possible combination of digits, then it's a lexicon for the decimal digits.
+But we don't know for sure. No one has been able to prove it either way.
 
 Fortunately, there are other transcendental numbers that are more predictable. The Champernowne constant was discovered
 by David Champernowne as an undergraduate\cite{The construction of decimals normal in the scale of ten}. It has a
