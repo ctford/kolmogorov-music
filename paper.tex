@@ -139,12 +139,45 @@ for an arbitrary piece of data.
 \section{Analysis by compression}
 
 David Meredith has used Kolmogorov complexity to compare the quality of musical analyses\cite{Analysis by Compression}.
-The theory goes that the
-more concise the algorithmic description of a piece, the better the musical model.
+He starts by assuming that musical analysis aims to produce "best possible explanation for musical works". If that's the case,
+how might we compare two different analyses of the same piece?
+
+Meredith's answer is that by representing an analysis of a piece of music as a computer program, we can use Kolmogov complexity
+to objectively measure the quality of the explanation it provides. A short program must necessarily capture a lot of the structure
+of a piece, because summarising a piece's structure is the only way to achieve compression. A longer program is a worse explanation,
+because it has missed opportunities to exploit the structure of the piece.
+
+Representing the notes of a piece as code is straightforward, as a series of notes can, to a first approximation,
+be generated from a sequence of durations and a sequence of pitches. The following example uses Leipzig's \verb|phrase| function,
+and produces a sequence of time/pitch/duration tuples.
+
+\begin{verbatim}
+  (phrase [3/3  3/3  2/3  1/3  3/3]
+          [  0    0    0    1    2])
+\end{verbatim}
+
+Individual phrases can be combined together to form larger pieces. Here are two equivalent ways of playing the above melody twice.
+
+\begin{verbatim}
+  (->>
+    (phrase [3/3  3/3  2/3  1/3  3/3]
+            [  0    0    0    1    2])
+    (then
+      (phrase [3/3  3/3  2/3  1/3  3/3]
+              [  0    0    0    1    2])))
+
+  (->>
+    (phrase [3/3  3/3  2/3  1/3  3/3]
+            [  0    0    0    1    2])
+    (times 2))
+\end{verbatim}
+
+The latter way is considerably shorter. It also demonstrates a greater understanding of the piece. The notes are exactly
+repeated twice, so writing them out again longhand is a waste. The first way of writing the notes misses this opportunity to
+summarise and is therefore a worse explanation.
 
 Using this idea, we can show that composing "Row, row, row your boat" out of sequences of durations and pitches
-is a better description of the piece than the raw notes. The music functions e.g. \verb|phrase| are due to Leipzig,
-and emit a time series data structure representing the resulting notes. \verb|;| indicates a comment in Clojure.
+is a better description of the piece than the raw notes. \verb|;| indicates a comment in Clojure.
 
 \begin{verbatim}
 (def row-row
@@ -183,10 +216,29 @@ having to paste in the entire expression.
   (definitional explanatory-power row-row) => 2037/281)
 \end{verbatim}
 
+The particularly significant compression in this way of writing "Row, row, row your boat" is the line \verb|(canon (simple 4))|.
+A canon is when an initial melody (often known as the dux) is accompanied by a transformation of itself (often known as the comes).
+In "Row, row, row your boat", the comes is a copy of the dux that is delayed by four beats, a structure known as a simple canon.
+
+Here is the definition of \verb|canon|:
+
+\begin{verbatim}
+(defn canon [f notes]
+  (->> (f notes) (with notes)))
+\end{verbatim}
+
+In a canon, every note has two lives. Firstly, it is played straight. Secondly, it is played again in a modified form according
+to the canon's \verb|f|. By understanding this, we can almost halve the length of the program we need to
+produce the piece.
+
+The more concise the algorithmic description of a piece, the better the musical model.
+
 \section{The Library of Babel}
 
-The Kleene star is the set of all possible strings built from a set of elements. Here is a function that takes a set of
-elements and enumerates the Kleene star of that set as a lazy sequence.
+The Kleene star is the set of all possible strings that can be built from a set of elements. Here is a function that takes a set
+of elements and enumerates the Kleene star a lazy sequence. It works by taking the strings generated thus far, appending each
+element to each string and then repeating the process. This results in an infinite lazy sequence of strings of ever increasing
+length, starting from the empty string.
 
 \begin{verbatim}
 (defn kleene* [elements]
@@ -216,10 +268,11 @@ The difference is that our sequence has all possible strings of all finite lengt
   (nth (library-of-babel) 364645) => "GEB")
 \end{verbatim}
 
-If we enumerate and then concatenate the Kleene star of a particular alphabet, it produces
-a disjunctive sequence or lexicon. A lexicon has the property that every finite string is a substring.
+If we enumerate the Kleene star of a particular alphabet, we get a sequence of all its possible strings.
+If we concatenate them all together into one long string, it produces what is known as a disjunctive sequence or lexicon.
+A lexicon has the property that every finite string is a substring.
 
-The result of the Kleene star are interesting from a Kolmogorov complexity perspective, because they can be described
+The results of the Kleene star are interesting from a Kolmogorov complexity perspective, because they can be described
 concisely yet contain multitudes. Paradoxically, it displays the property that the whole is simpler than (almost all of)
 the parts. That is, the Kolmogorov complexity of one string in our Library of Babel is more complicated to describe
 than the Library taken as a whole.
