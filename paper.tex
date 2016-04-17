@@ -394,21 +394,25 @@ piece decodes the Champernowne word into music.
 
 As the Champernowne word's digits are predictable, I am able to skip ahead to any part of the song I choose. Here
 is the value of \verb|skip-to| that results in a passable version of 'Blurred Lines'.~\footnote{The encoding scheme is chosen
-to be reversible, which allowed me to determine where in the Champernowne word 'Blurred Lines' would occur. Full details are in the accompanying code.}
+to be reversible, which allowed me to determine where in the Champernowne word 'Blurred Lines' would occur. Full details are in the appendix and the accompanying code.}
 
 \begin{verbatim}
 (def gaye-williams-thicke-constant
-  12450012001200311273127612731276127312761273127612731...
-  27612731276124500120012124500120012003112731276127312...
-  76127312761273127612731276127312761245001200121245001...
-  20012003112731276127312761273127612731276127312761273...
-  12761245001200121245001200120031127312761273127612731...
-  27612731276127312761273127612450012001212400012001200...
-  31126812711268127112681271126812711268127112681271124...
-  00012001212400012001200311268127112681271126812711268...
-  12711268127112681271124000120012124000120012003112681...
-  27112681271126812711268127112681271126812711240001200...
-  121252004100411264125012621249126112471245)
+  124500120012003112731276127312761273127...
+  612731276127312761273127612450012001212...
+  450012001200311273127612731276127312761...
+  273127612731276127312761245001200121245...
+  001200120031127312761273127612731276127...
+  312761273127612731276124500120012124500...
+  120012003112731276127312761273127612731...
+  276127312761273127612450012001212400012...
+  001200311268127112681271126812711268127...
+  112681271126812711240001200121240001200...
+  120031126812711268127112681271126812711...
+  268127112681271124000120012124000120012...
+  003112681271126812711268127112681271126...
+  812711268127112400012001212520041004112...
+  64125012621249126112471245)
 \end{verbatim}
 
 There is nothing in the description of the \verb|copyright-infringement-song| that is in any way related to 'Blurred Lines'.
@@ -429,6 +433,48 @@ of every marginally successful musical work from now until they fix the law.
     \item Copyright litigation
     \item Profit!
 \end{enumerate}
+
+\appendix
+\section{Encoding the Champernowne Constant}
+
+It would not have been practical to discover the Gaye-Williams-Thicke constant by brute force. Playing through the song at normal
+speed would have seen the expansion of the sun into a red giant interrupt the search before it made much progress.
+
+Instead, I devised an encoding between the natural numbers and a piece of music. This allowed me to start with the music, encode
+it and therefore discover the constant. Playing the Champernowne Constant as music is the reverse process.
+
+The encoding is relatively simple, each four digit word in the natural number is turned into a note, two digits for duration and
+two digits for pitch. The two digits for duration are interpreted as a fraction, and the two digits for pitch as a midi code.
+
+\begin{verbatim}
+(fact
+  (->> (leipzig/phrase [2/3 1/3] [0 4]) encode)
+    => 23001304)
+\end{verbatim}
+
+When there are multiple parts, they are multiplexed, based on which part is furthest behind. It would not be sufficient to
+simply alternate between decoding a note of each part, as notes are not of uniform length. For example, in a two part piece
+with a rapid melody and a slow, ostinato bass, the melody part of the encoding would slip further and further behind as
+we alternately encoded one note from each part.
+
+\begin{verbatim}
+(fact
+  (->> (phrase [1 1 1 1] [0 1 2 3])
+       (with (phrase [2 2] [4 5]))
+       encode)
+    => 210411001101210511021103)
+\end{verbatim}
+
+Rests are encoded with zeros where duration normally is, leaving the other two digits for duration.
+This is convenient because a zero duration is otherwise meaningless.
+
+\begin{verbatim}
+(fact
+  (->> (phrase [1 1 1 1] [0 nil 2 nil]) encode)
+    => 1100001111020011)
+\end{verbatim}
+
+For the Gayte-Williams-Thicke constant. I wrote a version of 'Blurred Lines' with three parts and used a three part encoding.
 
 \acks
 
