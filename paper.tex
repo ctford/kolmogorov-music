@@ -152,7 +152,7 @@ There may be an even more concise way to represent our G string. If so, its Kolm
 \section{Analysis by compression}
 
 David Meredith has used Kolmogorov complexity to compare the quality of musical analyses\cite{Analysis by Compression}.
-He starts by assuming that musical analysis aims to produce "best possible explanation for musical works". If that's the case,
+He starts by assuming that musical analysis aims to produce ``best possible explanation for musical works". If that's the case,
 how might we compare two different analyses of the same piece?
 
 Meredith's answer is that by representing an analysis of a piece of music as a computer program, we can use Kolmogov complexity
@@ -198,7 +198,7 @@ summarise and is therefore a worse explanation.
 One might imagine that a maintainer of this musical code would refactor the former expression into the latter. Viewed this way,
 refactoring away repetition can be seen as improving the explanatory power of the code.
 
-Using this idea, we can show that composing "Row, row, row your boat" out of sequences of durations and pitches
+Using this idea, we can show that composing ``Row, row, row your boat" out of sequences of durations and pitches
 is a better description of the piece than the raw notes. \verb|;| indicates a comment in Clojure.
 
 \begin{verbatim}
@@ -238,9 +238,9 @@ having to paste in the entire expression.
   (definitional explanatory-power row-row) => 2037/281)
 \end{verbatim}
 
-The particularly significant compression in this way of writing "Row, row, row your boat" is the line \verb|(canon (simple 4))|.
+The particularly significant compression in this way of writing ``Row, row, row your boat" is the line \verb|(canon (simple 4))|.
 A canon is when an initial melody (often known as the dux) is accompanied by a transformation of itself (often known as the comes).
-In "Row, row, row your boat", the comes is a copy of the dux that is delayed by four beats, a structure known as a simple canon.
+In ``Row, row, row your boat", the comes is a copy of the dux that is delayed by four beats, a structure known as a simple canon.
 
 Here is the definition of \verb|canon|:
 
@@ -278,7 +278,7 @@ This results in something very similar to the Library of Babel as imagined by Jo
 vast fictional library, thousands of hexagonal rooms house all possible books of four hundred and ten pages. Melancholic
 librarians spend their entire lives toiling in its maddiningly symetrical depths.
 
-Some books exhibit apparent sense, most exhibit none. The narrator describes one that is "a mere labyrinth of letters,
+Some books exhibit apparent sense, most exhibit none. The narrator describes one that is ``a mere labyrinth of letters,
 but the next-to-last page says \textit|Oh time thy pyramids|."
 
 Unlike Borges's library, our strings are not limited to four hundred and ten pages. Because of this limit, the Library of Babel
@@ -307,7 +307,7 @@ concisely yet contain multitudes. Paradoxically, the whole can be simpler than t
 That is, the Kolmogorov complexity of one string in our Library of Babel is more complicated to describe than the Library
 taken as a whole.
 
-Borges appreciated this paradox. His anonymous narrator reports that on "some shelf in some hexagon (men reasoned)
+Borges appreciated this paradox. His anonymous narrator reports that on ``some shelf in some hexagon (men reasoned)
 there must exist a book which is the formula and perfect compendium of all the rest". In other words, that one book
 epitomises the complexity of the entire library, though it is part of the library.
 
@@ -358,7 +358,7 @@ It is easily seen to be a lexicon for the decimal digits, because:
     \item Every sequence of digits corresponds to a natural number.
     \item Therefore, the Champernowne word contains all possible sequences of digits.
 \end{enumerate}
-Of course, a sequence of digits may occur earlier than its natural number - the sequence "34" first occurs when numbers three and
+Of course, a sequence of digits may occur earlier than its natural number - the sequence ``34" first occurs when numbers three and
 four are encountered, well in advance of the natural number 34.
 
 In the above example we generate the word starting from zero, and decompose the digits of
@@ -370,17 +370,17 @@ without having to generate all the previous digits.
 
 The Criminal Justice and Public Order Act 1994 was an attempt by the UK Government to curb rave culture. The musicological
 dilemma encountered by the government of the day was how to define raves. They settled on prohibiting gatherings where
-"a succession of repetitive beats" were played\cite{Joseph Gallivan on pop}.
+``a succession of repetitive beats" were played\cite{Joseph Gallivan on pop}.
 
 The duo Autechre responded with the Anti EP\cite{Anti EP}, whose third track `Flutter', was designed to protest the legislation.
 Band member
-Sean Booth explained that they "made as many different bars as we could on the drum machine, then strung them all together."
+Sean Booth explained that they ``made as many different bars as we could on the drum machine, then strung them all together."
 \cite{Joseph Gallivan on pop}
 In other words, as every bar features a unique beat, `Flutter' does not match the government's algomusicological description
-of "repetitive beats".
+of ``repetitive beats".
 
 Autechre appreciated the practical difficulties of negotiating the subtleties of complexity theory at 3am in a noisy field,
-so they advised DJs to "have a lawyer and a musicologist present at all times to confirm the non repetitive nature of the
+so they advised DJs to ``have a lawyer and a musicologist present at all times to confirm the non repetitive nature of the
 music in the event of police harassment."\cite{Joseph Gallivan on pop}
 
 Both legislators and artists are clearly taking algomusicological positions. The government attempted to construct the set
