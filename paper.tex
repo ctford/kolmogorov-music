@@ -60,9 +60,10 @@ than we'd like.~\footnote{Alonzo Church developed the lambda calculus in the 193
 Can algomusicology influence music?~\footnote{This paper appears to be the first reference to algomusicology. I believe the term,
 which is a portmanteau of algorave and musicology, has a self-evident definition.}
 
-This paper will argue that it can. It will do so by citing examples of existing art works that are algorithmic in nature, and
-also by using algomusicological concepts to create a work that challenges our present conception of musical authorship and
-copyright.
+This paper will argue that it can. It will do so by reviewing existing art works that are algorithmic in nature, and
+also by using algomusicological concepts to create a new work that challenges our present conception of musical authorship and
+copyright. As befits its subject matter, this paper will incorporate conventions and style from literary essays and musicology
+papers.
 
 The examples in this paper are all written in Clojure\cite{Clojure}, a dialect of Lisp. I also rely on Leipzig\cite{Leipzig},
 a music theory library, and Midje\cite{Midje}, a unit testing library.
@@ -256,6 +257,11 @@ The more concise the algorithmic description of a piece, the better the musical 
 
 \section{The Library of Babel}
 
+Music is widely regarded to have mathematical properties, but literature also contains examples of works where artists have engaged
+with algorithmic and information theoretical concepts. One striking case is the Library of Babel as imagined by Jorge Luis
+Borges\cite{The Library of Babel}. We will examine the story in a moment, but first we must define the mathematical concept
+that it revolves around - the Kleene star.
+
 The Kleene star is the set of all possible strings that can be built from a set of elements. Here is a function that takes a set
 of elements and enumerates the Kleene star a lazy sequence. It works by taking the strings generated thus far, appending each
 element to each string and then repeating the process. This results in an infinite lazy sequence of strings of ever increasing
@@ -274,9 +280,9 @@ length, starting from the empty string.
 We can use this construction with an ASCII alphabet to obtain all possible ASCII strings. We might just as easily have
 used the letters `G', `A', `T' and `C' to generate every possible DNA sequence.
 
-This results in something very similar to the Library of Babel as imagined by Jorge Luis Borges\cite{The Library of Babel}. In his
-vast fictional library, thousands of hexagonal rooms house all possible books of four hundred and ten pages. Melancholic
-librarians spend their entire lives toiling in its maddiningly symetrical depths.
+This results in something very similar to Borges' Library of Babel. In this vast fictional library, thousands of hexagonal
+rooms house all possible books of four hundred and ten pages. Melancholic librarians spend their entire lives toiling in its
+maddiningly symetrical depths.
 
 Some books exhibit apparent sense, most exhibit none. The narrator describes one that is ``a mere labyrinth of letters,
 but the next-to-last page says \textit|Oh time thy pyramids|."
@@ -309,15 +315,29 @@ taken as a whole.
 
 Borges appreciated this paradox. His anonymous narrator reports that on ``some shelf in some hexagon (men reasoned)
 there must exist a book which is the formula and perfect compendium of all the rest". In other words, that one book
-epitomises the complexity of the entire library, though it is part of the library.
+epitomises the complexity of the entire library, though it is part of the library. Any of the many books that contain our
+\verb|library-of-babel| function match the narrator's description, though the books that also contain the rest of this paper
+must surely provide more helpful context.
 
-Any of the many books that contain our \verb|library-of-babel| function match the narrator's description,
-though the books that also contain the rest of this paper must surely provide more helpful context.
+Through his Library of Babel, Borges is playing with our notions of invention versus discovery. Mathematicians and computer
+scientists struggle with whether they are the inventors of new theories or discoverers. Philip Wadler, for example,
+argues that the lambda calculus is such a fundamental concept that it deserves to be considered a universal concept that
+was discovered\cite{Propositions as Types}. By positing a library where any work may be found if you know where to look, Borges
+suggests that even literary authorship could be considered a search problem and therefore a matter of discovery rather than
+creation.
 
 \section{Contact}
 
-In Carl Sagan's novel `Contact'\cite{Contact}, he imagines that a message to humanity is encoded in the digits of pi.
-If we design an appropriate encoding scheme, we could do a similar thing and treat the digits of pi as music. However,
+In Carl Sagan's novel `Contact'\cite{Contact}, he takes the concept of discovering meaning in naturally occurring sources of
+information even further than Borges. Firstly, Sagan imagines that SETI detects a transmission consisting of a series of prime
+numbers from the the Vega star system. This prompts an exploration of how to distinguish between a signal created by an
+intelligence and one arising from natural symmetry.
+
+Later a message to humanity is discovered encoded in the digits of pi, placed there by beings who are able to manipulate the
+structure of the universe itself. This development questions the dichotomy between invented and discovered information altogether,
+by imagining a mathematical quantity as a medium for meaningful communication.
+
+If we design an appropriate encoding scheme, we could do a similar thing and interpret the digits of pi as music. However,
 we would encounter a similar problem to Borges' librarians - we suspect that every sequence of data we could possibly want
 is in there somewhere, but we don't know where to look.
 
@@ -368,9 +388,11 @@ without having to generate all the previous digits.
 
 \section{Flutter}
 
-The Criminal Justice and Public Order Act 1994 was an attempt by the UK Government to curb rave culture. The musicological
-dilemma encountered by the government of the day was how to define raves. They settled on prohibiting gatherings where
-``a succession of repetitive beats" were played\cite{Joseph Gallivan on pop}.
+Complexity and information theory have been used to speculate on grand questions like the place of humanity in the universe,
+but they have also been used by artists to comment on specific social issues. The Criminal Justice and Public Order Act 1994
+was an attempt by the UK Government to curb rave culture. The musicological dilemma encountered by the government of the day
+was how to define raves. They settled on prohibiting gatherings where ``a succession of repetitive beats" were
+played\cite{Joseph Gallivan on pop}.
 
 The duo Autechre responded with the Anti EP\cite{Anti EP}, whose third track `Flutter', was designed to protest the legislation.
 Band member
@@ -388,6 +410,9 @@ of all rave musics using a complexity characterisation. Autechre responded with 
 the inadequacy of the original claim.
 
 \section{Blurred Lines}
+
+We will now take the ideas explored in previous sections and rework them into a novel contribution to the politics of
+copyright and creativity.
 
 `Blurred Lines' is a 2013 pop song written by Pharrell Williams and Robin Thicke\cite{Blurred Lines}. In March 2015,
 they were found to have infringed on the copyright of the Marvin Gaye song
@@ -458,7 +483,11 @@ In other words, algomusicology can contribute to musical practice, not just expl
 
 As an artform, music is an ideal subject for complexity analysis. Other media can also engage with complexity theory, but
 few are as tractable to complexity theory's techniques. Sagan and Borges may have written fiction that explores the implications
-of algorithmic creation, but it would be difficult to analyse 'Contact' and 'The Library of Babel' through Kolmogorov's lens.
+of algorithmic creation, but it would be difficult to analyse 'Contact' and 'The Library of Babel' themselves through
+Kolmogorov's lens.
+
+Algomusicology is part of a rich tradition of information theoretical art and criticism. Music's deep structure and cultural
+significance give algomusicology great potential as a source of artistic analysis and inspiration.
 
 \appendix
 \section{Encoding the Champernowne Constant}
@@ -531,6 +560,7 @@ that made this paper possible.
 \bibitem{Analysis by Compression} Meredith, David: Analysis by Compression
 \bibitem{USA Today} Oldenburg, Ann: 'Blurred Lines' jury finds for Marvin Gaye (\url{http://www.usatoday.com/story/life/music/2015/03/10/blurred-lines-trial-verdict/24492431/})
 \bibitem{Contact} Sagan, Carl: Contact
+\bibitem{Propositions as Types} Wadler, Philip.
 \bibitem{Blurred Lines} Williams, Pharrel and Thicke, Robin: Blurred Lines
 
 \end{thebibliography}
