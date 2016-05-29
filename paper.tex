@@ -208,39 +208,43 @@ is a better description of the piece than the raw notes. \verb|;| indicates a co
 
 \begin{verbatim}
 (def row-row
-                ; Row, row, row  your boat,
-  (->>   (phrase [3/3  3/3  2/3  1/3  3/3]
-                 [  0    0    0    1    2])
+              ; Row, row, row  your boat,
+  (->> (phrase [3/3  3/3  2/3  1/3  3/3]
+               [  0    0    0    1    2])
 
-       (then    ; Gent-ly   down the  stream,
-         (phrase [2/3  1/3  2/3  1/3  6/3]
-                 [  2    1    2    3    4]))
+     (then    ; Gent-ly   down the  stream,
+       (phrase [2/3  1/3  2/3  1/3  6/3]
+               [  2    1    2    3    4]))
 
-       (then    ; Merrily, merrily, merrily, merrily,
-         (phrase (repeat 12 1/3)
-                 (mapcat #(repeat 3 %) [7 4 2 0])))
+     (then    ; Merrily, merrily, merrily, merrily,
+       (phrase (repeat 12 1/3)
+               (mapcat #(repeat 3 %) [7 4 2 0])))
 
-       (then    ; Life is   but  a    dream!
-         (phrase [2/3  1/3  2/3  1/3  6/3]
+     (then    ; Life is   but  a    dream!
+       (phrase [2/3  1/3  2/3  1/3  6/3]
                  [  4    3    2    1    0]))
 
-       (canon (simple 4))
-       (where :pitch (comp A major))))
+     (canon (simple 4))
+     (where :pitch (comp A major))))
 \end{verbatim}
 
 We can calculate the ratio between the literal notes of the song and the above description.
-The \verb|definitional| macro allows us to use the symbol \verb|row-row| in our fact notation, rather than
+The \verb|definitional| macro allows us to use the symbol \verb|row-row| in our fact notation, without
 having to paste in the entire expression.
 
 \begin{verbatim}
 (defmacro definitional [macro sym]
-  (let [value (-> sym repl/source-fn read-string last)]
+  (let [value
+          (-> sym repl/source-fn read-string last)]
     `(~macro ~value)))
 
 (fact
-  (definitional description-length row-row) => 281
-  (definitional result-length row-row) => 2037
-  (definitional explanatory-power row-row) => 2037/281)
+  (definitional description-length row-row)
+    => 281
+  (definitional result-length row-row)
+    => 2037
+  (definitional explanatory-power row-row)
+    => 2037/281)
 \end{verbatim}
 
 The particularly significant compression in this way of writing ``Row, row, row your boat" is the line \verb|(canon (simple 4))|.
@@ -274,7 +278,8 @@ length, starting from the empty string.
 \begin{verbatim}
 (defn kleene* [elements]
   (letfn [(expand [strings]
-            (for [s strings e elements] (conj s e)))]
+            (for [s strings e elements]
+              (conj s e)))]
     (->>
       (lazy-seq (kleene* elements))
       expand
@@ -358,7 +363,8 @@ the results together.
 
 \begin{verbatim}
 (defn decompose-into-digits [n]
-  (let [[remainder quotient] ((juxt mod quot) n 10)]
+  (let [[remainder quotient]
+          ((juxt mod quot) n 10)]
     (if (zero? quotient)
       [remainder]
       (conj
@@ -461,7 +467,7 @@ to be reversible, which allowed me to determine where in the Champernowne word `
   64125012621249126112471245)
 \end{verbatim}
 
-There is nothing in the description of the \verb|copyright-infringement-song| that is in any way related to `Blurred Lines'.
+Nothing in the the \verb|copyright-infringement-song|'s description is in any way related to `Blurred Lines'.
 It is simply a straightforward musical rendering of a well-known mathematical constant derived from the decimal counting
 system.
 
