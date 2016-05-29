@@ -60,10 +60,10 @@ than we'd like.~\footnote{Alonzo Church developed the lambda calculus in the 193
 Can algomusicology influence music?~\footnote{This paper appears to be the first reference to algomusicology. I believe the term,
 which is a portmanteau of algorave and musicology, has a self-evident definition.}
 
-This paper will argue that it can. It will do so by reviewing existing art works that are algorithmic in nature, and
-also by using algomusicological concepts to create a new work that challenges our present conception of musical authorship and
-copyright. As befits its subject matter, this paper will incorporate conventions and style from literary essays and musicology
-papers.
+This paper will argue that it can. It will do so by reviewing existing literary and musical works that are informed by algorithmic
+thinking, and also by using algomusicological concepts to create a new work that challenges our present conception of musical
+authorship and copyright. As befits its subject matter, this paper will incorporate conventions and style from literary essays
+and musicology papers.
 
 The examples in this paper are all written in Clojure\cite{Clojure}, a dialect of Lisp. I also rely on Leipzig\cite{Leipzig},
 a music theory library, and Midje\cite{Midje}, a unit testing library.
@@ -163,8 +163,8 @@ because it has missed opportunities to exploit structural regularities in the pi
 
 Describing the notes of a musical work as code is straightforward, as notes can be represented by simple data structures like
 sequences of time/pitch tuples. Selecting which encoding scheme to use is less straightforward, because the choice of primitives
-can affect the complexity score. Ultimately, the choice of music theory library is difficult, somewhat subjective and
-will not be answered here.
+can affect the complexity score. Ultimately, the choice of music theory language is difficult, somewhat subjective and
+has trade-offs. I will not attempt to address this choice here as it doesn't materially impact my arguments.
 
 This paper uses Leipzig to provide its music theory primitives. Leipzig allows programmers to describe melodies as a sequence
 of durations and a sequence of pitches. The following example uses Leipzig's \verb|phrase| function to produces a sequence of
@@ -330,7 +330,7 @@ must surely provide more helpful context.
 
 Through his Library of Babel, Borges is playing with our notions of invention versus discovery. Mathematicians and computer
 scientists struggle with whether they are the inventors of new theories or discoverers. Philip Wadler, for example,
-argues that the lambda calculus is such a fundamental concept that it deserves to be considered a universal concept that
+argues that the lambda calculus is so fundamental that it deserves to be considered a universal concept that
 was discovered\cite{Propositions as Types}. By positing a library where any work may be found if you know where to look, Borges
 suggests that even literary authorship could be considered a search problem and therefore a matter of discovery rather than
 creation.
