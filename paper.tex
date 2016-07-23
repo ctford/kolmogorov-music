@@ -58,7 +58,7 @@ Less glibly, is algomusicology doomed to be a mere observer and explainer of mus
 active participant in the conversation? Computer science is able to influence the software industry, though that might take longer
 than we'd like.~\footnote{Alonzo Church developed the lambda calculus in the 1930s. Java gained lambda expressions in 2015.}
 Can algomusicology influence music?~\footnote{This paper appears to be the first reference to algomusicology. I use the term,
-which is a portmanteau of algorave and musicology, to describe the use of information theory and programming for musical analysis.}
+which is a portmanteau of algorithm and musicology similar to algorave, to describe the use of information theory and programming for musical analysis.}
 
 This paper will argue that it can. It will do so by reviewing existing literary and musical works that are informed by algorithmic
 thinking, and also by using algomusicological concepts to create a new work that challenges our present conception of musical
@@ -68,7 +68,7 @@ and musicology papers.
 The examples in this paper are all written in Clojure\cite{Clojure}, a dialect of Lisp. I also rely on Leipzig\cite{Leipzig},
 a music theory library, and Midje\cite{Midje}, a unit testing library.
 
-\section{Air on the {\textbackslash}G String\cite{Air on the G String}}
+\section{Air on the {\textbackslash}G String}
 Very great quantities of data can exhibit very little complexity. Consider the following Clojure expression, which
 evaluates to a sequence of $10^{15}$ uppercase G characters:
 
@@ -271,7 +271,7 @@ Borges\cite{The Library of Babel}. We will examine the story in a moment, but fi
 that it revolves around - the Kleene star.
 
 The Kleene star is the set of all possible strings that can be built from a set of elements. Here is a function that takes a set
-of elements and enumerates the Kleene star a lazy sequence. It works by taking the strings generated thus far, appending each
+of elements and enumerates the Kleene star as a lazy sequence. It works by taking the strings generated thus far, appending each
 element to each string and then repeating the process. This results in an infinite lazy sequence of strings of ever increasing
 length, starting from the empty string.
 
@@ -539,7 +539,7 @@ This is convenient because a zero duration is otherwise meaningless.
     => 1100001111020011)
 \end{verbatim}
 
-For the Gayte-Williams-Thicke constant. I wrote a version of `Blurred Lines' with three parts and used a three part encoding.
+For the Gayte-Williams-Thicke constant, I wrote a version of `Blurred Lines' with three parts and used a three part encoding.
 The piece presented is actually lexicon for music of up to three parts using equal temperament and notes with simple
 fractional durations, not all possible sound art pieces.
 
@@ -581,7 +581,6 @@ Finally, thank you to the generous people who read through early drafts of this 
 \bibitem{USA Today} Oldenburg, Ann: `Blurred Lines' jury finds for Marvin Gaye, \textit{USA Today}, March 11, 2015.
 \bibitem{Contact} Sagan, Carl: Contact, \textit{Simon and Schuster}, 1985.
 \bibitem{Propositions as Types} Wadler, Philip: Propositions as Types, \textit{Communications of the ACM}, volume 58, issue 12, 2015.
-\bibitem{Air on the G String} Wilhelmj, August arranging Bach, Johann Sebastian: Air on the G String, late 19th century.
 \bibitem{Blurred Lines} Williams, Pharrel and Thicke, Robin: Blurred Lines, \textit{Star Trak Recordings}, 2013.
 
 \end{thebibliography}
