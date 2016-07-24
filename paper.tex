@@ -99,7 +99,7 @@ is not the kind of object that can be studied ``uninfluenced by custom or constr
 I deliberately refer to Minsky's work as an essay and not as a paper. It does not conform to the conventions of a scientific
 or mathematical paper. He uses the first person. He speculates. He draws connections that he cannot mathematically formalise.
 He engages deeply with the detail of an individual artistic work (Beethoven's fifth symphony). He states no theorems, though he
-does propose a model of musical perception. A conventional scientific paper would not have allowed him to express the same breadth 
+does propose a model of musical perception. A conventional scientific paper would not have allowed him to express the same breadth
 of insight.
 
 This paper/essay attempts to resolve the tension that Minsky observed between a scientific and cultural approach to musical study
@@ -490,7 +490,7 @@ piece decodes the Champernowne word into music.
 
 As the Champernowne word's digits are predictable, I am able to skip ahead to any part of the song I choose. Here
 is the value of \verb|skip-to| that results in a passable version of `Blurred Lines'.~\footnote{The encoding scheme is chosen
-to be reversible, which allowed me to determine where in the Champernowne word `Blurred Lines' would occur. Full details are in the appendix and the accompanying code.}
+to be reversible, which allowed me to determine where in the Champernowne word `Blurred Lines' would occur. Full details are in the next section.}
 
 \begin{verbatim}
 (def gaye-williams-thicke-constant
@@ -522,32 +522,6 @@ Here we finally come to the profit generation strategy - copyright litigation. A
 a universal piece of music, any work published subsequent to it infringes on its copyright.~\footnote{I am not a lawyer. Do not rely on my legal advice.} In order to convert our computational musicology understanding into profit, we simply have to
 sue the composers of every marginally successful musical work from now until they fix the law.
 
-\section{Conclusion}
-
-On one level, the puzzle posed by the title of this paper has a straightforward solution:
-\begin{enumerate}
-    \item Computational musicology
-    \item Copyright litigation
-    \item Profit!
-\end{enumerate}
-
-More seriously, this paper attempts to show that computational musicology can meaningfully shed light on how music functions.
-Also, as in
-the case of the \verb|copyright-infringement-song|, complexity theory can contribute ideas that are artistically interesting.
-In other words, computational musicology can contribute to musical practice, not just explain it. This is possible because music
-is a cultural phenomenon, unlike other fields to which computational methods have been applied like physics. 
-
-As an artform, music is an ideal subject for complexity analysis. Other media can also engage with complexity theory, but
-few are as tractable to complexity theory's techniques. Sagan and Borges may have written fiction that explores the implications
-of algorithmic creation, but it would be difficult to analyse 'Contact' and 'The Library of Babel' themselves through
-Kolmogorov's lens.
-
-Computational musicology is part of a rich tradition of information theoretical art and criticism. Music's deep structure and
-cultural significance give computational musicology great potential as a source of artistic analysis and inspiration.
-This paper represents a self-supporting claim that computational musicology can contribute to musical ideas and appreciation as
-a form of creative criticism.
-
-\appendix
 \section{Encoding the Champernowne Constant}
 
 It would not have been practical to discover the Gaye-Williams-Thicke constant by brute force. Playing through the song at normal
@@ -598,6 +572,31 @@ a lexicon to binary formats like mp3 would be very possible.
 The full source code for the \verb|copyright-infringement-song|, along with the rest of the code samples in this paper, is
 available at \url{https://github.com/ctford/kolmogorov-music}.
 
+\section{Conclusion}
+
+On one level, the puzzle posed by the title of this paper has a straightforward solution:
+\begin{enumerate}
+    \item Computational musicology
+    \item Copyright litigation
+    \item Profit!
+\end{enumerate}
+
+More seriously, this paper attempts to show that computational musicology can meaningfully shed light on how music functions.
+Also, as in
+the case of the \verb|copyright-infringement-song|, complexity theory can contribute ideas that are artistically interesting.
+In other words, computational musicology can contribute to musical practice, not just explain it. This is possible because music
+is a cultural phenomenon, unlike other fields to which computational methods have been applied like physics.
+
+As an artform, music is an ideal subject for complexity analysis. Other media can also engage with complexity theory, but
+few are as tractable to complexity theory's techniques. Sagan and Borges may have written fiction that explores the implications
+of algorithmic creation, but it would be difficult to analyse 'Contact' and 'The Library of Babel' themselves through
+Kolmogorov's lens.
+
+Computational musicology is part of a rich tradition of information theoretical art and criticism. Music's deep structure and
+cultural significance give computational musicology great potential as a source of artistic analysis and inspiration.
+This paper represents a self-supporting claim that computational musicology can contribute to musical ideas and appreciation as
+a form of creative criticism.
+
 \acks
 
 Thank you to the StrangeLoop conference of 2015, which accepted the talk `Kolmogorov Music' from which this paper derives.
@@ -620,7 +619,7 @@ Finally, thank you to the generous people who read through early drafts of this 
 \bibitem{The Library of Babel} Borges, Jorge Luis: `The Library of Babel' in The Garden of Forking Paths, \textit{Editorial Sur}, 1941.
 \bibitem{Gnomes} Brady, Pam, Parker, Trey and Stone, Matt: Gnomes, Episode 17, Season 2 of \textit{South Park}, 1998.
 \bibitem{The construction of decimals normal in the scale of ten} Champernowne, David: The construction of decimals normal in the scale of ten, \textit{Journal of the London Mathematical Society}, volume 8, 1933.
-\bibitem{Computational Musicology} Eduardo Coutinho, Marcelo Gimenes, Joao M. Martins and Eduardo R. Miranda: TODO. 
+\bibitem{Computational Musicology} Eduardo Coutinho, Marcelo Gimenes, Joao M. Martins and Eduardo R. Miranda: TODO.
 \bibitem{Three Paradigms} Eden, Amnon, Three Paradigms of Computer Science, \textit{Minds and Machines}, volume 17, number 2, July, 2007.
 \bibitem{Leipzig} Ford, Chris: Leipzig, \url{https://github.com/ctford/leipzig}.
 \bibitem{Joseph Gallivan on pop} Gallivan, Joseph: Joseph Gallivan on pop, \textit{The Independent}, July 18, 1994.
