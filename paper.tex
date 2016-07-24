@@ -67,7 +67,44 @@ and musicology papers.
 The examples in this paper are all written in Clojure\cite{Clojure}, a dialect of Lisp. I also rely on Leipzig\cite{Leipzig},
 a music theory library, and Midje\cite{Midje}, a unit testing library.
 
+\section{Programming Paradigms}
+
+Computational musicology is unusual in that it transgresses the barrier between what C. P. Snow called the two cultures of academia
+- the sciences and the humanities\cite{Two Cultures}. Programming has conventionally been placed with the sciences, yet music is a
+creative endevour usually understood as part of the humanities. In order to understand how computational musicology might
+contribute to music, we have to examine this paradox.
+
+Amnon Eden classifies the way that computer scientists think about their craft into rationalist, technocratic and scientific paradigms\cite{Three Paradigms}.
+These conceptual models position programmers as mathematicians, engineers or scientists respectively. They vary in how they
+produce knowledge, but all three belong to Snow's scientific culture. None of them value or use literary methods.
+
+To properly understand computational musicology, let us contrast with computational physics. Computational physics papers cannot
+influence natural phenomena because physics cannot influence natural phenomena.
+There is an inviolable barrier between the subject (physics) and
+the object (natural phenomena), so the field of study cannot contribute to its object. Planets orbited the sun long before
+Copernicus presented a mathematical model of heliocentrism. Kepler's elliptical orbits did not consist of a new and improved way
+for celestial bodies to move. Even Galileo's emperical observations were not able to provoke reform of the solar system itself.
+
+While the history of scientific ideas is important and fascinating, they are entirely immaterial to the natural phenomena
+themselves, who are oblivious to observation (quantum effects notwithstanding). That is not true of literary or musical criticism.
+Musicians, authors and their audiences read critical writing about music and literature. Both the production and the consumption
+of art take place in a field of ideas at least partially shaped by critics. Criticism is an active participant in literary and
+musical discourse.
+
+Marvin Minksy recognises this problem in an essay called `Music, Mind, and Meaning'. He suggests that computational
+musicologists ``would like to study Mozart's music the way scientists analyze the spectrum of a distant star``, but that music
+is not the kind of object that can be studied ``uninfluenced by custom or constraint of commerce"\cite{Music, Mind and Meaning}.
+I deliberately refer to Minsky's work as an essay and not as a paper. It does not conform to the conventions of a scientific
+or mathematical paper. He uses the first person. He speculates. He draws connections that he cannot mathematically formalise.
+He makes painstaking reference to the details of a specific artistic work (Beethoven's Fifth). He states no theorems.
+
+This paper/essay attempts to resolve the tension that Minsky observed between a scientific and cultural approach to musical study
+by beginning with complexity theory and then building upon that to consider literary and musical works. The informal and literary
+styles is not just for fun (though I hope that it is that), but is also attempt to show how computational musicology might
+function as a genuine cross-cultural study between the two cultures of the sciences and the humanities.
+
 \section{Air on the {\textbackslash}G String}
+To view music within Eden's scientific paradigm, we might begin by understanding music as data.
 Very great quantities of data can exhibit very little complexity. Consider the following Clojure expression, which
 evaluates to a sequence of $10^{15}$ uppercase G characters:
 
@@ -485,17 +522,20 @@ On one level, the puzzle posed by the title of this paper has a straightforward 
     \item Profit!
 \end{enumerate}
 
-More seriously, this paper attempts to show that computational musicology can meaningfully shed light on how music works. Also, as in
+More seriously, this paper attempts to show that computational musicology can meaningfully shed light on how music functions.
+Also, as in
 the case of the \verb|copyright-infringement-song|, complexity theory can contribute ideas that are artistically interesting.
-In other words, computational musicology can contribute to musical practice, not just explain it.
+In other words, computational musicology can contribute to musical practice, not just explain it. This is possible because music
+is a cultural phenomenon, unlike other fields to which computational methods have been applied like physics. 
 
 As an artform, music is an ideal subject for complexity analysis. Other media can also engage with complexity theory, but
 few are as tractable to complexity theory's techniques. Sagan and Borges may have written fiction that explores the implications
 of algorithmic creation, but it would be difficult to analyse 'Contact' and 'The Library of Babel' themselves through
 Kolmogorov's lens.
 
-Computational musicology is part of a rich tradition of information theoretical art and criticism. Music's deep structure and cultural
-significance give computational musicology great potential as a source of artistic analysis and inspiration.
+Computational musicology is part of a rich tradition of information theoretical art and criticism. Music's deep structure and
+cultural significance give computational musicology great potential as a source of artistic analysis and inspiration.
+This paper represents a self-evidencing claim that computational musicology can contribute to musical ideas and appreciation.
 
 \appendix
 \section{Encoding the Champernowne Constant}
@@ -570,7 +610,7 @@ Finally, thank you to the generous people who read through early drafts of this 
 \bibitem{Gnomes} Brady, Pam, Parker, Trey and Stone, Matt: Gnomes, Episode 17, Season 2 of \textit{South Park}, 1998.
 \bibitem{The construction of decimals normal in the scale of ten} Champernowne, David: The construction of decimals normal in the scale of ten, \textit{Journal of the London Mathematical Society}, volume 8, 1933.
 \bibitem{Computational Musicology} Eduardo Coutinho, Marcelo Gimenes, Joao M. Martins and Eduardo R. Miranda: TODO. 
-\bibitem{Three Paradigms of Computer Science} Eden, Amnon. TODO.
+\bibitem{Three Paradigms} Eden, Amnon. TODO.
 \bibitem{Leipzig} Ford, Chris: Leipzig, \url{https://github.com/ctford/leipzig}.
 \bibitem{Joseph Gallivan on pop} Gallivan, Joseph: Joseph Gallivan on pop, \textit{The Independent}, July 18, 1994.
 \bibitem{Got to Give It Up} Gaye, Marvin: Got to Give It Up, \textit{Tamla}, 1977.
@@ -582,6 +622,7 @@ Finally, thank you to the generous people who read through early drafts of this 
 \bibitem{Music, Mind and Meaning} Minsky, Marvin. 1981.
 \bibitem{USA Today} Oldenburg, Ann: `Blurred Lines' jury finds for Marvin Gaye, \textit{USA Today}, March 11, 2015.
 \bibitem{Contact} Sagan, Carl: Contact, \textit{Simon and Schuster}, 1985.
+\bibitem{Two Cultures} Snow, CP. TODO
 \bibitem{Propositions as Types} Wadler, Philip: Propositions as Types, \textit{Communications of the ACM}, volume 58, issue 12, 2015.
 \bibitem{Blurred Lines} Williams, Pharrel and Thicke, Robin: Blurred Lines, \textit{Star Trak Recordings}, 2013.
 
