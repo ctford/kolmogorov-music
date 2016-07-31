@@ -31,9 +31,9 @@
 \maketitle
 
 \begin{abstract}
-In this paper I examine the relationship of complexity theory and disjunctive sequences to music, music-generating programs and
-literary works. I then apply these ideas by devising a program to generate an infinite `copyright infringement song' that contains
-all other songs within it. I adopt literary modes of analysis and presentation, which I motivate by
+In this paper I examine the relationship that complexity theory and disjunctive sequences have to music, music-generating programs
+and literary works. I then apply these ideas by devising a program to generate an infinite `Copyright Infringement Song' that
+contains all other songs within it. I adopt literary modes of analysis and presentation, which I motivate by
 arguing that music is a cultural and artistic phenomenon rather than a natural one.
 \end{abstract}
 
@@ -119,7 +119,7 @@ On a practical level, algorave musicians are already well advanced in finding a 
 computation with creative practice\cite{Algorave}. These performers generate music by writing code in front of a live audience.
 They explore the
 potential and the limits of programming as a musical instrument. For them, live coding is a challenge of language and expression.
-If the praxis of programming and musical performance can be fruitfully combined, then surely literary and scientific theory
+If the praxis of programming and musical performance can be fruitfully combined, then literary and scientific theory
 might also be brought together.
 
 This paper/essay attempts to resolve the tension that Minsky observed between the scientific and the cultural approach to
@@ -262,7 +262,7 @@ summarise and is therefore a worse explanation.
 One might imagine that a maintainer of this musical code would refactor the former expression into the latter. Viewed this way,
 refactoring away repetition can be seen as improving the explanatory power of the code.
 
-Using this idea, we can show that composing ``Row, row, row your boat" out of sequences of durations and pitches
+Using this idea, we can show that composing `Row, row, row your boat' out of sequences of durations and pitches
 is a better description of the piece than the raw notes. \verb|;| indicates a comment in Clojure.
 
 \begin{verbatim}
@@ -306,9 +306,9 @@ having to paste in the entire expression.
     => 2037/281)
 \end{verbatim}
 
-The particularly significant compression in this way of writing ``Row, row, row your boat" is the line \verb|(canon (simple 4))|.
+The particularly significant compression in this way of writing `Row, row, row your boat' is the line \verb|(canon (simple 4))|.
 A canon is when an initial melody (often known as the dux) is accompanied by a transformation of itself (often known as the comes).
-In ``Row, row, row your boat", the comes is a copy of the dux that is delayed by four beats, a structure known as a simple canon.
+In `Row, row, row your boat', the comes is a copy of the dux that is delayed by four beats, a structure known as a simple canon.
 
 Here is the definition of \verb|canon|:
 
