@@ -37,9 +37,9 @@
                   (phrase (repeat 32 1/2) (cycle [4 2 2 0 -1]))
                   (phrase (repeat 64 1/4) (cycle [4 2 5 4 5 4 7 7])))
         decoration (phrase (repeat 64 1/4) (cycle [7 8 9 11 7 6]))]
-    (->> ;(with bass double-canon)
-         ;(with riff)
+    (->> (with bass double-canon)
          ;(with alt-bass twiddle decoration)
+         ;(with riff)
          ;robot
          (times 2)
          (wherever (comp not :theme) :pitch (comp B minor))
