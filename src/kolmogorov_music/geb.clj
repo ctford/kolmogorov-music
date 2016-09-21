@@ -12,31 +12,36 @@
                    (map coding/char->ascii)
                    (phrase [4 4 8])
                    (all :theme true))
+        ascii #(where :pitch coding/ascii->midi %)
         double-canon (->> theme
-                          (canon #(where :pitch coding/ascii->midi %)))
+                          (canon ascii))
+        sample #(->> %
+                     (where :pitch char)
+                     (all :part :sample))
         triple-canon (->> theme
-                          (canon #(with
-                                    (where :pitch coding/ascii->midi %)
-                                    (->> % (where :pitch char) (all :part :sample)))))
-        robot (->> triple-canon (filter #(-> % :part (= :sample))))
-        bass (->> (phrase [4 4 8] [-2 -1 0]) (canon (interval -7)) (where :pitch (comp lower lower)))
-        alt-bass (->> (phrase (repeat 4 4) (cycle [3 0])) (canon (interval -7)) (where :pitch (comp lower lower)))
+                          (canon #(with (sample %) (ascii %))))
+        robot (->> triple-canon
+                   (filter #(-> % :part (= :sample))))
+        bass (->> (phrase [4 4 8] [-2 -1 0])
+                  (canon (interval -7))
+                  (where :pitch (comp lower lower)))
+        alt-bass (->> (phrase (repeat 4 4) (cycle [3 0]))
+                      (canon (interval -7))
+                      (where :pitch (comp lower lower)))
         riff (->> [-2 -1 0 0]
                   (mapthen #(->> (phrase (repeat 7 1/2)
-                                         (interleave [[0 2] [0 2] [0 3] [0 2]]
-                                                     (repeat -3)))
+                                         (interleave [[0 2] [0 2] [0 3] [0 2]] (repeat -3)))
                                  (where :pitch (from %))))
                   (then (phrase (repeat 4 1/2) (interleave [[0 3] [0 2]] (repeat -3)))))
-        twiddle (with (phrase (repeat 32 1/2) (cycle [4 2 2 0 -1])) (phrase (repeat 64 1/4) (cycle [4 2 5 4 5 4 7 7])))
+        twiddle (with
+                  (phrase (repeat 32 1/2) (cycle [4 2 2 0 -1]))
+                  (phrase (repeat 64 1/4) (cycle [4 2 5 4 5 4 7 7])))
         decoration (phrase (repeat 64 1/4) (cycle [7 8 9 11 7 6]))]
-    (->> (times 2 (with bass double-canon))
-         (then (times 4 (with bass double-canon riff)))
-         (then (times 2 (with alt-bass twiddle decoration)))
-         (then (times 2 (with bass twiddle decoration)))
-         (then (times 2 (with bass riff twiddle decoration)))
-         (then (times 2 (with bass triple-canon))) ; Add extra distortion.
-         (then (times 4 (with bass riff triple-canon))) ; Moar distortion.
-         (then (times 2 (with bass robot)))
+    (->> ;(with bass double-canon)
+         ;(with riff)
+         ;(with alt-bass twiddle decoration)
+         ;robot
+         (times 2)
          (wherever (comp not :theme) :pitch (comp B minor))
          (tempo (bpm 90)))))
 
