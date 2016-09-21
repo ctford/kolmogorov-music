@@ -113,7 +113,7 @@
   (let [african-bell-pattern (rhythm [1/8 1/8 1/4 1/8 1/4 1/4 1/8 1/4])]
     (->> african-bell-pattern forever (all :part :clap1)
          (canon
-           #(->> % (take 64) (then (rhythm [1/8])) forever (all :part :clap2))))))
+           #(->> % (take 32) (then (rhythm [1/8])) forever (all :part :clap2))))))
 
 (comment
   (live/play (clapping-music))
@@ -121,7 +121,7 @@
 
 (fact "Clapping Music is minimal."
   (definitional description-length clapping-music) => 228
-  (result-length (->> (clapping-music) (take-while #(-> % :time (< 216))))) => 99151)
+  (result-length (->> (clapping-music) (take-while #(-> % :time (< 216))))) => 99416)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; The Library of Babel ;;;
@@ -219,11 +219,21 @@
 ;;; Arrangement ;;;
 ;;;;;;;;;;;;;;;;;;;
 
+(definst drum [freq 110 vol 0.5 pan 0]
+  (-> (* 2/3 (brown-noise))
+      (+ (* 1/2 (sin-osc (* 3 freq))))
+      (+ (* 1/5 (sin-osc (* 5 freq))))
+      (clip2 0.8)
+      (rlpf (line:kr freq (* 7 freq) 0.02))
+      (* (env-gen (adsr 0.02 0.4 0.15 0.2) (line:kr 1 0 0.1) :action FREE))
+      (pan2 pan)
+      (* vol)))
+
 (defmethod live/play-note :clap1 [_]
-  ((sample "samples/click2.wav")))
+  (drum 100 :pan 0.75))
 
 (defmethod live/play-note :clap2 [_]
-  ((sample "samples/select-click.wav")))
+  (drum 150 :pan -0.75))
 
 (defmethod live/play-note :default
   [{midi :pitch seconds :duration}]
