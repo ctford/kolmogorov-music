@@ -103,25 +103,6 @@
   (definitional result-length row-row) => 2081
   (definitional explanatory-power row-row) => 2081/275)
 
-
-
-(defn forever [riff]
-  (concat riff (lazy-seq (->> riff forever (after (duration riff))))))
-
-(defn clapping-music []
-  (let [african-bell-pattern (rhythm [1/8 1/8 1/4 1/8 1/4 1/4 1/8 1/4])]
-    (->> african-bell-pattern forever (all :part :clap1)
-         (canon
-           #(->> % (take 32) (then (rhythm [1/8])) forever (all :part :clap2))))))
-
-(comment
-  (live/play (clapping-music))
-  )
-
-(fact "Clapping Music is minimal."
-  (definitional description-length clapping-music) => 228
-  (result-length (->> (clapping-music) (take-while #(-> % :time (< 216))))) => 99416)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; The Library of Babel ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
