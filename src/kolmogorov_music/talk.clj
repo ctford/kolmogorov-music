@@ -105,9 +105,9 @@
   (definitional explanatory-power row-row) => 2081/275)
 
 
-;;;;;;;;;;;;;;;;
-;;; Contact ;;;;
-;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;
+;;; Anti ;;;;
+;;;;;;;;;;;;;
 
 (defn decompose [n]
   (let [[remainder quotient] ((juxt mod quot) n 10)]
@@ -125,17 +125,6 @@
 
 (fact "The Champernowne word is defined by concatenating the natural numbers base 10."
   (->> (champernowne-word) (take 16)) => [0 1 2 3 4 5 6 7 8 9 1 0 1 1 1 2])
-
-
-
-
-
-
-
-
-;;;;;;;;;;;;
-;;; Anti ;;;
-;;;;;;;;;;;;
 
 (defn copyright-infringement-song
   ([skip-to]
