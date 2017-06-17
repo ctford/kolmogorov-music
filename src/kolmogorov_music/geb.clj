@@ -73,6 +73,8 @@
   [{midi :pitch seconds :duration}]
   (some-> midi midi->hz (overchauffeur seconds 1500)))
 
+(comment
+
 (def godel (sample "samples/godel.wav"))
 (def escher (sample "samples/escher.wav"))
 (def bach (sample "samples/bach.wav"))
@@ -86,3 +88,4 @@
 (defmethod live/play-note :sample
   [{initial :pitch}]
   (book initial))
+)
