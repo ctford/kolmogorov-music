@@ -42,7 +42,8 @@
 ;;; Air on the \G String ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(comment (take 10000 (repeat (* 1000 1000 1000 1000) \G)))
+(comment
+  (take 10000 (repeat (* 1000 1000 1000 1000) \G)))
 
 
 (defmacro description-length [expression]
@@ -102,33 +103,6 @@
   (definitional description-length row-row) => 275
   (definitional result-length row-row) => 2081
   (definitional explanatory-power row-row) => 2081/275)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; The Library of Babel ;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defn kleene* [elements]
-  (letfn [(append-to [strings] (for [s strings e elements] (conj s e)))]
-    (->>
-      (lazy-seq (kleene* elements))
-      append-to
-      (cons []))))
-
-(defn library-of-babel []
-  (let [ascii (->> (range 32 127) (map char))]
-    (->> ascii
-       kleene*
-       (map (partial apply str)))))
-
-(fact "We can construct all strings as a lazy sequence."
-  (->> (library-of-babel) (take 5)) => ["" " " "!" "\"" "#"]
-  (nth (library-of-babel) 364645) => "GEB")
-
-(fact "Lexicons are well-explained."
-  (explanatory-power (take 10000 (library-of-babel))) => 993)
-
-
-
 
 
 ;;;;;;;;;;;;;;;;
