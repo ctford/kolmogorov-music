@@ -40,7 +40,7 @@
     (->> (with bass double-canon)
          ;(with alt-bass twiddle decoration)
          ;(with riff)
-         ;robot
+         ;(with robot)
          (times 2)
          (wherever (comp not :theme) :pitch (comp B minor))
          (tempo (bpm 90)))))
@@ -48,6 +48,7 @@
 (comment
   (map fx-chorus [0 1])
   (map fx-distortion [0 1] [2 2] [0.18 0.14])
+  (clear-fx overchauffeur)
   (volume 0.8)
   (live/jam (var geb))
   (def geb nil)
@@ -73,8 +74,6 @@
   [{midi :pitch seconds :duration}]
   (some-> midi midi->hz (overchauffeur seconds 1500)))
 
-(comment
-
 (def godel (sample "samples/godel.wav"))
 (def escher (sample "samples/escher.wav"))
 (def bach (sample "samples/bach.wav"))
@@ -88,4 +87,3 @@
 (defmethod live/play-note :sample
   [{initial :pitch}]
   (book initial))
-)
