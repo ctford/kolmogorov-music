@@ -43,7 +43,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (comment
-  (take 10000 (repeat (* 1000 1000 1000 1000) \G)))
+  (take 10000
+        (repeat (* 1000 1000 1000 1000) \G)))
 
 
 (defmacro description-length [expression]
