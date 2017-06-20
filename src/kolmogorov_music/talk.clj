@@ -110,7 +110,7 @@
   (let [value (-> sym repl/source-fn read-string last)]
     `(~macro ~value)))
 
-(fact "The definitional macro lets us calculate on the definition of symbols."
+(fact "Canons have good compression - they're highly structured."
   (definitional description-length row-row) => 275
   (definitional result-length row-row) => 2081
   (definitional explanatory-power row-row) => 2081/275)
