@@ -43,10 +43,14 @@
                       > The Kolmogorov complexity of an object is a measure of the amount of intrinsic information in the object.
 
                       > It is the length of the shortest program that takes no input and computes the object as its output.
+                    </script>
+                </section>
+
+                <section data-markdown>
+                    <script type="text/template">
+                      ## Kolmogorov complexity
 
                       > The more structural regularity there is in an object, the shorter its shortest possible description and the lower its Kolmogorov complexity.
-
-                      David Meredith
                     </script>
                 </section>
 
@@ -55,18 +59,24 @@
                       ## Uncomputability of Kolmogorov complexity
 
                       > Unfortunately, it is not generally possible to determine the Kolmogorov complexity of an object, as it is usually impossible to prove that any given description of the object is the shortest possible.
-
-                      David Meredith
                     </script>
                 </section>
 
                 <section data-markdown>
                     <script type="text/template">
-                      ## Air on the \G String
+                      ## Hutter prize
 
-                       <img src="img/air-on-the-g-string.png">
+                      * [Cash prize](http://prize.hutter1.net/) funded by Marcus Hutter.
+                      * Awards 500 euros for each 1% improvement in compressing a dump of Wikipedia.
+                      * The organizers believe that text compression and AI are equivalent problems.
+                    </script>
+                </section>
 
-                       Johann Sebastian Bach
+                <section data-markdown>
+                    <script type="text/template">
+                      ## Comparative quality of explanations
+
+                      > The theory of Kolmogorov complexity supports the idea that the shorter the description of a given object, the more structural regularity that description captures.
                     </script>
                 </section>
 
@@ -77,7 +87,7 @@
                       <img src="img/analysis-by-compression-notation.png">
                       <img src="img/analysis-by-compression-geometry.png">
 
-                      David Meredith
+                      J. S. Bach’s Prelude in  C  minor
                     </script>
                 </section>
 
@@ -85,94 +95,71 @@
                     <script type="text/template">
                       ## Analysis by Compression
 
-                      > "I will propose that a
-                      > musical analysis can be modelled as an algorithm or
-                      > computer program and that the length of this algorithmic
-                      > representation can be used as an indication of the quality of the analysis."
+                      Raw:
+                      ```
+                      P(p( 1,27), p( 2,26), p( 3,27), p( 4,28),
+                        p( 5,26), p( 6,25), p( 7,26), p( 8,27),
+                        p( 9,25), p(10,24), p(11,25), p(12,26))
+                      ```
 
-                      David Meredith, Analysis by Compression
+                      As transpositions:
+                      ```
+                      T(P(p( 1,27), p( 2,26), p( 3,27), p( 4,28)),
+                        V(v( 4,-1), v( 8,-2)))
+                      ```
+
+                      `T(P(·),V(·))` denotes the union of the point set, `P(·)`, and the point sets that result by translating `P(·)` by the vectors in `V(·)`, where `v(x,y)` denotes a vector.
+
                     </script>
                 </section>
 
                 <section data-markdown>
                     <script type="text/template">
-                      ## The Library of Babel
+                      ## Compression-based model of musical learning
 
-                      <img src="img/library-of-babel.jpg">
-
-                      Jorge Luis Borges
+                      * To understand a piece of music is to compress it against "largely implicit understanding of all the previous music he or she has encountered."
+                      * You can only listen to a song for the first time once.
+                      * "This would imply that the way that an individual  understands  a  given  piece  depends  not  only on which pieces he or she already knows, but also on the order in which these pieces were encountered."
                     </script>
                 </section>
 
                 <section data-markdown>
                     <script type="text/template">
-                      ## Contact
+                      ## Generating analyses
 
-                      <img src="img/contact.jpg">
-
-                      Carl Sagan
+                      * The SIATEC algorithm takes a set of points and automatically discovers all the translationally equivalent occurrences.
+                      * SIATEC outputs a collection of such occurrence sets, called translational equivalence classes or TECs.
+                      * SIATECCompress runs SIATEC on a dataset, then sorts the found TECs into decreasing order of “quality”.
                     </script>
                 </section>
 
                 <section data-markdown>
                     <script type="text/template">
-                      ## Flutter
-
-                      <img src="img/anti-ep.jpg">
-
-                      Autechre
+                      ## Critique #1: geometry
+                      * What about dynamics?
+                      * What about timbre?
+                      * What about voice?
+                      * What about regularity besides geometric translation?
                     </script>
                 </section>
 
                 <section data-markdown>
                     <script type="text/template">
-                      ## Flutter
-
-                      > "Have a lawyer and a musicologist present at all
-                      > times to confirm the non repetitive nature of the music in the event
-                      > of police harassment."
-
-                      Autechre, Anti EP
+                      ## Critique #2: formalism
+                      * What about lyrics?
+                      * What about culture?
+                      * What about context?
+                      * What about feedback?
                     </script>
                 </section>
 
                 <section data-markdown>
                     <script type="text/template">
-                      ## Blurred Lines
+                      ## Summary of contributions
 
-                      <img src="img/blurred-lines.jpg">
-
-                      Robin Thicke, T.I., Pharrell Williams
-                    </script>
-                </section>
-
-                <section data-markdown>
-                    <script type="text/template">
-                      ## Conclusion
-
-                      * Computational musicology
-                      * ????
-                      * Profit
-                    </script>
-                </section>
-
-                <section data-markdown>
-                    <script type="text/template">
-                      ## Conclusion
-
-                      * Computational musicology
-                      * *Copyright litigation*
-                      * Profit!
-                    </script>
-                </section>
-
-                <section data-markdown>
-                    <script type="text/template">
-                      ## Conclusion
-
-                      * Computational musicology can help explain music.
-                      * Code can be interpreted in a literary mode.
-                      * Music and literature can respond to computational ideas.
+                      * Complexity theory as a tool for musicology.
+                      * Compression as fundamental to musical understanding.
+                      * Automatic analysis generation.
                     </script>
                 </section>
 			</div>

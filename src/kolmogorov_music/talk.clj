@@ -7,36 +7,7 @@
             [leipzig.scale :refer [A B major minor]]
             [leipzig.live :as live]
             [leipzig.live :refer [stop]]
-            [kolmogorov-music.geb :as geb]
-            [kolmogorov-music.coding :as coding]))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Kolmogorov Music, by @ctford               ;;;
-;;;                                            ;;;
-;;; https://github.com/ctford/kolmogorov-music ;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            [kolmogorov-music.geb :as geb]))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Air on the \G String ;;;
@@ -66,6 +37,58 @@
 
 (fact "Explanatory power is the reciprocal of the compression ratio."
   (explanatory-power (repeat 65 \G)) => 131/13)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; The Library of Babel ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defn kleene* [elements]
+  (letfn [(append-to [strings] (for [s strings e elements] (conj s e)))]
+    (->>
+      (lazy-seq (kleene* elements))
+      append-to
+      (cons []))))
+
+(defn library-of-babel []
+  (let [ascii (->> (range 32 127) (map char))]
+    (->> ascii
+         kleene*
+         (map (partial apply str)))))
+
+(fact "We can construct all strings as a lazy sequence."
+      (->> (library-of-babel) (take 5)) => ["" " " "!" "\"" "#"]
+      (nth (library-of-babel) 364645) => "GEB")
+
+(fact "Lexicons are well-explained."
+      (explanatory-power (take 10000 (library-of-babel))) => 993)
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;
+;;; Drawing Hands ;;;
+;;;;;;;;;;;;;;;;;;;;;
+
+(defn complexity
+  "An impossible function that determines the Kolmogorov complexity of any value."
+  [string]
+  (->> string (map int) (reduce + 0)))
+
+(defn enterprise
+  "Calculate the shortest string that is more complicated than itself."
+  []
+  (let [source (repl/source-fn 'enterprise)]
+    (->> (library-of-babel)
+         (drop-while #(<= (complexity %) (result-length source)))
+         first)))
+
+
+
+
 
 
 
@@ -114,85 +137,6 @@
   (definitional description-length row-row) => 275
   (definitional result-length row-row) => 2081
   (definitional explanatory-power row-row) => 2081/275)
-
-
-
-
-
-
-
-
-
-
-;;;;;;;;;;;;;
-;;; Anti ;;;;
-;;;;;;;;;;;;;
-
-(defn decompose [n]
-  (let [[remainder quotient] ((juxt mod quot) n 10)]
-    (if (zero? quotient)
-      [remainder]
-      (conj (decompose quotient) remainder))))
-
-(defn champernowne-word
-  ([from]
-   (->> (range)
-        (map (partial + from))
-        (mapcat decompose)))
-  ([]
-   (champernowne-word 0)))
-
-(fact "The Champernowne word is defined by concatenating the natural numbers base 10."
-  (->> (champernowne-word) (take 16)) => [0 1 2 3 4 5 6 7 8 9 1 0 1 1 1 2])
-
-
-
-
-
-
-
-
-
-
-(defn copyright-infringement-song
-  ([skip-to]
-   (->>
-     (champernowne-word skip-to)
-     (coding/decode-into-parts 3)
-     (tempo (bpm 120))))
-   ([] (copyright-infringement-song 0)))
-
-(comment
-  (live/play (copyright-infringement-song))
-  )
-
-
-
-
-
-
-
-
-
-
-(def gaye-williams-thicke-constant 12450012001200311273127612731276127312761273127612731276127312761245001200121245001200120031127312761273127612731276127312761273127612731276124500120012124500120012003112731276127312761273127612731276127312761273127612450012001212450012001200311273127612731276127312761273127612731276127312761245001200121240001200120031126812711268127112681271126812711268127112681271124000120012124000120012003112681271126812711268127112681271126812711268127112400012001212400012001200311268127112681271126812711268127112681271126812711240001200121252004100411264125012621249126112471245)
-
-(comment
-  (live/play (copyright-infringement-song gaye-williams-thicke-constant)))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
